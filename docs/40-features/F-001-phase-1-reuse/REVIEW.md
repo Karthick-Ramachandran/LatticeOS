@@ -26,11 +26,34 @@ analysis, generated writes, CLI behavior, packaging, and the benchmark still req
   supported shadcn shape.
 - pnpm workspace list parsing is confined to the `packages` section and honors basic negated globs.
 - Golden output moved outside its consumer fixture root to avoid self-referential inventory.
+- Default prop expressions are reduced to a boolean `defaulted` marker. The React tests prove a
+  default string does not enter adapter output.
+
+### React adapter security review
+
+No blocker was found in the direct React analysis slice.
+
+- `analyzeReact` receives source text and compiler settings only. It imports no Node filesystem,
+  child-process, network, MCP, cloud, telemetry, dynamic-evaluation, or consumer-configuration API.
+- Its TypeScript host resolves from an in-memory map of validated relative paths. It uses no default
+  library, has no emit path, and cannot read a module that the caller did not supply.
+- Traversal and duplicate virtual paths are rejected. Malformed syntax becomes bounded diagnostics
+  with relative locations. Tests assert that malformed source and default expressions do not appear
+  in output.
+- TypeScript 6.0.3 is exact in the lockfile, uses Apache-2.0, and has no install lifecycle script.
+  ADR-0011 records why the package is confined to the analyzer-facing dependency boundary.
+- The golden-update script writes one fixed test snapshot only when a developer explicitly runs the
+  `golden:update` command. It is not shipped as analyzer or CLI behavior and cannot receive a
+  consumer-controlled path.
+
+The adapter has not yet read consumer files itself. `RepositoryRoot` remains the required authority
+for exclusions, symlink handling, per-file bounds, and source admission.
 
 ### Dependency and network review
 
-- TypeScript 7.0.2 is the only runtime dependency added to analyzer and React adapter boundaries. It
-  was already pinned by ADR-0006 and the lockfile gained no new resolution.
+- TypeScript 6.0.3 is the compiler dependency added to the analyzer and React adapter boundaries.
+  ADR-0011 pins its public classic API; the workspace can retain TypeScript 7 where no Compiler API
+  import is required.
 - Runtime source contains no network, telemetry, cloud, MCP, AI API, child-process, dynamic code
   evaluation, or consumer configuration execution path.
 - This checkpoint has no production file-write behavior.
@@ -46,3 +69,6 @@ analysis, generated writes, CLI behavior, packaging, and the benchmark still req
 - Unreadable-path behavior is implemented but permission-specific CI coverage remains pending.
 - Cache and report write safety is not implemented yet and receives a separate security review in
   F-001 T5.
+- TypeScript parsing can still consume meaningful CPU and memory for a large admitted source set.
+  The future analyzer bridge must enforce an aggregate source and project limit before it invokes the
+  adapter, then add a denial-of-service fixture and performance evidence.

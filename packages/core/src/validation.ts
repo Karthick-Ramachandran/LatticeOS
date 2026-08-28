@@ -259,9 +259,7 @@ function checkComponents(
         if (!isNonEmptyString(prop.name)) issues.push({ path: `${propPath}.name`, message: "must be a non-empty string" });
         if (!isNonEmptyString(prop.type)) issues.push({ path: `${propPath}.type`, message: "must be a non-empty string" });
         if (typeof prop.required !== "boolean") issues.push({ path: `${propPath}.required`, message: "must be a boolean" });
-        if (prop.defaultValue !== undefined && typeof prop.defaultValue !== "string") {
-          issues.push({ path: `${propPath}.defaultValue`, message: "must be a string when present" });
-        }
+        if (typeof prop.defaulted !== "boolean") issues.push({ path: `${propPath}.defaulted`, message: "must be a boolean" });
         if (!isStringArray(prop.variants)) issues.push({ path: `${propPath}.variants`, message: "must be an array of strings" });
         checkEvidenceReferences(prop.evidenceIds, `${propPath}.evidenceIds`, evidenceIds, issues, true);
       }
@@ -275,7 +273,12 @@ function checkComponents(
   return ids;
 }
 
-function checkImports(value: unknown, evidenceIds: ReadonlySet<string>, issues: ValidationIssue[]): void {
+function checkImports(
+  value: unknown,
+  componentIds: ReadonlySet<string>,
+  evidenceIds: ReadonlySet<string>,
+  issues: ValidationIssue[],
+): void {
   if (!Array.isArray(value)) {
     issues.push({ path: "imports", message: "must be an array" });
     return;
@@ -296,6 +299,9 @@ function checkImports(value: unknown, evidenceIds: ReadonlySet<string>, issues: 
     }
     checkRepositoryPath(item.importerPath, `${path}.importerPath`, issues);
     if (typeof item.typeOnly !== "boolean") issues.push({ path: `${path}.typeOnly`, message: "must be a boolean" });
+    if (item.resolvedComponentId !== undefined && !componentIds.has(String(item.resolvedComponentId))) {
+      issues.push({ path: `${path}.resolvedComponentId`, message: "must reference a known component when present" });
+    }
     checkLocation(item.location, `${path}.location`, issues);
     checkEvidenceReferences(item.evidenceIds, `${path}.evidenceIds`, evidenceIds, issues, true);
   }
@@ -452,7 +458,7 @@ export function validateReuseIndex(value: unknown): ValidationResult<ReuseIndex>
   checkProject(value.project, evidenceIds, issues);
   const packageKeys = checkPackages(value.packages, evidenceIds, issues);
   const componentIds = checkComponents(value.components, packageKeys, evidenceIds, issues);
-  checkImports(value.imports, evidenceIds, issues);
+  checkImports(value.imports, componentIds, evidenceIds, issues);
   const usageIds = checkUsages(value.usages, componentIds, evidenceIds, issues);
   checkComponentLinks(value.components, componentIds, usageIds, issues);
   checkTailwind(value.tailwind, evidenceIds, issues);

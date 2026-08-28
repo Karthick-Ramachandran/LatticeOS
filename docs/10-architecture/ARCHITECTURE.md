@@ -68,7 +68,7 @@ shadcn, the CLI, or generated file formats.
 - [ADR-0003](../adrs/ADR-0003-react-next-typescript-tailwind-first-support.md)
 - [ADR-0004](../adrs/ADR-0004-generated-reuse-index-format-and-lifecycle.md)
 - [ADR-0005](../adrs/ADR-0005-stable-component-identity.md)
-- [ADR-0006](../adrs/ADR-0006-typescript-compiler-api-analysis.md)
+- [ADR-0011](../adrs/ADR-0011-typescript-6-compiler-api-for-phase-1-analysis.md) (supersedes ADR-0006)
 - [ADR-0007](../adrs/ADR-0007-tailwind-static-analysis-boundary.md)
 - [ADR-0008](../adrs/ADR-0008-support-evidence-policy.md)
 - [ADR-0009](../adrs/ADR-0009-local-only-privacy-and-network-boundary.md)

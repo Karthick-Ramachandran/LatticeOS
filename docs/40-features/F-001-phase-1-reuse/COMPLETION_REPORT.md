@@ -2,29 +2,32 @@
 
 ## Status
 
-Phase 1 is not complete. T2 core is complete and T3 repository discovery is ready for the React
-analysis slice.
+Phase 1 is not complete. T2 core, T3 safe project discovery, and direct React analysis are
+implemented. T3 remains open until the analyzer safely selects sources, reads tsconfig data, and
+orchestrates the adapter.
 
 ## Files Changed
 
 - `packages/core`: schema version 1, identity, validation, stable JSON, ranking, resolution, context,
   generated schema, and tests.
 - `packages/analyzer`: repository boundary, project discovery, golden generation, and security tests.
+- `packages/adapters/react`: virtual TypeScript 6.0.3 program, direct component/prop/import/usage
+  extraction, diagnostics, fixture golden, and tests.
 - `fixtures/next-workspace` and `fixtures/goldens`: named project-detection evidence.
-- `apps/docs`: Reuse index and safe project-discovery guides with copy-ready prompts.
+- `apps/docs`: Reuse index, safe project-discovery, and React-analysis guides with copy-ready prompts.
 - Root contributor, security, license, README, and LLM guidance.
 - Feature, module, engineering, review, and lesson memory under `docs/`.
 
 ## Tests Run
 
-- `pnpm test:run`: 3 docs tests, 14 core tests, and 10 analyzer tests passed.
+- `pnpm test:run`: 3 docs tests, 15 core tests, 2 React adapter tests, and 10 analyzer tests passed.
 - `pnpm typecheck`: all eight implementation workspaces passed.
-- `pnpm build`: all implementation packages built and the docs app generated 22 routes.
-- `pnpm test:package`: passed; package-specific consumer smoke tests remain unimplemented and are an
-  explicit later Phase 1 gate.
-- `pnpm docs:check`: content validation, docs tests, typecheck, and the 22-route production build
+- `pnpm build`: all implementation packages built and the docs app generated 24 routes.
+- `pnpm test:package`: passed. No package-specific consumer smoke script is registered yet; that is
+  an explicit later Phase 1 gate.
+- `pnpm docs:check`: content validation, docs tests, typecheck, and the 24-route production build
   passed.
-- `persist doctor`: rerun after the final memory update before commit.
+- `persist doctor`: passed after the final memory update.
 
 ## Results
 
@@ -32,11 +35,15 @@ analysis slice.
 - Workspace and six-tool project detection match the named golden.
 - Traversal, absolute paths, escaping and internal symlinks, exclusions, bounds, malformed input,
   configuration non-execution, and incomplete-scan status are covered.
+- Direct React evidence matches its named workspace golden. The adapter indexes the tested component,
+  prop, import, alias, JSX, composition, and call forms without executing consumer code.
 
 ## Remaining Risks
 
-- React and TypeScript source evidence, Tailwind details, optional adapters, cache writes, CLI,
-  packaging, and the benchmark are not complete.
+- Analyzer source selection and static tsconfig parsing, Tailwind details, optional adapters, cache
+  writes, CLI, packaging, and the benchmark are not complete.
+- The adapter's future analyzer bridge needs aggregate source/project bounds and a denial-of-service
+  fixture before it runs on unrestricted repository inventories.
 - Cross-platform packed tests must assess the documented filesystem race and `O_NOFOLLOW`
   differences.
 - Phase 1 cannot be released until AC-01 through AC-17 and every quality gate pass together.

@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted
+Accepted — superseded by ADR-0011-typescript-6-compiler-api-for-phase-1-analysis
 
 ## Context
 

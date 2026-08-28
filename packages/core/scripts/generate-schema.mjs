@@ -116,12 +116,12 @@ const schema = {
             items: {
               type: "object",
               additionalProperties: false,
-              required: ["name", "type", "required", "variants", "evidenceIds"],
+              required: ["name", "type", "required", "defaulted", "variants", "evidenceIds"],
               properties: {
                 name: { type: "string", minLength: 1 },
                 type: { type: "string", minLength: 1 },
                 required: { type: "boolean" },
-                defaultValue: { type: "string" },
+                defaulted: { type: "boolean" },
                 variants: stringArray,
                 evidenceIds,
               },
@@ -146,6 +146,7 @@ const schema = {
           importedName: { type: "string", minLength: 1 },
           localName: { type: "string", minLength: 1 },
           typeOnly: { type: "boolean" },
+          resolvedComponentId: { type: "string", minLength: 1 },
           location,
           evidenceIds,
         },

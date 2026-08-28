@@ -99,7 +99,7 @@ export interface UiProp {
   readonly name: string;
   readonly type: string;
   readonly required: boolean;
-  readonly defaultValue?: string;
+  readonly defaulted: boolean;
   readonly variants: readonly string[];
   readonly evidenceIds: readonly string[];
 }
@@ -124,6 +124,7 @@ export interface UiImport {
   readonly importedName: string;
   readonly localName: string;
   readonly typeOnly: boolean;
+  readonly resolvedComponentId?: ComponentId;
   readonly location: SourceLocation;
   readonly evidenceIds: readonly string[];
 }

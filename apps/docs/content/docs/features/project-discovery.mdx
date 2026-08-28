@@ -5,7 +5,8 @@ description: Confined repository reads and static frontend tool detection.
 
 <Callout title="Implemented" type="info">
   `RepositoryRoot` and `detectProject` are implemented and covered by a named Next.js workspace
-  fixture. TypeScript project resolution and React source analysis are the next slice.
+  fixture. The direct React adapter is implemented separately; TypeScript project resolution and
+  analyzer orchestration are the next slice.
 </Callout>
 
 ## What it does
@@ -114,7 +115,7 @@ Read first:
 10. docs/60-engineering/LESSONS.md
 11. docs/40-features/F-001-phase-1-reuse/
 12. docs/30-modules/analyzer/
-13. ADR-0004, ADR-0006, ADR-0008, and ADR-0009 under docs/adrs/
+13. ADR-0004, ADR-0008, ADR-0009, and ADR-0011 under docs/adrs/
 
 Outcome:
 Provide one RepositoryRoot authority for confined reads and one detectProject operation that returns deterministic packages, tool status, evidence, relative paths, and bounded diagnostics from untrusted repository data.

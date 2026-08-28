@@ -5,6 +5,6 @@ Record durable module decisions here.
 ## Current Decisions
 
 - [ADR-0003](../../adrs/ADR-0003-react-next-typescript-tailwind-first-support.md)
-- [ADR-0006](../../adrs/ADR-0006-typescript-compiler-api-analysis.md)
+- [ADR-0011](../../adrs/ADR-0011-typescript-6-compiler-api-for-phase-1-analysis.md)
 - [ADR-0007](../../adrs/ADR-0007-tailwind-static-analysis-boundary.md)
 - [ADR-0008](../../adrs/ADR-0008-support-evidence-policy.md)

@@ -308,6 +308,7 @@
                 "name",
                 "type",
                 "required",
+                "defaulted",
                 "variants",
                 "evidenceIds"
               ],
@@ -323,8 +324,8 @@
                 "required": {
                   "type": "boolean"
                 },
-                "defaultValue": {
-                  "type": "string"
+                "defaulted": {
+                  "type": "boolean"
                 },
                 "variants": {
                   "type": "array",
@@ -402,6 +403,10 @@
           },
           "typeOnly": {
             "type": "boolean"
+          },
+          "resolvedComponentId": {
+            "type": "string",
+            "minLength": 1
           },
           "location": {
             "type": "object",

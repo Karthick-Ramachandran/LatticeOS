@@ -52,6 +52,39 @@ test("validation rejects component links that cannot be resolved", () => {
   if (!result.ok) assert.match(result.issues.map((issue) => issue.message).join("\n"), /unknown usage/u);
 });
 
+test("validation rejects unsupported prop defaults and imports that resolve nowhere", () => {
+  const index = createTestReuseIndex();
+  const invalid = {
+    ...index,
+    components: index.components.map((component, position) =>
+      position === 0
+        ? { ...component, props: component.props.map((prop) => ({ ...prop, defaulted: "yes" })) }
+        : component,
+    ),
+    imports: [
+      {
+        id: "import.missing",
+        importerPath: "src/example.tsx",
+        source: "./missing",
+        importedName: "Missing",
+        localName: "Missing",
+        typeOnly: false,
+        resolvedComponentId: "react:root:src/missing.tsx#Missing",
+        location: { path: "src/example.tsx", line: 1, column: 1 },
+        evidenceIds: ["e.component.settings"],
+      },
+    ],
+  };
+  const result = validateReuseIndex(invalid);
+
+  assert.equal(result.ok, false);
+  if (!result.ok) {
+    const defaultedIssue = result.issues.find((issue) => issue.path.endsWith(".defaulted"));
+    assert.equal(defaultedIssue?.message, "must be a boolean");
+    assert.ok(result.issues.some((issue) => issue.message.includes("known component")));
+  }
+});
+
 test("serialization is byte-stable regardless of collection insertion order", () => {
   const index = createTestReuseIndex();
   const reordered = {

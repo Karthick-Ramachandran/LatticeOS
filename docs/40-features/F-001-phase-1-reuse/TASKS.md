@@ -75,8 +75,12 @@ Evidence to date:
   generated paths, skips discovery symlinks, and bounds files, depth, and bytes.
 - `detectProject` returns root and workspace packages plus source-backed React, Next.js, TypeScript,
   Tailwind, shadcn, and Storybook presence without executing configuration.
-- The named Next.js workspace golden and ten analyzer tests pass. TypeScript project resolution,
-  React component analysis, aliases, props, imports, composition, and usages remain in progress.
+- The named Next.js workspace discovery golden and ten analyzer tests pass.
+- `@latticeos/adapter-react` has a named workspace golden covering named/default/function/arrow/memo/
+  forwardRef components, inherited and defaulted literal props, aliases, imports, JSX, composition,
+  call sites, deterministic evidence, malformed syntax, and virtual-root traversal rejection.
+- Static tsconfig parsing, source ownership selection, and analyzer-to-adapter orchestration remain
+  in progress.
 
 ## T4: Implement Reuse Evidence Adapters
 

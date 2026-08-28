@@ -99,6 +99,7 @@ export function createTestReuseIndex(): ReuseIndex {
             name: "title",
             type: "string",
             required: true,
+            defaulted: false,
             variants: [],
             evidenceIds: ["e.prop.title"],
           },

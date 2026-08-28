@@ -31,6 +31,6 @@
     "@latticeos/adapter-shadcn": "workspace:*",
     "@latticeos/adapter-storybook": "workspace:*",
     "@latticeos/adapter-tailwind": "workspace:*",
-    "typescript": "7.0.2"
+    "typescript": "6.0.3"
   }
 }
