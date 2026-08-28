@@ -1,0 +1,75 @@
+# LatticeOS
+
+> LatticeOS is a repository-native UI control plane for coding agents. Phase 1 Reuse is active. It
+> finds and explains existing UI before an agent creates more. Later Understand, Doctor, Converge,
+> and repair work is blocked until Reuse passes its acceptance and benchmark gates.
+
+Repository: https://github.com/Karthick-Ramachandran/LatticeOS
+Product name: LatticeOS
+Public CLI name: lattice
+Status: pre-release; analyzer and CLI are not published
+
+## Read before changing code
+
+1. AGENTS.md
+2. docs/00-product/PRD.md
+3. docs/10-architecture/ARCHITECTURE.md
+4. docs/10-architecture/FILE_WRITE_POLICY.md
+5. docs/20-security/SECURITY_MODEL.md
+6. docs/50-quality/QUALITY_GATES.md
+7. docs/60-engineering/ENGINEERING_STANDARDS.md
+8. docs/60-engineering/CONVENTIONS.md
+9. docs/60-engineering/LESSONS.md
+10. the active feature under docs/40-features/
+11. the affected module under docs/30-modules/
+12. relevant accepted ADRs under docs/adrs/
+
+Durable repository memory under docs/ is authoritative over chat history. Never edit an accepted ADR.
+Use the Persist CLI for new feature memory and decisions as AGENTS.md requires.
+
+## Current implementation
+
+- apps/docs: Fumadocs site, search, copyable code, /llms.txt, /llms-full.txt, and per-page Markdown.
+- packages/core: schema version 1, stable component IDs, validation, deterministic JSON, lexical
+  evidence-backed ranking, ambiguity, and bounded context.
+- packages/analyzer: confined repository reads, exclusions, bounds, workspace packages, and static
+  frontend tool detection are implemented; TypeScript project and React analysis are in progress.
+- packages/adapters: package boundaries exist; source analysis is under active development.
+- packages/cli: package boundary exists; no public binary yet.
+
+Do not describe target CLI examples as released behavior.
+
+## Active feature
+
+- Product and acceptance: docs/40-features/F-001-phase-1-reuse/
+- Public guide and complete Agent prompt: apps/docs/content/docs/features/phase-1-reuse.mdx
+- Core index reference: apps/docs/content/docs/reference/reuse-index.mdx
+- Evidence policy: apps/docs/content/docs/reference/evidence-model.mdx
+- Agent documentation contract: apps/docs/content/docs/contributing/agent-ready-documentation.mdx
+
+## Hard boundaries
+
+- No Figma, browser comparison, Converge, semantic rules, or autonomous repair in Phase 1.
+- Never execute an analyzed repository's source or configuration.
+- Never read secret paths or write application source.
+- Phase 1 runtime has no telemetry, network, cloud, MCP, or AI API behavior.
+- Every recommendation reason references evidence that inspect can resolve.
+- A score ranks repository evidence. It does not prove product meaning or semantic equivalence.
+- Support claims require fixtures and tests.
+
+## Required checks
+
+pnpm test:run
+pnpm typecheck
+pnpm build
+pnpm test:package
+pnpm docs:check
+persist doctor
+
+Run pnpm build and pnpm docs:check sequentially because both build the same Next.js docs app.
+
+## Contribution and security
+
+- CONTRIBUTING.md
+- SECURITY.md
+- LICENSE

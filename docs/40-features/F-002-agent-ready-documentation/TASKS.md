@@ -60,6 +60,8 @@ Tests:
 Evidence:
 
 - The production build includes `/llms.txt`, `/llms-full.txt`, and per-page Markdown routes.
+- Root `llms.txt` gives repository agents the authoritative read order, current implementation state,
+  active feature links, boundaries, and required checks before they enter the docs app.
 - Code blocks use the Fumadocs copy surface. A rendered interaction test is still required.
 
 ## T4: Publish the Phase 1 Reuse guide

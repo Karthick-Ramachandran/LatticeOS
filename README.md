@@ -105,6 +105,7 @@ Start with:
 - [Phase 1 Reuse guide and agent prompt](apps/docs/content/docs/features/phase-1-reuse.mdx)
 - [Evidence model](apps/docs/content/docs/reference/evidence-model.mdx)
 - [Agent-ready documentation contract](apps/docs/content/docs/contributing/agent-ready-documentation.mdx)
+- [Repository guide for language models](llms.txt)
 - [Phase 1 acceptance criteria](docs/40-features/F-001-phase-1-reuse/ACCEPTANCE.md)
 - [Repository memory](docs/)
 
@@ -161,6 +162,10 @@ persist doctor
 
 Node.js 22 or newer and pnpm 10.12.3 are required. The repository is currently on the
 `feat/phase-1-reuse` workstream.
+
+Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a change. Report security problems through
+the private process in [SECURITY.md](SECURITY.md). LatticeOS is available under the
+[MIT License](LICENSE).
 
 ## Feedback wanted
 
