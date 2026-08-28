@@ -3,8 +3,9 @@
 ## Status
 
 In progress. The T2 core, T3 discovery and React bridge, direct and bridged Tailwind analysis,
-static shadcn and Storybook evidence, generated writes, and CLI behavior were reviewed on
-2026-08-29. Packaging and the benchmark still require review.
+static shadcn and Storybook evidence, generated writes, CLI behavior, and the packed-consumer proof
+were reviewed on 2026-08-29. ADR-0017 defines the benchmark protocol; its harness and qualified agent
+trials still require review.
 
 ## Findings
 

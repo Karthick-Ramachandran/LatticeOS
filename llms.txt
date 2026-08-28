@@ -47,9 +47,11 @@ the package is pre-release and the Reuse benchmark still blocks Phase 1 completi
 ## Active feature
 
 - Product and acceptance: docs/40-features/F-001-phase-1-reuse/
+- Benchmark protocol and delivery evidence: docs/40-features/F-003-phase-1-reuse-benchmark/
 - Public guide and complete Agent prompt: apps/docs/content/docs/features/phase-1-reuse.mdx
 - Safe CLI initialization: apps/docs/content/docs/cli/init.mdx
 - Packed consumer proof: apps/docs/content/docs/cli/packed-consumer.mdx
+- Reuse benchmark protocol: apps/docs/content/docs/features/reuse-benchmark.mdx
 - shadcn static evidence: apps/docs/content/docs/features/shadcn-static-evidence.mdx
 - Storybook manifest evidence: apps/docs/content/docs/features/storybook-manifest-evidence.mdx
 - Core index reference: apps/docs/content/docs/reference/reuse-index.mdx

@@ -120,7 +120,8 @@ were updated with the same change.
 
 ## Remaining Risks
 
-- The control-versus-treatment Reuse benchmark is not complete.
+- The control-versus-treatment Reuse benchmark is not complete. F-003 and ADR-0017 define its
+  local source-only protocol; the harness and qualified agent trials remain.
 - Package-local tsconfig, tsconfig `extends`, multi-step aliases, and more than one shadcn wildcard
   remain unsupported until fixtures and security review define a wider boundary.
 - Storybook's rich components manifest is a preview API. Custom output directories, development

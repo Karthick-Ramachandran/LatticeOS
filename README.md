@@ -112,6 +112,7 @@ Start with:
 - [Evidence model](apps/docs/content/docs/reference/evidence-model.mdx)
 - [Agent-ready documentation contract](apps/docs/content/docs/contributing/agent-ready-documentation.mdx)
 - [Packed consumer proof](apps/docs/content/docs/cli/packed-consumer.mdx)
+- [Reuse benchmark protocol](apps/docs/content/docs/features/reuse-benchmark.mdx)
 - [Repository guide for language models](llms.txt)
 - [Phase 1 acceptance criteria](docs/40-features/F-001-phase-1-reuse/ACCEPTANCE.md)
 - [Repository memory](docs/)

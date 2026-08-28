@@ -184,6 +184,8 @@ Evidence to date:
   only while npm installs, then restores it before the CLI analyzes the fixture.
 - AC-01 is supported. The control-versus-treatment Reuse benchmark and final all-gate evidence still
   block AC-15, AC-16, and Phase 1 completion.
+- F-003 and ADR-0017 now define the local source-only benchmark protocol. No qualified agent pairs or
+  benchmark outcome have been recorded yet.
 
 ## T7: Review And Release Phase 1
 
