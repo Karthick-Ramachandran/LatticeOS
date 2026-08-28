@@ -1,11 +1,11 @@
 import assert from "node:assert/strict";
-import { cp, mkdtemp, readFile } from "node:fs/promises";
+import { cp, mkdtemp, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import test from "node:test";
 
 import { LATTICE_CLI_SCHEMA_VERSION } from "@latticeos/core";
-import { RepositoryRoot, readReuseIndex } from "@latticeos/analyzer";
+import { INITIAL_LATTICE_CONFIG_CONTENT, LATTICE_CONFIG_PATH, RepositoryRoot, readReuseIndex } from "@latticeos/analyzer";
 
 import { CLI_VERSION, runCli, type CliIo } from "./index.js";
 
@@ -61,6 +61,40 @@ test("inspect and context expose source-backed results in human and JSON forms",
   assert.equal(output.result.schemaVersion, 1);
 });
 
+test("init plans by default, writes only when requested, skips existing config, and honors force", async () => {
+  const root = await copiedFixture();
+  const sourcePath = join(root, "packages/ui/src/button.tsx");
+  const sourceBefore = await readFile(sourcePath, "utf8");
+
+  const planCapture = capturedIo(root);
+  assert.equal((await runCli(["--json", "init"], planCapture.io)).exitCode, 0);
+  const plan = JSON.parse(planCapture.stdout.join("")) as { readonly command: string; readonly result: { readonly action: string; readonly mode: string; readonly path: string } };
+  assert.equal(plan.command, "init");
+  assert.deepEqual(plan.result, { action: "create", mode: "dry-run", path: LATTICE_CONFIG_PATH });
+  await assert.rejects(readFile(join(root, LATTICE_CONFIG_PATH), "utf8"));
+  assert.equal(await readFile(sourcePath, "utf8"), sourceBefore);
+
+  const explicitPlanCapture = capturedIo(root);
+  assert.equal((await runCli(["init", "--dry-run"], explicitPlanCapture.io)).exitCode, 0);
+  assert.match(explicitPlanCapture.stdout.join(""), /Would create \.lattice\/config\.json/u);
+
+  const writeCapture = capturedIo(root);
+  assert.equal((await runCli(["init", "--write"], writeCapture.io)).exitCode, 0);
+  assert.match(writeCapture.stdout.join(""), /Created \.lattice\/config\.json/u);
+  assert.equal(await readFile(join(root, LATTICE_CONFIG_PATH), "utf8"), INITIAL_LATTICE_CONFIG_CONTENT);
+
+  await writeFile(join(root, LATTICE_CONFIG_PATH), '{"schemaVersion":99}\n', "utf8");
+  const skipCapture = capturedIo(root);
+  assert.equal((await runCli(["init", "--write"], skipCapture.io)).exitCode, 0);
+  assert.match(skipCapture.stdout.join(""), /Left unchanged/u);
+  assert.equal(await readFile(join(root, LATTICE_CONFIG_PATH), "utf8"), '{"schemaVersion":99}\n');
+
+  const forceCapture = capturedIo(root);
+  assert.equal((await runCli(["init", "--write", "--force"], forceCapture.io)).exitCode, 0);
+  assert.equal(await readFile(join(root, LATTICE_CONFIG_PATH), "utf8"), INITIAL_LATTICE_CONFIG_CONTENT);
+  assert.equal(await readFile(sourcePath, "utf8"), sourceBefore);
+});
+
 test("help, version, and command errors use predictable streams and exit codes", async () => {
   const capture = capturedIo(process.cwd());
   assert.equal((await runCli(["--help"], capture.io)).exitCode, 0);
@@ -73,4 +107,12 @@ test("help, version, and command errors use predictable streams and exit codes",
   const errorCapture = capturedIo(process.cwd());
   assert.equal((await runCli(["search"], errorCapture.io)).exitCode, 2);
   assert.match(errorCapture.stderr.join(""), /requires a query/u);
+
+  const initErrorCapture = capturedIo(process.cwd());
+  assert.equal((await runCli(["init", "--force"], initErrorCapture.io)).exitCode, 2);
+  assert.match(initErrorCapture.stderr.join(""), /requires --write/u);
+
+  const dryRunErrorCapture = capturedIo(process.cwd());
+  assert.equal((await runCli(["init", "--write", "--dry-run"], dryRunErrorCapture.io)).exitCode, 2);
+  assert.match(dryRunErrorCapture.stderr.join(""), /cannot use --write and --dry-run together/u);
 });

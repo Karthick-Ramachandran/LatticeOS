@@ -21,3 +21,6 @@
   still produces a valid partial index with a diagnostic.
 - Cache tests prove regular-directory and final-file checks, missing, valid, malformed, incompatible,
   atomic replacement, source preservation, and symlink refusal at the only generated cache target.
+- Config tests prove the committed fixed path is inspectable without creating directories, normal
+  creation is exclusive, existing content skips, force replaces it, and a symlinked config cannot
+  alter an outside file.

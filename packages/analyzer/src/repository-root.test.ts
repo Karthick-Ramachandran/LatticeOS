@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { lstat, mkdtemp, mkdir, symlink, writeFile } from "node:fs/promises";
+import { lstat, mkdtemp, mkdir, readFile, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
@@ -7,6 +7,8 @@ import test from "node:test";
 import {
   AnalyzerError,
   HARD_MAX_FILE_BYTES,
+  INITIAL_LATTICE_CONFIG_CONTENT,
+  LATTICE_CONFIG_PATH,
   RepositoryRoot,
   isDefaultExcluded,
 } from "./repository-root.js";
@@ -123,6 +125,55 @@ test("committed LatticeOS configuration is readable while generated state stays 
     root.readText(".lattice/cache/reuse-index.json"),
     (error: unknown) => error instanceof AnalyzerError && error.code === "PATH_EXCLUDED",
   );
+});
+
+test("creates the fixed initial configuration, skips existing content, and replaces only with force", async () => {
+  const rootPath = await temporaryRepository();
+  const root = await RepositoryRoot.open(rootPath);
+
+  assert.equal(await root.inspectLatticeConfig(), "missing");
+  assert.deepEqual(await root.writeInitialLatticeConfig(), { status: "created" });
+  assert.equal(await root.inspectLatticeConfig(), "present");
+  assert.equal(await readFile(join(rootPath, LATTICE_CONFIG_PATH), "utf8"), INITIAL_LATTICE_CONFIG_CONTENT);
+
+  await writeFile(join(rootPath, LATTICE_CONFIG_PATH), '{"schemaVersion":99}\n', "utf8");
+  assert.deepEqual(await root.writeInitialLatticeConfig(), { status: "skipped" });
+  assert.equal(await readFile(join(rootPath, LATTICE_CONFIG_PATH), "utf8"), '{"schemaVersion":99}\n');
+  assert.deepEqual(await root.writeInitialLatticeConfig(true), { status: "created" });
+  assert.equal(await readFile(join(rootPath, LATTICE_CONFIG_PATH), "utf8"), INITIAL_LATTICE_CONFIG_CONTENT);
+});
+
+test("initial configuration rejects symlinked files without writing outside the root", async () => {
+  const rootPath = await temporaryRepository();
+  const outside = await mkdtemp(join(tmpdir(), "lattice-config-outside-"));
+  const outsideConfig = join(outside, "config.json");
+  await writeFile(outsideConfig, '{"schemaVersion":99}\n', "utf8");
+  await mkdir(join(rootPath, ".lattice"));
+  await symlink(outsideConfig, join(rootPath, LATTICE_CONFIG_PATH));
+  const root = await RepositoryRoot.open(rootPath);
+
+  await assert.rejects(
+    root.inspectLatticeConfig(),
+    (error: unknown) => error instanceof AnalyzerError && error.code === "CONFIG_FILE_INVALID",
+  );
+  await assert.rejects(
+    root.writeInitialLatticeConfig(true),
+    (error: unknown) => error instanceof AnalyzerError && error.code === "CONFIG_FILE_INVALID",
+  );
+  assert.equal(await readFile(outsideConfig, "utf8"), '{"schemaVersion":99}\n');
+});
+
+test("initial configuration does not create files below a symlinked LatticeOS directory", async () => {
+  const rootPath = await temporaryRepository();
+  const outside = await mkdtemp(join(tmpdir(), "lattice-config-directory-outside-"));
+  await symlink(outside, join(rootPath, ".lattice"));
+  const root = await RepositoryRoot.open(rootPath);
+
+  await assert.rejects(
+    root.writeInitialLatticeConfig(),
+    (error: unknown) => error instanceof AnalyzerError && error.code === "CONFIG_DIRECTORY_INVALID",
+  );
+  await assert.rejects(lstat(join(outside, "config.json")));
 });
 
 test("writes and atomically replaces the one LatticeOS-owned Reuse index cache", async () => {

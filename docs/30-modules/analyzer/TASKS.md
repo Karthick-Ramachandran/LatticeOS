@@ -19,5 +19,8 @@
 - Done: Read and atomically replace the single generated Reuse index cache path. Missing, malformed,
   oversized, and incompatible state rebuilds rather than becoming evidence. Symlink controls and
   application-source preservation have focused tests.
+- Done: Inspect and create the fixed committed `.lattice/config.json` floor for CLI initialization.
+  The normal creation path skips existing content; only an explicit force may replace it. Tests cover
+  missing, existing, forced, and symlinked config paths without external writes.
 - Todo: Extend TypeScript project support beyond direct root compiler options only when fixtures and
   a security review prove the additional configuration boundary.

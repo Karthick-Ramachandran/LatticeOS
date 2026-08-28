@@ -1,9 +1,9 @@
 ---
 title: CLI
-description: The implemented Reuse query surface for the lattice command.
+description: The implemented Reuse command surface for the lattice command.
 ---
 
-The public command is `lattice`. `search`, `inspect`, and `context` are implemented.
+The public command is `lattice`. `init`, `search`, `inspect`, and `context` are implemented.
 
 ```text title="Phase 1 commands"
 lattice init
@@ -21,8 +21,10 @@ ranked evidence-backed candidates. Inspect returns explicit found, ambiguous, or
 plus related imports, usages, evidence, and diagnostics. Context uses the core default budget of eight
 items and 6,000 characters.
 
-`lattice init` is not implemented yet. Its dry-run, skip-existing, and explicit-force file contract
-remains a separate slice.
+`lattice init` plans the committed `.lattice/config.json` file without writing by default. Use
+`lattice init --write` to create the initial versioned config. Existing config is left unchanged;
+only `lattice init --write --force` can replace it. See [safe initialization](/docs/cli/init) for
+the exact file and output contract.
 
 ## Agent implementation prompt
 
@@ -43,7 +45,7 @@ Read first:
 10. docs/40-features/F-001-phase-1-reuse/
 11. docs/30-modules/cli/
 12. docs/30-modules/analyzer/
-13. ADR-0001, ADR-0004, and ADR-0009 under docs/adrs/
+13. ADR-0001, ADR-0004, ADR-0009, and ADR-0014 under docs/adrs/
 14. this guide and CLI tests
 
 Current contract:
@@ -51,7 +53,8 @@ Current contract:
   Reuse cache. They support deterministic human output and schema-versioned JSON.
 - Reuse core owns ranking, resolution, and context budgets. Analyzer owns root validation and cache
   writes. CLI owns parsing, output, and exit codes.
-- `init` is not implemented. Do not claim it is available until its safe plan and write tests pass.
+- `init` plans or writes only `.lattice/config.json` through `RepositoryRoot`. Its default is a
+  no-write plan; `--write` creates a missing file; `--write --force` is the only replacement form.
 
 Rules:
 - Reuse analyzer and core public interfaces. Do not create a parallel index, serializer, cache path,
@@ -63,8 +66,8 @@ Rules:
 
 Required tests:
 - Run `pnpm --filter @latticeos/cli test`.
-- Test human and JSON output, root handling, error streams, cache confinement, determinism, and every
-  added command or option.
+- Test human and JSON output, root handling, error streams, cache and config confinement,
+  determinism, dry-run behavior, skip-existing, explicit force, and every added command or option.
 - Run complete repository gates before claiming the slice complete.
 
 Documentation:
@@ -77,6 +80,6 @@ Stop conditions:
   execute consumer code, expose untraceable evidence, or make init overwrite an existing file.
 
 Completion evidence:
-Report commands, output contracts, exit behavior, tests, docs updated, remaining init and packaging
-risks, and whether Phase 1 remains incomplete.
+Report commands, output contracts, exit behavior, config-write safety, tests, docs updated, remaining
+packaging risks, and whether Phase 1 remains incomplete.
 ```

@@ -18,7 +18,8 @@ orchestrating adapters, recording diagnostics, and managing generated state.
 
 - Implemented: `RepositoryRoot.open`, confined `readText`, bounded `listFiles`, default exclusions,
   `detectProject`, `analyzeReactProject`, `analyzeTailwindProject`, `analyzeProject`, and
-  `buildReuseIndex`, `readReuseIndex`, and `writeReuseIndex`.
+  `buildReuseIndex`, `readReuseIndex`, `writeReuseIndex`, `inspectLatticeConfig`, and
+  `writeInitialLatticeConfig`.
 
 ## Boundaries
 
@@ -50,3 +51,8 @@ cache or report state.
 `.lattice/cache/reuse-index.json`. `readReuseIndex` returns a valid cache hit, a missing state, or an
 invalid state that a caller must rebuild. Dedicated `RepositoryRoot` methods own the target and
 reject symlinked cache directories and final files. Report writes remain unimplemented.
+
+`inspectLatticeConfig` and `writeInitialLatticeConfig` implement ADR-0014's separate committed
+configuration floor. They know only `.lattice/config.json`, not an arbitrary output path. Inspection
+does not create `.lattice`; ordinary creation is opt-in, skips an existing regular file, and uses an
+exclusive link so a concurrent config is not overwritten. Explicit force may replace the fixed file.

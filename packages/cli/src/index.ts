@@ -8,7 +8,12 @@ import {
   type ReuseIndex,
   type UiComponent,
 } from "@latticeos/core";
-import { RepositoryRoot, analyzeProject, writeReuseIndex } from "@latticeos/analyzer";
+import {
+  LATTICE_CONFIG_PATH,
+  RepositoryRoot,
+  analyzeProject,
+  writeReuseIndex,
+} from "@latticeos/analyzer";
 
 export const CLI_VERSION = "0.0.0";
 export const DEFAULT_CONTEXT_MAX_ITEMS = 8;
@@ -31,6 +36,9 @@ interface ParsedCommand {
   readonly json: boolean;
   readonly showHelp: boolean;
   readonly showVersion: boolean;
+  readonly initWrite: boolean;
+  readonly initDryRun: boolean;
+  readonly initForce: boolean;
 }
 
 interface InspectResult {
@@ -41,12 +49,19 @@ interface InspectResult {
   readonly diagnostics: readonly ReuseIndex["diagnostics"][number][];
 }
 
+interface InitResult {
+  readonly action: "create" | "skip";
+  readonly mode: "dry-run" | "write";
+  readonly path: typeof LATTICE_CONFIG_PATH;
+}
+
 const helpText = `LatticeOS Reuse CLI
 
 Usage:
   lattice search <query> [--root <path>] [--json]
   lattice inspect <component-id-or-name> [--root <path>] [--json]
   lattice context <task> [--root <path>] [--json]
+  lattice init [--write] [--force] [--dry-run] [--root <path>] [--json]
 
 Global options:
   --root <path>  Analyze this repository instead of the current directory.
@@ -55,7 +70,7 @@ Global options:
   --version, -v  Show the CLI version.
 
 Each analysis is fresh and safely refreshes .lattice/cache/reuse-index.json.
-The init command is not implemented yet.
+Init plans a committed .lattice/config.json write by default. Use --write to create it.
 `;
 
 function defaultIo(): CliIo {
@@ -71,6 +86,9 @@ function parseArguments(argv: readonly string[], cwd: string): ParsedCommand | s
   let json = false;
   let showHelp = false;
   let showVersion = false;
+  let initWrite = false;
+  let initDryRun = false;
+  let initForce = false;
   let command: ParsedCommand["command"];
   const terms: string[] = [];
   for (let index = 0; index < argv.length; index += 1) {
@@ -85,6 +103,18 @@ function parseArguments(argv: readonly string[], cwd: string): ParsedCommand | s
     }
     if (value === "--json") {
       json = true;
+      continue;
+    }
+    if (value === "--write") {
+      initWrite = true;
+      continue;
+    }
+    if (value === "--dry-run") {
+      initDryRun = true;
+      continue;
+    }
+    if (value === "--force") {
+      initForce = true;
       continue;
     }
     if (value === "--root") {
@@ -111,7 +141,12 @@ function parseArguments(argv: readonly string[], cwd: string): ParsedCommand | s
     }
     terms.push(value);
   }
-  return { command, terms, rootPath, json, showHelp, showVersion };
+  if ((initWrite || initDryRun || initForce) && command !== "init") {
+    return "--write, --dry-run, and --force are only available with lattice init.";
+  }
+  if (initWrite && initDryRun) return "lattice init cannot use --write and --dry-run together.";
+  if (initForce && !initWrite) return "lattice init requires --write when using --force.";
+  return { command, terms, rootPath, json, showHelp, showVersion, initWrite, initDryRun, initForce };
 }
 
 function relatedEvidence(index: ReuseIndex, component: UiComponent, imports: InspectResult["imports"], usages: InspectResult["usages"]): InspectResult["evidence"] {
@@ -163,6 +198,17 @@ function renderInspect(result: InspectResult): string {
   ].join("\n") + "\n";
 }
 
+function renderInit(result: InitResult): string {
+  if (result.mode === "dry-run") {
+    if (result.action === "create") {
+      return `Would create ${result.path}. Run lattice init --write to create it.\n`;
+    }
+    return `${result.path} already exists. It would be left unchanged.\n`;
+  }
+  if (result.action === "create") return `Created ${result.path}.\n`;
+  return `${result.path} already exists. Left unchanged.\n`;
+}
+
 function emit(io: CliIo, json: boolean, command: string, result: unknown, truncated: boolean): void {
   if (json) {
     io.writeStdout(stableStringify({ schemaVersion: LATTICE_CLI_SCHEMA_VERSION, command, result, truncated }));
@@ -170,7 +216,8 @@ function emit(io: CliIo, json: boolean, command: string, result: unknown, trunca
   }
   if (command === "search") io.writeStdout(renderSearch(result as ReturnType<typeof rankReuseCandidates>));
   else if (command === "inspect") io.writeStdout(renderInspect(result as InspectResult));
-  else io.writeStdout((result as ReturnType<typeof buildReuseContext>).text + "\n");
+  else if (command === "context") io.writeStdout((result as ReturnType<typeof buildReuseContext>).text + "\n");
+  else io.writeStdout(renderInit(result as InitResult));
 }
 
 export async function runCli(argv: readonly string[], suppliedIo: CliIo = defaultIo()): Promise<CliRunResult> {
@@ -188,8 +235,26 @@ export async function runCli(argv: readonly string[], suppliedIo: CliIo = defaul
     return { exitCode: 0 };
   }
   if (parsed.command === "init") {
-    suppliedIo.writeStderr("lattice init is not implemented yet.\n");
-    return { exitCode: 2 };
+    if (parsed.terms.length > 0) {
+      suppliedIo.writeStderr("lattice init does not accept positional arguments.\n");
+      return { exitCode: 2 };
+    }
+    try {
+      const root = await RepositoryRoot.open(parsed.rootPath);
+      const current = await root.inspectLatticeConfig();
+      const write = parsed.initWrite;
+      const outcome = write ? await root.writeInitialLatticeConfig(parsed.initForce) : undefined;
+      const result: InitResult = {
+        action: outcome?.status === "created" || (!outcome && current === "missing") ? "create" : "skip",
+        mode: write ? "write" : "dry-run",
+        path: LATTICE_CONFIG_PATH,
+      };
+      emit(suppliedIo, parsed.json, "init", result, false);
+      return { exitCode: 0 };
+    } catch (error) {
+      suppliedIo.writeStderr(`${error instanceof Error ? error.message : "LatticeOS initialization failed."}\n`);
+      return { exitCode: 1 };
+    }
   }
   if (parsed.terms.length === 0) {
     suppliedIo.writeStderr(`lattice ${parsed.command} requires a query.\n`);

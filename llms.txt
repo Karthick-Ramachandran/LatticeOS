@@ -32,17 +32,22 @@ Use the Persist CLI for new feature memory and decisions as AGENTS.md requires.
 - apps/docs: Fumadocs site, search, copyable code, /llms.txt, /llms-full.txt, and per-page Markdown.
 - packages/core: schema version 1, stable component IDs, validation, deterministic JSON, lexical
   evidence-backed ranking, ambiguity, and bounded context.
-- packages/analyzer: confined repository reads, exclusions, bounds, workspace packages, and static
-  frontend tool detection are implemented; TypeScript project and React analysis are in progress.
-- packages/adapters: package boundaries exist; source analysis is under active development.
-- packages/cli: package boundary exists; no public binary yet.
+- packages/analyzer: confined repository reads, exclusions, bounds, workspace packages, static tool
+  detection, React and Tailwind bridge orchestration, deterministic Reuse index assembly, generated
+  cache lifecycle, and the fixed initialization-config writer are implemented.
+- packages/adapters: React component analysis and static Tailwind token/class evidence are
+  implemented. shadcn and Storybook evidence remain Phase 1 work.
+- packages/cli: source-tested `init`, `search`, `inspect`, and `context` commands are implemented.
+  The package is not published and packed-consumer proof is still required.
 
-Do not describe target CLI examples as released behavior.
+Do not describe workspace CLI examples as released behavior until the packed-consumer gate passes and
+the package is published.
 
 ## Active feature
 
 - Product and acceptance: docs/40-features/F-001-phase-1-reuse/
 - Public guide and complete Agent prompt: apps/docs/content/docs/features/phase-1-reuse.mdx
+- Safe CLI initialization: apps/docs/content/docs/cli/init.mdx
 - Core index reference: apps/docs/content/docs/reference/reuse-index.mdx
 - Evidence policy: apps/docs/content/docs/reference/evidence-model.mdx
 - Agent documentation contract: apps/docs/content/docs/contributing/agent-ready-documentation.mdx

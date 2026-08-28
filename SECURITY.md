@@ -31,6 +31,8 @@ Reports are especially useful when they show that LatticeOS can:
   excluded;
 - execute consumer source or JavaScript and TypeScript configuration;
 - write outside `.lattice/` or overwrite application source;
+- make `lattice init` create a file without `--write`, replace config without `--write --force`, or
+  follow a configuration symlink;
 - include source contents, secrets, or absolute host paths in generated evidence;
 - send repository data through telemetry, network, cloud, MCP, or AI API behavior;
 - bypass file count, depth, size, or diagnostic bounds with malformed input.

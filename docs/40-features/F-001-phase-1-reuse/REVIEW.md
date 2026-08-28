@@ -2,8 +2,8 @@
 
 ## Status
 
-In progress. The T2 core, T3 discovery and React bridge, plus direct and bridged Tailwind analysis
-were reviewed on 2026-08-29. Generated writes, CLI behavior, packaging, and the benchmark still
+In progress. The T2 core, T3 discovery and React bridge, direct and bridged Tailwind analysis,
+generated writes, and CLI behavior were reviewed on 2026-08-29. Packaging and the benchmark still
 require review.
 
 ## Findings
@@ -160,8 +160,25 @@ No blocker was found in the implemented query commands.
   cache-path safety error fails the command rather than emitting a result from unsafe state.
 - JSON results are serialized deterministically with an explicit schema version. Human results go to
   stdout; parse and analysis failures go to stderr with stable nonzero exit behavior.
-- Copied-fixture tests prove the command does not modify component source. Packed-binary proof and
-  safe `init` behavior remain separate release gates.
+- Copied-fixture tests prove the command does not modify component source. Packed-binary proof
+  remains a separate release gate.
+
+### CLI initialization security review
+
+No blocker was found in the ADR-0014 initialization slice.
+
+- The CLI accepts no configuration destination. It asks `RepositoryRoot` to inspect or write only
+  `.lattice/config.json` under the validated root.
+- `lattice init` is a no-write plan. `--write` is required to create the file; an existing regular
+  file skips; `--write --force` is the only replacement form. `--force` alone is rejected as usage.
+- The root authority does not create `.lattice` during inspection. It rejects a symlinked or
+  non-regular `.lattice` directory or final config, checks real-path containment, writes a
+  temporary owner-only sibling, syncs it, and uses an exclusive link for ordinary creation so a
+  concurrent regular config is skipped instead of overwritten.
+- Tests cover dry-run source preservation, normal creation, existing-content skip, forced
+  replacement, config-file symlink refusal, and an outside target remaining unchanged. There is no
+  source execution, environment access, network, telemetry, cloud, AI API, MCP runtime, or new
+  dependency.
 
 ### Dependency and network review
 
@@ -181,8 +198,7 @@ No blocker was found in the implemented query commands.
   can reduce package recall and must produce broader diagnostics as TypeScript project resolution is
   added.
 - Unreadable-path behavior is implemented but permission-specific CI coverage remains pending.
-- Cache and report write safety is not implemented yet and receives a separate security review in
-  F-001 T5.
+- Report-write safety is not implemented yet and needs a separate review before report output exists.
 - TypeScript parsing can still consume meaningful CPU and memory for a large admitted source set.
   The React bridge applies aggregate limits, but a dedicated denial-of-service fixture and performance
   evidence remain necessary before release.

@@ -10,7 +10,7 @@
 ## ADR Impact
 
 The feature introduces the repository's initial architecture. Implementation depends on accepted
-ADR-0001 through ADR-0013 in `docs/adrs/`; ADR-0011 replaces the incompatible TypeScript 7
+ADR-0001 through ADR-0014 in `docs/adrs/`; ADR-0011 replaces the incompatible TypeScript 7
 assumption. Later-phase ADRs listed in the product baseline are not pulled forward.
 
 ## Security Impact

@@ -12,6 +12,8 @@ than inventing parallel models or helpers.
   implementation.
 - `RepositoryRoot` validation in `packages/analyzer` is the only authority for repository reads and
   LatticeOS-owned writes.
+- `LATTICE_CONFIG_PATH`, `INITIAL_LATTICE_CONFIG_CONTENT`, and the dedicated `RepositoryRoot` config
+  methods are the only initialization-config path and writer. They do not accept an output path.
 - Adapter outputs implement `packages/core` contracts; adapters do not publish parallel component or
   diagnostic shapes.
 - CLI JSON envelopes use the schema/version helpers in `packages/core`.

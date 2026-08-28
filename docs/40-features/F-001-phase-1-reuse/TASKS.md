@@ -139,10 +139,12 @@ Evidence to date:
 - `readReuseIndex` and `writeReuseIndex` safely rebuild the exact generated cache path when state is
   missing, malformed, oversized, or incompatible. Atomic replacement and symlink refusal have
   focused tests.
-- All public `lattice` commands remain in progress.
-- `lattice search`, `inspect`, and `context` now support `--root` and `--json`, run fresh static
-  analysis, safely refresh the generated cache, and use deterministic human or JSON output. `init`
-  and packed binary proof remain in progress.
+- `lattice search`, `inspect`, and `context` support `--root` and `--json`, run fresh static
+  analysis, safely refresh the generated cache, and use deterministic human or JSON output.
+- `lattice init` plans the fixed committed config without creating a directory. `--write` creates it,
+  existing config skips, and only `--write --force` replaces it. Focused tests cover human and JSON
+  output, root confinement, symlink refusal, and source preservation.
+- Packed binary proof remains in progress.
 
 ## T6: Prove Consumer Installation And Reuse Improvement
 

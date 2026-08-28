@@ -11,4 +11,5 @@
 - Done: Implement parser, global root/help/version/JSON options, and query dispatch.
 - Done: Implement fresh analysis and safe generated-cache refresh for search, inspect, and context.
 - Done: Implement deterministic human/JSON formatters and 0, 1, and 2 exit contracts.
-- Todo: Implement safe init planning and writes.
+- Done: Implement safe init planning, opt-in creation, skip-existing, explicit-force replacement,
+  deterministic JSON, and fixed-path writes through `RepositoryRoot`.

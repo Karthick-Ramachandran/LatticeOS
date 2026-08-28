@@ -3,15 +3,16 @@
 ## Status
 
 Phase 1 is not complete. T2 core, T3 safe project and React analysis, the Tailwind project bridge,
-direct Tailwind analysis, deterministic in-memory Reuse index assembly, and the generated cache are
-implemented.
+direct Tailwind analysis, deterministic in-memory Reuse index assembly, generated cache, and CLI
+initialization/query surface are implemented.
 
 ## Files Changed
 
 - `packages/core`: schema version 1, identity, validation, stable JSON, ranking, resolution, context,
   generated schema, and tests.
 - `packages/analyzer`: repository boundary, project discovery, shared bridge orchestration,
-  in-memory index assembly, generated cache lifecycle, golden generation, and security tests.
+  in-memory index assembly, generated cache lifecycle, fixed initialization-config lifecycle, golden
+  generation, and security tests.
 - `packages/adapters/react`: virtual TypeScript 6.0.3 program, direct component/prop/import/usage
   extraction, diagnostics, fixture golden, and tests.
 - `packages/adapters/tailwind`: static CSS-theme, configuration-text, and class-bundle extraction,
@@ -28,12 +29,12 @@ implemented.
 ## Tests Run
 
 - `pnpm test:run`: 3 docs tests, 17 core tests, 2 React adapter tests, 2 Tailwind adapter tests,
-  25 analyzer tests, and 3 CLI tests passed.
+  28 analyzer tests, and 4 CLI tests passed.
 - `pnpm typecheck`: all eight implementation workspaces passed.
-- `pnpm build`: all implementation packages built and the docs app generated 30 routes.
+- `pnpm build`: all implementation packages built and the docs app generated 32 routes.
 - `pnpm test:package`: passed. No package-specific consumer smoke script is registered yet; that is
   an explicit later Phase 1 gate.
-- `pnpm docs:check`: content validation, docs tests, typecheck, and the 30-route production build
+- `pnpm docs:check`: content validation, docs tests, typecheck, and the 32-route production build
   passed.
 - `persist doctor`: passed after the final memory update.
 
@@ -60,15 +61,18 @@ implemented.
 - Cache reads return only a valid index hit, a missing state, or an invalid state that callers rebuild.
   Cache writes atomically replace only `.lattice/cache/reuse-index.json` after core validation.
   Tests prove source preservation and refusal of symlinked cache paths.
+- `lattice init` plans a fixed committed config without writing by default. `--write` creates it,
+  existing content skips, and only `--write --force` replaces it. Dedicated root and CLI tests prove
+  source preservation and symlink refusal.
 - `lattice search`, `inspect`, and `context` run fresh bounded analysis, refresh only the generated
-  cache, and return deterministic human or schema-versioned JSON output. `init` and packed-binary
-  evidence remain pending.
+  cache, and return deterministic human or schema-versioned JSON output. Packed-binary evidence
+  remains pending.
 
 ## Remaining Risks
 
-- Optional adapters, `lattice init`, packed CLI proof, and the benchmark are not complete.
-- The adapter's future analyzer bridge needs aggregate source/project bounds and a denial-of-service
-  fixture before it runs on unrestricted repository inventories.
+- Optional adapters, packed CLI proof, and the benchmark are not complete.
+- Optional adapter bridges need aggregate source/project bounds and denial-of-service fixtures before
+  they run on unrestricted repository inventories.
 - Cross-platform packed tests must assess the documented filesystem race and `O_NOFOLLOW`
   differences.
 - Phase 1 cannot be released until AC-01 through AC-17 and every quality gate pass together.

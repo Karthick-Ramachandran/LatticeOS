@@ -16,10 +16,14 @@ and safe initialization.
 
 ## Public Interfaces
 
-- Implemented: `lattice search`, `lattice inspect`, `lattice context`, and global `--help`,
-  `--version`, `--root`, and `--json` options. `lattice init` remains planned.
+- Implemented: `lattice init`, `lattice search`, `lattice inspect`, `lattice context`, and global
+  `--help`, `--version`, `--root`, and `--json` options. Init plans the fixed
+  `.lattice/config.json` file by default; `--write` creates it and `--write --force` is the only
+  replacement form.
 
 ## Boundaries
 
 CLI depends on analyzer and core public interfaces. Human and JSON output describe the same result.
-Machine output remains stable within its schema version. Init writes only validated LatticeOS files.
+Machine output remains stable within its schema version. Init writes only the fixed, validated
+LatticeOS config through `RepositoryRoot`; it never accepts a destination path or writes application
+source.

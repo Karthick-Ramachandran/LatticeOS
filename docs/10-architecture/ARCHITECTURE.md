@@ -60,6 +60,8 @@ shadcn, the CLI, or generated file formats.
   atomic replacement, and no secrets.
 - Application source is read-only. Existing files are skipped unless the user gives an explicit
   force option for a LatticeOS-owned path.
+- `lattice init` owns only `.lattice/config.json`. It plans by default, creates only with `--write`,
+  and replaces that file only with `--write --force`.
 
 ## Accepted Decisions
 
@@ -75,3 +77,4 @@ shadcn, the CLI, or generated file formats.
 - [ADR-0010](../adrs/ADR-0010-fumadocs-documentation-platform.md)
 - [ADR-0012](../adrs/ADR-0012-static-source-evidence-extraction-method.md)
 - [ADR-0013](../adrs/ADR-0013-tailwind-class-bundle-occurrence-representation.md)
+- [ADR-0014](../adrs/ADR-0014-latticeos-initialization-configuration-floor.md)

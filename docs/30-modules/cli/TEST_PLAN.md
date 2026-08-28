@@ -8,9 +8,10 @@
 ## Integration Tests
 
 - Run the built and packed `lattice` binary in clean consumer fixtures from multiple working
-  directories. Source-level tests currently cover copied-fixture search, inspect, and context.
+  directories. Source-level tests cover copied-fixture init, search, inspect, and context.
 
 ## Security Tests
 
-- Traversal, symlink, skip-existing, explicit force, stdout redaction, and write confinement. Query
-  tests prove only the generated Reuse cache changes in a copied consumer fixture.
+- Traversal, symlink, dry-run, skip-existing, explicit force, stdout redaction, and write
+  confinement. Init tests prove a plan creates nothing, and query tests prove only the generated
+  Reuse cache changes in a copied consumer fixture.

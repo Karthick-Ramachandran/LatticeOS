@@ -12,7 +12,7 @@
 ## Integration Tests
 
 - Golden Next.js App Router and workspace fixtures covering AC-03 through AC-09.
-- CLI human and JSON workflows for detection, search, inspect, and context.
+- CLI human and JSON workflows for initialization, detection, search, inspect, and context.
 - Cache regeneration, stale/corrupt cache recovery, invocation outside the consumer root, optional
   adapter absence, and malformed input.
 - Packed artifact installed into a clean consumer fixture; `lattice --help` and analysis run there.
@@ -25,8 +25,8 @@
 - Symlinks inside the root and symlinks escaping the root.
 - `.env`, secret, VCS, dependency, build, coverage, cache, and report exclusions.
 - Proof that JavaScript/TypeScript config is parsed as data and never imported/evaluated.
-- Oversized/malformed file containment, output/source redaction, skip-existing, explicit force, and
-  interrupted atomic-write behavior.
+- Oversized/malformed file containment, output/source redaction, init dry-run, skip-existing,
+  explicit force, symlink refusal, and interrupted atomic-write behavior.
 
 ## Determinism And Performance Tests
 

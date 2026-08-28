@@ -102,7 +102,7 @@ Read first:
 9. docs/60-engineering/LESSONS.md
 10. every file in docs/40-features/F-001-phase-1-reuse/
 11. relevant module memory in docs/30-modules/
-12. accepted ADR-0001 through ADR-0013 in docs/adrs/, noting that ADR-0011 supersedes ADR-0006
+12. accepted ADR-0001 through ADR-0014 in docs/adrs/, noting that ADR-0011 supersedes ADR-0006
 
 Outcome:
 Ship the public `lattice` CLI for a normal React/Next.js/TypeScript/Tailwind repository. It must find existing components and exact repeated UI structures, explain each recommendation with repository evidence, and return compact human and versioned JSON output.
@@ -113,7 +113,8 @@ Scope:
 - Create stable component IDs and a deterministic schema-versioned Reuse index.
 - Extract Tailwind v4 theme variables, supported static v3 theme values, static className values, known class-merging calls, and exact repeated bundles.
 - Connect optional shadcn and Storybook evidence without requiring either tool.
-- Implement `lattice init`, `lattice search`, `lattice inspect`, and `lattice context`, including `--json`.
+- Prove the implemented `lattice init`, `lattice search`, `lattice inspect`, and `lattice context`
+  commands in a packed consumer fixture, including `--json`.
 - Keep application source read-only and all runtime analysis local.
 
 Ordered work:

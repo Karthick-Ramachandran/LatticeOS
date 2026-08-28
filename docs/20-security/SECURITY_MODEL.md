@@ -39,8 +39,9 @@ in Phase 1.
 
 ## File Writes
 
-- `lattice init` creates LatticeOS-owned files only and supports a dry-run plan.
-- Existing files are skipped by default and overwritten only with explicit `--force`.
+- `lattice init` owns only `.lattice/config.json` and supports a dry-run plan. `--write` is required
+  to create it.
+- Existing config is skipped by default and replaced only with `--write --force`.
 - Cache/report writes stay under `.lattice/cache/` and `.lattice/reports/`, use temporary files plus
   atomic rename, and reject symlink or root escapes.
 - Application source is always read-only.

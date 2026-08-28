@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { constants, type Dirent } from "node:fs";
-import { lstat, mkdir, open, opendir, realpath, rename, stat, unlink } from "node:fs/promises";
+import { link, lstat, mkdir, open, opendir, realpath, rename, stat, unlink } from "node:fs/promises";
 import { isAbsolute, join, relative, resolve, sep } from "node:path";
 
 import { normalizeRepositoryPath, type AnalysisDiagnostic, type RepositoryPath } from "@latticeos/core";
@@ -14,6 +14,8 @@ export const HARD_MAX_FILES = 100_000;
 export const HARD_MAX_DEPTH = 100;
 export const HARD_MAX_DIRECTORY_ENTRIES = 100_000;
 export const REUSE_INDEX_CACHE_PATH = ".lattice/cache/reuse-index.json";
+export const LATTICE_CONFIG_PATH = ".lattice/config.json";
+export const INITIAL_LATTICE_CONFIG_CONTENT = '{\n  "schemaVersion": 1\n}\n';
 
 const excludedDirectoryNames = new Set([
   ".git",
@@ -63,6 +65,12 @@ export interface ListFileOptions {
   readonly maxDepth?: number;
   readonly maxFileBytes?: number;
   readonly maxDirectoryEntries?: number;
+}
+
+export type LatticeConfigStatus = "missing" | "present";
+
+export interface LatticeConfigWriteResult {
+  readonly status: "created" | "skipped";
 }
 
 function inside(root: string, candidate: string): boolean {
@@ -188,6 +196,118 @@ export class RepositoryRoot {
   private async reuseIndexCacheDirectory(create: boolean): Promise<string> {
     await this.ensureOwnedDirectory(".lattice", create);
     return this.ensureOwnedDirectory(".lattice/cache", create);
+  }
+
+  private async latticeConfigDirectory(create: boolean): Promise<string | undefined> {
+    const target = join(this.absolutePath, ".lattice");
+    if (create) {
+      try {
+        await mkdir(target, { mode: 0o700 });
+      } catch (error) {
+        if (errorCode(error) !== "EEXIST") {
+          throw new AnalyzerError("CONFIG_DIRECTORY_CREATE_FAILED", "Could not create .lattice for configuration.");
+        }
+      }
+    }
+    let metadata;
+    try {
+      metadata = await lstat(target);
+    } catch (error) {
+      if (errorCode(error) === "ENOENT") return undefined;
+      throw new AnalyzerError("CONFIG_DIRECTORY_INVALID", ".lattice is unavailable for configuration.");
+    }
+    if (!metadata.isDirectory() || metadata.isSymbolicLink()) {
+      throw new AnalyzerError("CONFIG_DIRECTORY_INVALID", ".lattice is not a regular directory.");
+    }
+    let canonical: string;
+    try {
+      canonical = await realpath(target);
+    } catch {
+      throw new AnalyzerError("CONFIG_DIRECTORY_INVALID", ".lattice is unavailable for configuration.");
+    }
+    if (!inside(this.absolutePath, canonical)) {
+      throw new AnalyzerError("CONFIG_DIRECTORY_ESCAPES_ROOT", ".lattice resolves outside the repository root.");
+    }
+    return canonical;
+  }
+
+  async inspectLatticeConfig(): Promise<LatticeConfigStatus> {
+    const latticeDirectory = await this.latticeConfigDirectory(false);
+    if (!latticeDirectory) return "missing";
+    const target = join(latticeDirectory, "config.json");
+    let metadata;
+    try {
+      metadata = await lstat(target);
+    } catch (error) {
+      if (errorCode(error) === "ENOENT") return "missing";
+      throw new AnalyzerError("CONFIG_READ_FAILED", "LatticeOS configuration could not be inspected safely.", LATTICE_CONFIG_PATH);
+    }
+    if (!metadata.isFile() || metadata.isSymbolicLink()) {
+      throw new AnalyzerError("CONFIG_FILE_INVALID", "LatticeOS configuration is not a regular file.", LATTICE_CONFIG_PATH);
+    }
+    let canonical: string;
+    try {
+      canonical = await realpath(target);
+    } catch {
+      throw new AnalyzerError("CONFIG_READ_FAILED", "LatticeOS configuration could not be inspected safely.", LATTICE_CONFIG_PATH);
+    }
+    if (!inside(this.absolutePath, canonical)) {
+      throw new AnalyzerError("CONFIG_FILE_ESCAPES_ROOT", "LatticeOS configuration resolves outside the repository root.", LATTICE_CONFIG_PATH);
+    }
+    return "present";
+  }
+
+  async writeInitialLatticeConfig(force = false): Promise<LatticeConfigWriteResult> {
+    if (typeof force !== "boolean") {
+      throw new AnalyzerError("CONFIG_WRITE_INVALID", "Configuration force option must be a boolean.", LATTICE_CONFIG_PATH);
+    }
+    const latticeDirectory = await this.latticeConfigDirectory(true);
+    if (!latticeDirectory) {
+      throw new AnalyzerError("CONFIG_DIRECTORY_INVALID", ".lattice is unavailable for configuration.");
+    }
+    const existing = await this.inspectLatticeConfig();
+    if (existing === "present" && !force) return { status: "skipped" };
+
+    const target = join(latticeDirectory, "config.json");
+    const temporary = join(latticeDirectory, `.config-${randomUUID()}.tmp`);
+    let handle;
+    try {
+      const noFollow = typeof constants.O_NOFOLLOW === "number" ? constants.O_NOFOLLOW : 0;
+      handle = await open(temporary, constants.O_WRONLY | constants.O_CREAT | constants.O_EXCL | noFollow, 0o600);
+      await handle.writeFile(INITIAL_LATTICE_CONFIG_CONTENT, "utf8");
+      await handle.sync();
+      await handle.close();
+      handle = undefined;
+
+      if (force) {
+        await this.inspectLatticeConfig();
+        await rename(temporary, target);
+        return { status: "created" };
+      }
+
+      try {
+        await link(temporary, target);
+      } catch (error) {
+        if (errorCode(error) !== "EEXIST") throw error;
+        if (await this.inspectLatticeConfig() === "present") return { status: "skipped" };
+        throw new AnalyzerError("CONFIG_WRITE_FAILED", "LatticeOS configuration could not be created safely.", LATTICE_CONFIG_PATH);
+      }
+      try {
+        await unlink(temporary);
+      } catch {
+        // The configuration link is durable; a later cleanup can remove the unique temporary link.
+      }
+      return { status: "created" };
+    } catch (error) {
+      await handle?.close();
+      try {
+        await unlink(temporary);
+      } catch {
+        // The temporary path is unique and may have been linked, renamed, or removed.
+      }
+      if (error instanceof AnalyzerError) throw error;
+      throw new AnalyzerError("CONFIG_WRITE_FAILED", "LatticeOS configuration could not be written safely.", LATTICE_CONFIG_PATH);
+    }
   }
 
   async readText(repositoryPath: string, maxBytes = DEFAULT_MAX_FILE_BYTES): Promise<string> {

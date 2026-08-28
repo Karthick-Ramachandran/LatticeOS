@@ -9,12 +9,11 @@ the tools a repository already chose. Phase 1 starts by reading React components
 usages, stories, shadcn records, and Tailwind patterns, then returning a small source-backed answer an
 agent can use.
 
-> Status: Phase 1 Reuse is under active development. The documentation foundation works today. The
-> analyzer and `lattice` CLI are not published yet, and the command output shown below is the target
-> contract.
+> Status: Phase 1 Reuse is under active development. The analyzer and `lattice` commands work in this
+> workspace, but they are not published and have not passed the packed-consumer release gate.
 
 [Why](#why-latticeos-exists) · [Phase 1](#phase-1-reuse) · [Evidence](#evidence-before-confidence) ·
-[CLI](#target-cli) · [Docs](#documentation) · [Roadmap](#roadmap) · [Feedback](#feedback-wanted)
+[CLI](#current-cli) · [Docs](#documentation) · [Roadmap](#roadmap) · [Feedback](#feedback-wanted)
 
 ## Why LatticeOS exists
 
@@ -51,8 +50,9 @@ The Phase 1 contract covers:
 | Supporting examples | Optional Storybook stories and shadcn registry records |
 | Agent context | Ranked, budgeted results with stable IDs and source evidence |
 
-Phase 1 is static and read-only. It does not run application code or consumer configuration. It does
-not edit source files.
+Phase 1 analysis is static and read-only. It does not run application code or consumer
+configuration, and it never edits source files. `lattice init` can create its own committed config
+only when the user asks for `--write`.
 
 ## Evidence before confidence
 
@@ -71,7 +71,7 @@ points to an evidence record:
 Ranking decides which results fit into the context budget. A high score does not pretend that two
 components mean the same thing.
 
-## Target CLI
+## Current CLI
 
 The public CLI name is `lattice`.
 
@@ -82,7 +82,11 @@ lattice inspect SettingsSection
 lattice context "build a team settings page" --json
 ```
 
-The intended agent answer is compact and inspectable:
+`lattice init` plans the committed `.lattice/config.json` file without writing by default. Run
+`lattice init --write` to create it. Existing config is preserved unless the user supplies both
+`--write` and `--force`.
+
+Query output is compact and inspectable:
 
 ```text
 SettingsSection                  packages/ui/settings-section.tsx:18
@@ -91,7 +95,7 @@ Evidence: component:export:exact, usage:jsx:exact, story:example:corroborating
 Limit: product meaning is not inferred from the score
 ```
 
-Human output is for quick reading. JSON will have an explicit schema version, deterministic order,
+Human output is for quick reading. JSON has an explicit schema version, deterministic order,
 stable component IDs, evidence links, and limitations.
 
 ## Documentation
