@@ -6,8 +6,8 @@ description: The implemented core data contract for Phase 1 evidence.
 <Callout title="Implemented" type="info">
   Schema version 1, component IDs, validation, deterministic serialization, lexical ranking,
   component resolution, and context budgets are implemented in `@latticeos/core`. The analyzer now
-  builds an in-memory index from its React and Tailwind bridges. Cache lifecycle and the public CLI
-  are still in progress.
+  builds an in-memory index from its React and Tailwind bridges and safely persists the generated
+  cache. The public CLI is still in progress.
 </Callout>
 
 ## Component identity
@@ -53,8 +53,8 @@ unsupported schema versions.
 
 `serializeReuseIndex` validates the index, sorts semantic collections, sorts object keys, and writes
 one trailing newline. Input collection order does not change the serialized bytes. The analyzer uses
-the same sorting and validation model before returning an in-memory index. It will use
-`serializeReuseIndex` before later cache writes and JSON snapshots.
+the same sorting and validation model before returning an in-memory index. Its generated cache writer
+uses `serializeReuseIndex` before atomic replacement and later CLI JSON snapshots will use it too.
 
 ```ts title="Validate and serialize an index"
 import { serializeReuseIndex, validateReuseIndex } from "@latticeos/core";
@@ -96,3 +96,6 @@ rejects framework, workspace, and filesystem imports from core runtime files.
 The analyzer has a named full-index golden that combines project, React, and Tailwind evidence. See
 [Reuse index assembly](/docs/features/reuse-index-assembly) for its read-only entry point,
 truncation semantics, generator version, and test evidence.
+
+See [Reuse index cache](/docs/features/reuse-index-cache) for the generated file's exact write path,
+read states, symlink controls, and atomic-replacement test evidence.

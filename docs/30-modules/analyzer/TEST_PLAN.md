@@ -19,3 +19,5 @@
   tests also prove that a configuration file which throws when imported is parsed only as text.
 - Full-index tests prove that conflicting evidence IDs are rejected and a truncated adapter result
   still produces a valid partial index with a diagnostic.
+- Cache tests prove regular-directory and final-file checks, missing, valid, malformed, incompatible,
+  atomic replacement, source preservation, and symlink refusal at the only generated cache target.

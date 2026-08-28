@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdtemp, mkdir, symlink, writeFile } from "node:fs/promises";
+import { lstat, mkdtemp, mkdir, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
@@ -123,4 +123,60 @@ test("committed LatticeOS configuration is readable while generated state stays 
     root.readText(".lattice/cache/reuse-index.json"),
     (error: unknown) => error instanceof AnalyzerError && error.code === "PATH_EXCLUDED",
   );
+});
+
+test("writes and atomically replaces the one LatticeOS-owned Reuse index cache", async () => {
+  const rootPath = await temporaryRepository();
+  await mkdir(join(rootPath, "src"));
+  await writeFile(join(rootPath, "src", "button.tsx"), "export const Button = () => null;\n", "utf8");
+  const root = await RepositoryRoot.open(rootPath);
+
+  await root.writeReuseIndexCache("{\"version\":1}\n");
+  assert.equal(await root.readReuseIndexCache(), "{\"version\":1}\n");
+  await assert.rejects(
+    root.readReuseIndexCache(5),
+    (error: unknown) => error instanceof AnalyzerError && error.code === "CACHE_TOO_LARGE",
+  );
+  await root.writeReuseIndexCache("{\"version\":2}\n");
+  assert.equal(await root.readReuseIndexCache(), "{\"version\":2}\n");
+  assert.match(await root.readText("src/button.tsx"), /Button/u);
+  const cacheMetadata = await lstat(join(rootPath, ".lattice", "cache", "reuse-index.json"));
+  assert.equal(cacheMetadata.isSymbolicLink(), false);
+  assert.equal(cacheMetadata.isFile(), true);
+});
+
+test("rejects missing and symlinked Reuse index cache paths without following them", async () => {
+  const rootPath = await temporaryRepository();
+  const outside = await mkdtemp(join(tmpdir(), "lattice-cache-outside-"));
+  await writeFile(join(outside, "reuse-index.json"), "outside\n", "utf8");
+  const root = await RepositoryRoot.open(rootPath);
+
+  await assert.rejects(
+    root.readReuseIndexCache(),
+    (error: unknown) => error instanceof AnalyzerError && error.code === "CACHE_NOT_FOUND",
+  );
+  await assert.rejects(lstat(join(rootPath, ".lattice")));
+  await mkdir(join(rootPath, ".lattice", "cache"), { recursive: true });
+  await symlink(join(outside, "reuse-index.json"), join(rootPath, ".lattice", "cache", "reuse-index.json"));
+  await assert.rejects(
+    root.readReuseIndexCache(),
+    (error: unknown) => error instanceof AnalyzerError && error.code === "CACHE_FILE_INVALID",
+  );
+  await assert.rejects(
+    root.writeReuseIndexCache("replacement\n"),
+    (error: unknown) => error instanceof AnalyzerError && error.code === "CACHE_FILE_INVALID",
+  );
+});
+
+test("does not create a cache below a symlinked LatticeOS directory", async () => {
+  const rootPath = await temporaryRepository();
+  const outside = await mkdtemp(join(tmpdir(), "lattice-cache-directory-outside-"));
+  await symlink(outside, join(rootPath, ".lattice"));
+  const root = await RepositoryRoot.open(rootPath);
+
+  await assert.rejects(
+    root.writeReuseIndexCache("{}\n"),
+    (error: unknown) => error instanceof AnalyzerError && error.code === "CACHE_DIRECTORY_INVALID",
+  );
+  await assert.rejects(lstat(join(outside, "cache")));
 });

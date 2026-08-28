@@ -1,5 +1,6 @@
 export * from "./project-discovery.js";
 export * from "./project-analysis.js";
+export * from "./reuse-index-cache.js";
 export * from "./repository-root.js";
 export {
   DEFAULT_MAX_REACT_DIAGNOSTICS,

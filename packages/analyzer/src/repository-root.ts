@@ -1,5 +1,6 @@
+import { randomUUID } from "node:crypto";
 import { constants, type Dirent } from "node:fs";
-import { open, opendir, realpath, stat } from "node:fs/promises";
+import { lstat, mkdir, open, opendir, realpath, rename, stat, unlink } from "node:fs/promises";
 import { isAbsolute, join, relative, resolve, sep } from "node:path";
 
 import { normalizeRepositoryPath, type AnalysisDiagnostic, type RepositoryPath } from "@latticeos/core";
@@ -12,6 +13,7 @@ export const HARD_MAX_FILE_BYTES = 16_777_216;
 export const HARD_MAX_FILES = 100_000;
 export const HARD_MAX_DEPTH = 100;
 export const HARD_MAX_DIRECTORY_ENTRIES = 100_000;
+export const REUSE_INDEX_CACHE_PATH = ".lattice/cache/reuse-index.json";
 
 const excludedDirectoryNames = new Set([
   ".git",
@@ -71,6 +73,12 @@ function inside(root: string, candidate: string): boolean {
 function portablePath(root: string, absolutePath: string): RepositoryPath {
   const path = relative(root, absolutePath).split(sep).join("/");
   return normalizeRepositoryPath(path);
+}
+
+function errorCode(error: unknown): string | undefined {
+  return typeof error === "object" && error !== null && "code" in error && typeof error.code === "string"
+    ? error.code
+    : undefined;
 }
 
 export function isDefaultExcluded(path: RepositoryPath): boolean {
@@ -139,6 +147,49 @@ export class RepositoryRoot {
     return { requested: normalized, canonical };
   }
 
+  private async ensureOwnedDirectory(
+    repositoryPath: ".lattice" | ".lattice/cache",
+    create: boolean,
+  ): Promise<string> {
+    const target = join(this.absolutePath, ...repositoryPath.split("/"));
+    if (create) {
+      try {
+        await mkdir(target, { mode: 0o700 });
+      } catch (error) {
+        if (errorCode(error) !== "EEXIST") {
+          throw new AnalyzerError("CACHE_DIRECTORY_CREATE_FAILED", `Could not create LatticeOS directory: ${repositoryPath}`);
+        }
+      }
+    }
+    let metadata;
+    try {
+      metadata = await lstat(target);
+    } catch (error) {
+      if (errorCode(error) === "ENOENT") {
+        throw new AnalyzerError("CACHE_NOT_FOUND", "Reuse index cache does not exist.", REUSE_INDEX_CACHE_PATH);
+      }
+      throw new AnalyzerError("CACHE_DIRECTORY_INVALID", `LatticeOS directory is unavailable: ${repositoryPath}`);
+    }
+    if (!metadata.isDirectory() || metadata.isSymbolicLink()) {
+      throw new AnalyzerError("CACHE_DIRECTORY_INVALID", `LatticeOS directory is not a regular directory: ${repositoryPath}`);
+    }
+    let canonical: string;
+    try {
+      canonical = await realpath(target);
+    } catch {
+      throw new AnalyzerError("CACHE_DIRECTORY_INVALID", `LatticeOS directory is unavailable: ${repositoryPath}`);
+    }
+    if (!inside(this.absolutePath, canonical)) {
+      throw new AnalyzerError("CACHE_DIRECTORY_ESCAPES_ROOT", `LatticeOS directory resolves outside the root: ${repositoryPath}`);
+    }
+    return canonical;
+  }
+
+  private async reuseIndexCacheDirectory(create: boolean): Promise<string> {
+    await this.ensureOwnedDirectory(".lattice", create);
+    return this.ensureOwnedDirectory(".lattice/cache", create);
+  }
+
   async readText(repositoryPath: string, maxBytes = DEFAULT_MAX_FILE_BYTES): Promise<string> {
     if (!Number.isInteger(maxBytes) || maxBytes < 1 || maxBytes > HARD_MAX_FILE_BYTES) {
       throw new AnalyzerError(
@@ -187,6 +238,115 @@ export class RepositoryRoot {
       );
     } finally {
       await handle?.close();
+    }
+  }
+
+  async readReuseIndexCache(maxBytes = HARD_MAX_FILE_BYTES): Promise<string> {
+    if (!Number.isInteger(maxBytes) || maxBytes < 1 || maxBytes > HARD_MAX_FILE_BYTES) {
+      throw new AnalyzerError(
+        "BOUND_INVALID",
+        `Maximum cache read size must be an integer between 1 and ${HARD_MAX_FILE_BYTES}`,
+      );
+    }
+    const cacheDirectory = await this.reuseIndexCacheDirectory(false);
+    const target = join(cacheDirectory, "reuse-index.json");
+    let canonical: string;
+    try {
+      const metadata = await lstat(target);
+      if (!metadata.isFile() || metadata.isSymbolicLink()) {
+        throw new AnalyzerError("CACHE_FILE_INVALID", `Reuse index cache is not a regular file: ${REUSE_INDEX_CACHE_PATH}`);
+      }
+      canonical = await realpath(target);
+    } catch (error) {
+      if (error instanceof AnalyzerError) throw error;
+      if (errorCode(error) === "ENOENT") {
+        throw new AnalyzerError("CACHE_NOT_FOUND", "Reuse index cache does not exist.", REUSE_INDEX_CACHE_PATH);
+      }
+      throw new AnalyzerError("CACHE_READ_FAILED", "Reuse index cache could not be opened safely.", REUSE_INDEX_CACHE_PATH);
+    }
+    if (!inside(this.absolutePath, canonical)) {
+      throw new AnalyzerError("CACHE_FILE_ESCAPES_ROOT", `Reuse index cache resolves outside the root: ${REUSE_INDEX_CACHE_PATH}`);
+    }
+
+    let handle;
+    try {
+      const noFollow = typeof constants.O_NOFOLLOW === "number" ? constants.O_NOFOLLOW : 0;
+      handle = await open(canonical, constants.O_RDONLY | noFollow);
+      const metadata = await handle.stat();
+      if (!metadata.isFile()) {
+        throw new AnalyzerError("CACHE_FILE_INVALID", `Reuse index cache is not a regular file: ${REUSE_INDEX_CACHE_PATH}`);
+      }
+      if (metadata.size > maxBytes) {
+        throw new AnalyzerError(
+          "CACHE_TOO_LARGE",
+          `Reuse index cache exceeds the ${maxBytes} byte read limit.`,
+          REUSE_INDEX_CACHE_PATH,
+        );
+      }
+      const bytes = Buffer.alloc(maxBytes + 1);
+      let offset = 0;
+      while (offset < bytes.byteLength) {
+        const result = await handle.read(bytes, offset, bytes.byteLength - offset, null);
+        if (result.bytesRead === 0) break;
+        offset += result.bytesRead;
+      }
+      if (offset > maxBytes) {
+        throw new AnalyzerError(
+          "CACHE_TOO_LARGE",
+          `Reuse index cache exceeds the ${maxBytes} byte read limit.`,
+          REUSE_INDEX_CACHE_PATH,
+        );
+      }
+      return bytes.subarray(0, offset).toString("utf8");
+    } catch (error) {
+      if (error instanceof AnalyzerError) throw error;
+      throw new AnalyzerError("CACHE_READ_FAILED", "Reuse index cache could not be read safely.", REUSE_INDEX_CACHE_PATH);
+    } finally {
+      await handle?.close();
+    }
+  }
+
+  async writeReuseIndexCache(content: string): Promise<void> {
+    const bytes = Buffer.byteLength(content, "utf8");
+    if (bytes > HARD_MAX_FILE_BYTES) {
+      throw new AnalyzerError(
+        "CACHE_TOO_LARGE",
+        `Reuse index cache exceeds the ${HARD_MAX_FILE_BYTES} byte write limit.`,
+        REUSE_INDEX_CACHE_PATH,
+      );
+    }
+    const cacheDirectory = await this.reuseIndexCacheDirectory(true);
+    const target = join(cacheDirectory, "reuse-index.json");
+    const temporary = join(cacheDirectory, `.reuse-index-${randomUUID()}.tmp`);
+    let handle;
+    try {
+      const noFollow = typeof constants.O_NOFOLLOW === "number" ? constants.O_NOFOLLOW : 0;
+      handle = await open(temporary, constants.O_WRONLY | constants.O_CREAT | constants.O_EXCL | noFollow, 0o600);
+      await handle.writeFile(content, "utf8");
+      await handle.sync();
+      await handle.close();
+      handle = undefined;
+      try {
+        const metadata = await lstat(target);
+        if (!metadata.isFile() || metadata.isSymbolicLink()) {
+          throw new AnalyzerError("CACHE_FILE_INVALID", `Reuse index cache is not a regular file: ${REUSE_INDEX_CACHE_PATH}`);
+        }
+      } catch (error) {
+        if (error instanceof AnalyzerError) throw error;
+        if (errorCode(error) !== "ENOENT") {
+          throw new AnalyzerError("CACHE_WRITE_FAILED", "Reuse index cache could not be prepared safely.", REUSE_INDEX_CACHE_PATH);
+        }
+      }
+      await rename(temporary, target);
+    } catch (error) {
+      await handle?.close();
+      try {
+        await unlink(temporary);
+      } catch {
+        // The temporary path is unique and may already have been renamed or removed.
+      }
+      if (error instanceof AnalyzerError) throw error;
+      throw new AnalyzerError("CACHE_WRITE_FAILED", "Reuse index cache could not be replaced safely.", REUSE_INDEX_CACHE_PATH);
     }
   }
 

@@ -127,8 +127,27 @@ No blocker was found in the read-only index assembly slice.
 - The assembly result keeps an explicit truncation flag. Existing adapter and discovery diagnostics
   stay in the index, so callers can see why partial evidence is incomplete.
 
-Cache writes remain out of scope. They require the separate file-write review already planned under
-ADR-0004 and F-001 T5.
+The cache lifecycle review required by ADR-0004 and F-001 T5 is recorded below.
+
+### Generated Reuse index cache security review
+
+No blocker was found in the ADR-0004 cache lifecycle slice.
+
+- The only writable target is the fixed `.lattice/cache/reuse-index.json` path. The public write API
+  accepts an index, not a path. Application source, reports, and arbitrary repository files are not
+  writable through this path.
+- `RepositoryRoot` creates and checks `.lattice` and `.lattice/cache` one level at a time. It rejects
+  non-directories and symlinks, resolves the final directory inside the selected root, and uses a
+  unique temporary sibling with owner-only mode and `O_NOFOLLOW` where available.
+- A write syncs the temporary file and renames it over only a regular cache file. Failure cleanup
+  removes the exact temporary path. A final cache symlink and a symlinked `.lattice` directory both
+  fail without following or creating an outside path.
+- Cache reads remain bounded to 16 MiB and accept only regular in-root files. Malformed,
+  incompatible, or oversized contents return a rebuild state rather than source evidence. Errors do
+  not include cache contents.
+
+The remaining ancestor-directory replacement race is documented below. Packed cross-platform tests
+must exercise platform differences before Phase 1 release.
 
 ### Dependency and network review
 

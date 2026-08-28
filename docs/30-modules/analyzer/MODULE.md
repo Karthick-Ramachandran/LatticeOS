@@ -18,8 +18,7 @@ orchestrating adapters, recording diagnostics, and managing generated state.
 
 - Implemented: `RepositoryRoot.open`, confined `readText`, bounded `listFiles`, default exclusions,
   `detectProject`, `analyzeReactProject`, `analyzeTailwindProject`, `analyzeProject`, and
-  `buildReuseIndex`.
-- Planned in later F-001 slices: `readReuseIndex` and `writeReuseIndex`.
+  `buildReuseIndex`, `readReuseIndex`, and `writeReuseIndex`.
 
 ## Boundaries
 
@@ -46,3 +45,8 @@ constructs a complete Reuse index.
 `ReuseIndex` plus a truncation flag. `buildReuseIndex` is the pure assembly operation. It accepts
 only normalized discovery and adapter results, rejects conflicting evidence IDs, and does not write
 cache or report state.
+
+`writeReuseIndex` serializes a valid index and atomically replaces only
+`.lattice/cache/reuse-index.json`. `readReuseIndex` returns a valid cache hit, a missing state, or an
+invalid state that a caller must rebuild. Dedicated `RepositoryRoot` methods own the target and
+reject symlinked cache directories and final files. Report writes remain unimplemented.

@@ -136,7 +136,10 @@ Evidence to date:
 - `analyzeProject` calls project detection once, combines bounded React and Tailwind bridge evidence,
   validates the schema-versioned Reuse index, rejects conflicting evidence IDs, and reports a valid
   partial index when an adapter cap is reached.
-- Cache lifecycle and all public `lattice` commands remain in progress.
+- `readReuseIndex` and `writeReuseIndex` safely rebuild the exact generated cache path when state is
+  missing, malformed, oversized, or incompatible. Atomic replacement and symlink refusal have
+  focused tests.
+- All public `lattice` commands remain in progress.
 
 ## T6: Prove Consumer Installation And Reuse Improvement
 

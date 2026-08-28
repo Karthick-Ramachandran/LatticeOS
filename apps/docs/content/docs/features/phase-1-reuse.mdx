@@ -6,8 +6,9 @@ description: Give agents source-backed UI reuse evidence before they generate co
 <Callout title="Status" type="warning">
   Requirements and architecture are accepted. The framework-neutral core contract is implemented
   and tested. Safe project discovery, React and Tailwind analysis, and deterministic in-memory
-  index assembly are also implemented. Optional evidence adapters, cache lifecycle, and the public
-  CLI remain in progress, so commands below are the target contract until their tests prove them.
+  index assembly are also implemented. The generated index cache is safe and tested. Optional
+  evidence adapters and the public CLI remain in progress, so commands below are the target contract
+  until their tests prove them.
 </Callout>
 
 ## Outcome
@@ -52,6 +53,9 @@ repeated-bundle extractor, its exact static forms, and its dynamic-expression li
 
 See [Reuse index assembly](/docs/features/reuse-index-assembly) for the implemented read-only
 analysis entry point, deterministic index validation, truncation behavior, and its named golden.
+
+See [Reuse index cache](/docs/features/reuse-index-cache) for the implemented generated-state read,
+atomic replacement boundary, and rebuild behavior for missing or invalid state.
 
 ## Planned workflow
 

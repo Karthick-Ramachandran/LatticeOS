@@ -3,14 +3,15 @@
 ## Status
 
 Phase 1 is not complete. T2 core, T3 safe project and React analysis, the Tailwind project bridge,
-direct Tailwind analysis, and deterministic in-memory Reuse index assembly are implemented.
+direct Tailwind analysis, deterministic in-memory Reuse index assembly, and the generated cache are
+implemented.
 
 ## Files Changed
 
 - `packages/core`: schema version 1, identity, validation, stable JSON, ranking, resolution, context,
   generated schema, and tests.
 - `packages/analyzer`: repository boundary, project discovery, shared bridge orchestration,
-  in-memory index assembly, golden generation, and security tests.
+  in-memory index assembly, generated cache lifecycle, golden generation, and security tests.
 - `packages/adapters/react`: virtual TypeScript 6.0.3 program, direct component/prop/import/usage
   extraction, diagnostics, fixture golden, and tests.
 - `packages/adapters/tailwind`: static CSS-theme, configuration-text, and class-bundle extraction,
@@ -27,12 +28,12 @@ direct Tailwind analysis, and deterministic in-memory Reuse index assembly are i
 ## Tests Run
 
 - `pnpm test:run`: 3 docs tests, 17 core tests, 2 React adapter tests, 2 Tailwind adapter tests,
-  and 19 analyzer tests passed.
+  and 25 analyzer tests passed.
 - `pnpm typecheck`: all eight implementation workspaces passed.
-- `pnpm build`: all implementation packages built and the docs app generated 28 routes.
+- `pnpm build`: all implementation packages built and the docs app generated 30 routes.
 - `pnpm test:package`: passed. No package-specific consumer smoke script is registered yet; that is
   an explicit later Phase 1 gate.
-- `pnpm docs:check`: content validation, docs tests, typecheck, and the 28-route production build
+- `pnpm docs:check`: content validation, docs tests, typecheck, and the 30-route production build
   passed.
 - `persist doctor`: passed after the final memory update.
 
@@ -56,10 +57,13 @@ direct Tailwind analysis, and deterministic in-memory Reuse index assembly are i
 - `analyzeProject` builds one validated deterministic Reuse index from a shared discovery pass and
   the React and Tailwind bridges. Its named golden proves evidence links, repeat serialization, and
   valid partial output after a configured source cap.
+- Cache reads return only a valid index hit, a missing state, or an invalid state that callers rebuild.
+  Cache writes atomically replace only `.lattice/cache/reuse-index.json` after core validation.
+  Tests prove source preservation and refusal of symlinked cache paths.
 
 ## Remaining Risks
 
-- Optional adapters, cache writes, CLI, packaging, and the benchmark are not complete.
+- Optional adapters, CLI, packaging, and the benchmark are not complete.
 - The adapter's future analyzer bridge needs aggregate source/project bounds and a denial-of-service
   fixture before it runs on unrestricted repository inventories.
 - Cross-platform packed tests must assess the documented filesystem race and `O_NOFOLLOW`

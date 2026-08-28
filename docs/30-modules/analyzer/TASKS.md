@@ -16,6 +16,8 @@
   bridge has a named golden, aggregate source limits, and a no-execution configuration test.
 - Done: Assemble one deterministic, validated in-memory Reuse index from a shared discovery result
   and the React and Tailwind bridges. A named golden covers exact evidence links and partial indexes.
+- Done: Read and atomically replace the single generated Reuse index cache path. Missing, malformed,
+  oversized, and incompatible state rebuilds rather than becoming evidence. Symlink controls and
+  application-source preservation have focused tests.
 - Todo: Extend TypeScript project support beyond direct root compiler options only when fixtures and
   a security review prove the additional configuration boundary.
-- Todo: Implement deterministic atomic index lifecycle.
