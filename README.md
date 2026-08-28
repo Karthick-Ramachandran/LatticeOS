@@ -10,8 +10,9 @@ configured shadcn source trees, and Tailwind patterns, then returns a small sour
 agent can use. It also connects a bounded local Storybook components manifest when its story import
 resolves to an indexed React component.
 
-> Status: Phase 1 Reuse is under active development. The analyzer and `lattice` commands work in this
-> workspace, but they are not published and have not passed the packed-consumer release gate.
+> Status: Phase 1 Reuse is under active development. The analyzer, `lattice` commands, and packed
+> consumer proof work in this workspace. The package is not published, and the Reuse benchmark still
+> blocks Phase 1 completion.
 
 [Why](#why-latticeos-exists) · [Phase 1](#phase-1-reuse) · [Evidence](#evidence-before-confidence) ·
 [CLI](#current-cli) · [Docs](#documentation) · [Roadmap](#roadmap) · [Feedback](#feedback-wanted)
@@ -110,6 +111,7 @@ Start with:
 - [Phase 1 Reuse guide and agent prompt](apps/docs/content/docs/features/phase-1-reuse.mdx)
 - [Evidence model](apps/docs/content/docs/reference/evidence-model.mdx)
 - [Agent-ready documentation contract](apps/docs/content/docs/contributing/agent-ready-documentation.mdx)
+- [Packed consumer proof](apps/docs/content/docs/cli/packed-consumer.mdx)
 - [Repository guide for language models](llms.txt)
 - [Phase 1 acceptance criteria](docs/40-features/F-001-phase-1-reuse/ACCEPTANCE.md)
 - [Repository memory](docs/)
@@ -174,8 +176,8 @@ the private process in [SECURITY.md](SECURITY.md). LatticeOS is available under 
 
 ## Feedback wanted
 
-This branch is ready for product and documentation feedback, not an npm install test. The most useful
-questions are:
+This branch has a contained packed-consumer test and is ready for product and documentation feedback.
+The most useful questions are:
 
 - Does the opening make the product distinct from a UI framework or component library?
 - Would the proposed evidence be enough for you to trust an agent's reuse choice?

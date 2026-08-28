@@ -230,8 +230,8 @@ No blocker was found in the implemented query commands.
   cache-path safety error fails the command rather than emitting a result from unsafe state.
 - JSON results are serialized deterministically with an explicit schema version. Human results go to
   stdout; parse and analysis failures go to stderr with stable nonzero exit behavior.
-- Copied-fixture tests prove the command does not modify component source. Packed-binary proof
-  remains a separate release gate.
+- Copied-fixture tests prove the command does not modify component source. The packed binary proof
+  is recorded separately below; the benchmark remains a release gate.
 
 ### CLI initialization security review
 
@@ -249,6 +249,40 @@ No blocker was found in the ADR-0014 initialization slice.
   replacement, config-file symlink refusal, and an outside target remaining unchanged. There is no
   source execution, environment access, network, telemetry, cloud, AI API, MCP runtime, or new
   dependency.
+
+### Packed consumer proof security review
+
+No blocker was found in the developer-only package proof.
+
+- The script has fixed LatticeOS package directories and fixture paths. It creates one temporary
+  directory through `mkdtemp` and removes that exact directory in `finally`; it does not accept a
+  caller-supplied deletion target or alter the committed fixture.
+- It packs local artifacts and installs them as local tarballs. `npm install` uses
+  `--ignore-scripts`, `--omit=dev`, and `--workspaces=false`. npm may access its registry to resolve
+  the existing pinned TypeScript dependency during this developer check, but no shipped CLI path has
+  network behavior.
+- npm does not support the fixture's `workspace:*` members in this tarball installation form. The
+  script removes only the root workspace declaration in the temporary copy during installation and
+  restores it before analysis. It never runs fixture source or configuration.
+- The test rejects a CLI installation that resolves into this worktree, confirms the npm binary shim,
+  runs help and JSON search from the installed artifact, verifies the generated cache schema, and
+  compares the Button source before and after analysis. It adds no runtime dependency or production
+  write path.
+
+The current Windows branch verifies the generated npm shim, then invokes the packed Node entry because
+Windows command shims are not directly executable with `execFile`. A Windows matrix remains a release
+review item.
+
+### Packed consumer proof conventions review
+
+No convention finding was raised in the final pass.
+
+- The package proof reuses the existing CLI binary, package names, controlled fixture, root package
+  gate, and generated-cache contract. It does not add a second CLI, a second consumer fixture, a
+  runtime package manager, or an alternate cache writer.
+- The script is developer-only and stays under `packages/cli/scripts`, which keeps package artifact
+  verification out of the shipped CLI contract. Its only new package script follows the existing
+  `test:<scope>` gate naming.
 
 ### Dependency and network review
 

@@ -4,8 +4,9 @@
 
 Phase 1 is not complete. T2 core, T3 safe project and React analysis, the Tailwind project bridge,
 direct Tailwind analysis, deterministic in-memory Reuse index assembly, generated cache, and CLI
-initialization/query surface are implemented. Static shadcn configured-source evidence is also
-implemented, along with bounded local Storybook manifest evidence.
+initialization/query surface are implemented. Static shadcn configured-source evidence and bounded
+local Storybook manifest evidence are implemented. The packed-consumer proof now passes; the Reuse
+benchmark and final release review remain.
 
 ## Files Changed
 
@@ -32,6 +33,11 @@ implemented, along with bounded local Storybook manifest evidence.
 - `packages/analyzer`: `analyzeStorybookProjectFromDiscovery` reads only the fixed built-manifest
   path after Storybook detection. General discovery excludes generated Storybook output, and the
   dedicated reader rejects symlinks in the fixed path.
+- `packages/cli`: the package gate builds the CLI dependency closure, packs known local package
+  directories, installs their tarballs in a temporary controlled consumer, and runs the extracted
+  binary. The script disables install lifecycle scripts, restores temporary workspace metadata before
+  analysis, verifies cache output and source preservation, and removes only the temporary directory
+  it created.
 - `fixtures/next-workspace` and `fixtures/goldens`: named project-detection, React, Tailwind, and
   shadcn and Storybook evidence.
 - `apps/docs`: Reuse index, safe project-discovery, React-analysis, Tailwind-analysis, and shadcn
@@ -44,12 +50,25 @@ implemented, along with bounded local Storybook manifest evidence.
 - `pnpm test:run`: 3 docs tests, 17 core tests, 2 React adapter tests, 2 Tailwind adapter tests,
   3 shadcn adapter tests, 2 Storybook adapter tests, 35 analyzer tests, and 4 CLI tests passed.
 - `pnpm typecheck`: all eight implementation workspaces passed.
-- `pnpm build`: all implementation packages built and the docs app generated 36 routes.
-- `pnpm test:package`: passed. No package-specific consumer smoke script is registered yet; that is
-  an explicit later Phase 1 gate.
-- `pnpm docs:check`: content validation, docs tests, typecheck, and the 36-route production build
+- `pnpm build`: all implementation packages built and the docs app generated 38 routes.
+- `pnpm test:package`: passed. The CLI package gate built seven local packages, installed their
+  tarballs in the temporary Next.js workspace fixture, ran `lattice --help` and `lattice search Button
+  --json`, confirmed the generated schema-version-1 cache, and verified Button source preservation.
+- `pnpm docs:check`: content validation, docs tests, typecheck, and the 38-route production build
   passed.
 - `persist doctor`: passed; Persist OS found two feature folders, five module folders, and 16 ADRs.
+
+## Skipped checks
+
+No required check was skipped for the packed-consumer slice. The control-versus-treatment benchmark is
+not a skipped check: it is the remaining unimplemented Phase 1 release gate.
+
+## Engineering standards
+
+The package proof reuses the existing CLI, cache, fixture, and workspace package boundaries. It adds
+no runtime dependency, consumer-source execution, published-package workflow, or new product write
+location. Its Fumadocs guide, feature memory, module memory, review notes, README, and `llms.txt`
+were updated with the same change.
 
 ## Results
 
@@ -93,17 +112,21 @@ implemented, along with bounded local Storybook manifest evidence.
   existing content skips, and only `--write --force` replaces it. Dedicated root and CLI tests prove
   source preservation and symlink refusal.
 - `lattice search`, `inspect`, and `context` run fresh bounded analysis, refresh only the generated
-  cache, and return deterministic human or schema-versioned JSON output. Packed-binary evidence
-  remains pending.
+  cache, and return deterministic human or schema-versioned JSON output.
+- The packed artifact is proven in the controlled Next.js fixture. npm extracts the CLI outside the
+  worktree, exposes the `lattice` binary, runs help and a real JSON search, writes the valid generated
+  cache, and leaves Button source unchanged. The test does not publish packages or execute fixture
+  application code.
 
 ## Remaining Risks
 
-- Packed CLI proof and the benchmark are not complete.
+- The control-versus-treatment Reuse benchmark is not complete.
 - Package-local tsconfig, tsconfig `extends`, multi-step aliases, and more than one shadcn wildcard
   remain unsupported until fixtures and security review define a wider boundary.
 - Storybook's rich components manifest is a preview API. Custom output directories, development
   server access, ref formats, and wider fields remain unsupported until fixtures and review define a
   wider boundary.
-- Cross-platform packed tests must assess the documented filesystem race and `O_NOFOLLOW`
-  differences.
+- The current packed test has a Windows fallback that runs the packed Node entry after it verifies the
+  npm shim. A broader platform matrix and the documented filesystem-race assessment remain for final
+  release review.
 - Phase 1 cannot be released until AC-01 through AC-17 and every quality gate pass together.

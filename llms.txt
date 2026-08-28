@@ -7,7 +7,7 @@
 Repository: https://github.com/Karthick-Ramachandran/LatticeOS
 Product name: LatticeOS
 Public CLI name: lattice
-Status: pre-release; analyzer and CLI are not published
+Status: pre-release; the packed-consumer test passes, but the analyzer and CLI are not published
 
 ## Read before changing code
 
@@ -38,16 +38,18 @@ Use the Persist CLI for new feature memory and decisions as AGENTS.md requires.
 - packages/adapters: React component analysis, static Tailwind token/class evidence, static shadcn
   configured-source evidence, and bounded local Storybook manifest evidence are implemented.
 - packages/cli: source-tested `init`, `search`, `inspect`, and `context` commands are implemented.
-  The package is not published and packed-consumer proof is still required.
+  The package gate proves an installed tarball can analyze the controlled Next.js fixture. It is not
+  published, and the Reuse benchmark is still required.
 
-Do not describe workspace CLI examples as released behavior until the packed-consumer gate passes and
-the package is published.
+Do not describe workspace CLI examples as published behavior. The packed-consumer gate passes, but
+the package is pre-release and the Reuse benchmark still blocks Phase 1 completion.
 
 ## Active feature
 
 - Product and acceptance: docs/40-features/F-001-phase-1-reuse/
 - Public guide and complete Agent prompt: apps/docs/content/docs/features/phase-1-reuse.mdx
 - Safe CLI initialization: apps/docs/content/docs/cli/init.mdx
+- Packed consumer proof: apps/docs/content/docs/cli/packed-consumer.mdx
 - shadcn static evidence: apps/docs/content/docs/features/shadcn-static-evidence.mdx
 - Storybook manifest evidence: apps/docs/content/docs/features/storybook-manifest-evidence.mdx
 - Core index reference: apps/docs/content/docs/reference/reuse-index.mdx

@@ -126,7 +126,7 @@ Evidence to date:
 
 ## T5: Deliver Reuse CLI Workflows
 
-Status: In Progress
+Status: Done
 
 Scope:
 
@@ -155,11 +155,11 @@ Evidence to date:
 - `lattice init` plans the fixed committed config without creating a directory. `--write` creates it,
   existing config skips, and only `--write --force` replaces it. Focused tests cover human and JSON
   output, root confinement, symlink refusal, and source preservation.
-- Packed binary proof remains in progress.
+- The packed binary proof is recorded under T6 because it is a consumer-installation acceptance gate.
 
 ## T6: Prove Consumer Installation And Reuse Improvement
 
-Status: Todo
+Status: In Progress
 
 Scope:
 
@@ -173,6 +173,17 @@ Tests:
 
 - Package smoke/integration, production consumer type/build checks where applicable, benchmark
   assertions, and all repository gates.
+
+Evidence to date:
+
+- `pnpm test:package` now builds the CLI dependency closure, packs seven known LatticeOS packages,
+  installs their local tarballs in a temporary copy of the realistic Next.js workspace fixture, and
+  proves an extracted `lattice` binary exposes help and can search for `Button`.
+- The packed binary produces a schema-version-1 cache and leaves the fixture Button source unchanged.
+  npm lifecycle scripts are disabled. The temporary install removes the fixture root workspace field
+  only while npm installs, then restores it before the CLI analyzes the fixture.
+- AC-01 is supported. The control-versus-treatment Reuse benchmark and final all-gate evidence still
+  block AC-15, AC-16, and Phase 1 completion.
 
 ## T7: Review And Release Phase 1
 

@@ -2,7 +2,7 @@
 
 ## Active Work
 
-- F-001 T5: init, index lifecycle, search, inspect, context, and JSON output.
+- F-001 T6: the packed-consumer proof is complete; the controlled Reuse benchmark remains active.
 
 ## Tasks
 
@@ -13,3 +13,6 @@
 - Done: Implement deterministic human/JSON formatters and 0, 1, and 2 exit contracts.
 - Done: Implement safe init planning, opt-in creation, skip-existing, explicit-force replacement,
   deterministic JSON, and fixed-path writes through `RepositoryRoot`.
+- Done: Build the CLI dependency closure, pack its local artifacts, install them in the controlled
+  Next.js fixture with install scripts disabled, and prove `lattice --help`, JSON search, generated
+  cache output, extracted package identity, and source preservation.

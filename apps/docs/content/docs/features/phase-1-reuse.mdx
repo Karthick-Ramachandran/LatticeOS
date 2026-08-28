@@ -7,8 +7,8 @@ description: Give agents source-backed UI reuse evidence before they generate co
   Requirements and architecture are accepted. The framework-neutral core contract is implemented
   and tested. Safe project discovery, React and Tailwind analysis, deterministic in-memory index
   assembly, generated cache, public CLI, shadcn configured-source evidence, and bounded local
-  Storybook manifest evidence are implemented. Packed-consumer proof and the benchmark remain in
-  progress.
+  Storybook manifest evidence are implemented. The packed-consumer proof passes. The benchmark and
+  final release review remain in progress.
 </Callout>
 
 ## Outcome
@@ -63,6 +63,9 @@ configured UI-source mapping and its limits.
 See [Storybook manifest evidence](/docs/features/storybook-manifest-evidence) for the implemented
 local built-manifest bridge, import-backed mapping rule, and preview-schema limits.
 
+See [packed consumer proof](/docs/cli/packed-consumer) for the implemented tarball-installation
+check and its package-manager limits.
+
 ## Planned workflow
 
 ```bash title="Find reusable UI"
@@ -85,8 +88,8 @@ links needed by an agent or test.
 
 ## Proof required before Phase 2
 
-The packed CLI must run in a realistic Next.js fixture. Golden tests must match component, prop,
-usage, alias, workspace, Tailwind, Storybook, and shadcn evidence. A controlled benchmark must show
+The packed CLI runs in a realistic Next.js fixture. Golden tests must match component, prop, usage,
+alias, workspace, Tailwind, Storybook, and shadcn evidence. A controlled benchmark must still show
 more appropriate reuse without increasing inappropriate reuse. Context size and every test input are
 recorded with the result.
 

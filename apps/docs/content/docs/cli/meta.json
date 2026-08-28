@@ -1,4 +1,4 @@
 {
   "title": "CLI",
-  "pages": ["index", "init"]
+  "pages": ["index", "init", "packed-consumer"]
 }

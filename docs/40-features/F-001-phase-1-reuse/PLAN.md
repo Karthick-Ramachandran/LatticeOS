@@ -4,8 +4,8 @@
 
 Deliver Reuse as vertical, independently testable slices. Every slice keeps core framework-neutral,
 treats consumer repositories as untrusted data, emits deterministic evidence, and updates durable
-memory. The CLI is introduced early enough to exercise real user workflows, but support claims are
-held until packed-consumer fixtures and the benchmark pass.
+memory. The CLI is introduced early enough to exercise real user workflows, but Phase 1 release
+claims wait for the packed-consumer proof and benchmark to pass.
 
 1. Approve product scope, measurable acceptance, module boundaries, security posture, and the nine
    Reuse-critical ADRs.
@@ -18,7 +18,8 @@ held until packed-consumer fixtures and the benchmark pass.
 7. Implement generated-index lifecycle and `lattice init/search/inspect/context` human and JSON
    workflows.
 8. Harden path/file-write security, malformed input, deterministic output, and performance bounds.
-9. Pack the artifact into a clean Next.js fixture and run the controlled Reuse benchmark.
+9. Keep the passing packed-artifact test in the clean Next.js fixture and run the controlled Reuse
+   benchmark.
 10. Complete cross-boundary review, quality gates, Persist validation, and release evidence.
 
 ## Boundaries

@@ -19,6 +19,8 @@ model preferences.
 - With `exactOptionalPropertyTypes`, omit an optional field when it has no value. Passing
   `property: undefined` breaks assignment to a contract where `property?: string` means an omitted
   string only.
+- npm can still read workspace members that use `workspace:*` when the root declares workspaces; the
+  packed-consumer test removes that field only in its temporary install copy and restores it before analysis.
 # 2026-08-29 — Node-backed adapter packages need the established local test boundary
 
 When a placeholder adapter starts using Node APIs, copy the React/Tailwind adapter's `types: ["node"]`,
