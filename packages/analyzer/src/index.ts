@@ -13,6 +13,14 @@ export {
 } from "./shadcn-project.js";
 export type { AnalyzeShadcnProjectOptions, ShadcnProjectAnalysis } from "./shadcn-project.js";
 export {
+  DEFAULT_MAX_STORYBOOK_DIAGNOSTICS,
+  DEFAULT_MAX_STORYBOOK_MANIFEST_BYTES,
+  HARD_MAX_STORYBOOK_DIAGNOSTICS,
+  HARD_MAX_STORYBOOK_MANIFEST_BYTES,
+  analyzeStorybookProjectFromDiscovery,
+} from "./storybook-project.js";
+export type { AnalyzeStorybookProjectOptions, StorybookProjectAnalysis } from "./storybook-project.js";
+export {
   DEFAULT_MAX_REACT_DIAGNOSTICS,
   DEFAULT_MAX_REACT_SOURCE_BYTES,
   DEFAULT_MAX_REACT_SOURCE_FILES,

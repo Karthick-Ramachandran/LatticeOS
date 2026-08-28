@@ -8,9 +8,8 @@
 
 ## Integration Tests
 
-- React, Tailwind, and shadcn bridges plus their direct-adapter goldens cover the named consumer
-  fixture. Full in-memory index assembly also has a named consumer golden. Storybook integration
-  remains later Phase 1 work.
+- React, Tailwind, shadcn, and Storybook bridges plus their direct-adapter goldens cover the named
+  consumer fixture. Full in-memory index assembly also has a named consumer golden.
 
 ## Security Tests
 
@@ -27,3 +26,6 @@
 - shadcn bridge tests prove a valid static alias attaches registry evidence, absent or malformed config
   leaves a valid React-backed index, config byte limits leave React components usable, and the shared
   Reuse index keeps evidence links deterministic.
+- Storybook bridge tests prove the fixed generated-manifest read, normal discovery exclusion, resolved
+  import mapping, absent and malformed optional evidence, byte limits, no content leaks, and a valid
+  combined index.

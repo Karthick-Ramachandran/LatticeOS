@@ -10,6 +10,7 @@ import {
   INITIAL_LATTICE_CONFIG_CONTENT,
   LATTICE_CONFIG_PATH,
   RepositoryRoot,
+  STORYBOOK_COMPONENTS_MANIFEST_PATH,
   isDefaultExcluded,
 } from "./repository-root.js";
 
@@ -103,6 +104,7 @@ test("known dependency, generated, VCS, cache, report, and secret paths are excl
     ".git/config",
     ".lattice/cache/reuse-index.json",
     ".next/server/app.js",
+    "storybook-static/manifests/components.json",
     "coverage/index.html",
     ".env.local",
     ".npmrc",
@@ -111,6 +113,33 @@ test("known dependency, generated, VCS, cache, report, and secret paths are excl
   }
   assert.equal(isDefaultExcluded(".lattice/config.json"), false);
   assert.equal(isDefaultExcluded("src/button.tsx"), false);
+});
+
+test("reads only the fixed Storybook components manifest outside ordinary discovery", async () => {
+  const rootPath = await temporaryRepository();
+  await mkdir(join(rootPath, "storybook-static", "manifests"), { recursive: true });
+  await writeFile(join(rootPath, STORYBOOK_COMPONENTS_MANIFEST_PATH), '{"components":{}}\n', "utf8");
+  const root = await RepositoryRoot.open(rootPath);
+
+  await assert.rejects(
+    root.readText(STORYBOOK_COMPONENTS_MANIFEST_PATH),
+    (error: unknown) => error instanceof AnalyzerError && error.code === "PATH_EXCLUDED",
+  );
+  assert.equal(await root.readStorybookComponentsManifest(), '{"components":{}}\n');
+  assert.equal((await root.listFiles()).files.includes(STORYBOOK_COMPONENTS_MANIFEST_PATH), false);
+});
+
+test("rejects a Storybook manifest path that links to excluded data", async () => {
+  const rootPath = await temporaryRepository();
+  await mkdir(join(rootPath, "storybook-static", "manifests"), { recursive: true });
+  await writeFile(join(rootPath, ".env"), "TOKEN=not-for-output\n", "utf8");
+  await symlink(join(rootPath, ".env"), join(rootPath, STORYBOOK_COMPONENTS_MANIFEST_PATH));
+  const root = await RepositoryRoot.open(rootPath);
+
+  await assert.rejects(
+    root.readStorybookComponentsManifest(),
+    (error: unknown) => error instanceof AnalyzerError && error.code === "STORYBOOK_MANIFEST_SYMLINK",
+  );
 });
 
 test("committed LatticeOS configuration is readable while generated state stays excluded", async () => {

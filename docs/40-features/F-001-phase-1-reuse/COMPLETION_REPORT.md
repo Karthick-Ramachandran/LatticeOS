@@ -5,7 +5,7 @@
 Phase 1 is not complete. T2 core, T3 safe project and React analysis, the Tailwind project bridge,
 direct Tailwind analysis, deterministic in-memory Reuse index assembly, generated cache, and CLI
 initialization/query surface are implemented. Static shadcn configured-source evidence is also
-implemented.
+implemented, along with bounded local Storybook manifest evidence.
 
 ## Files Changed
 
@@ -21,29 +21,35 @@ implemented.
 - `packages/adapters/shadcn`: static `components.json` alias parsing, configured source-tree mapping,
   corroborating registry evidence, direct golden generation, and tests. It does not read consumer
   paths or call a registry.
+- `packages/adapters/storybook`: bounded local components-manifest parsing, import-backed component
+  mapping, corroborating story evidence, direct golden generation, and tests. It does not read
+  consumer paths, start Storybook, or copy snippets into the index.
 - `packages/analyzer`: `analyzeTailwindProject` admits bounded Tailwind configuration, CSS, and
   source text through `RepositoryRoot`, then calls the direct adapter without executing config.
 - `packages/analyzer`: `analyzeShadcnProjectFromDiscovery` admits bounded `components.json` text,
   passes direct root aliases plus normalized React components to the direct adapter, and merges its
   evidence into the Reuse index.
+- `packages/analyzer`: `analyzeStorybookProjectFromDiscovery` reads only the fixed built-manifest
+  path after Storybook detection. General discovery excludes generated Storybook output, and the
+  dedicated reader rejects symlinks in the fixed path.
 - `fixtures/next-workspace` and `fixtures/goldens`: named project-detection, React, Tailwind, and
-  shadcn evidence.
+  shadcn and Storybook evidence.
 - `apps/docs`: Reuse index, safe project-discovery, React-analysis, Tailwind-analysis, and shadcn
-  static-evidence guides with copy-ready prompts.
+  static-evidence guides, plus the Storybook manifest guide, with copy-ready prompts.
 - Root contributor, security, license, README, and LLM guidance.
 - Feature, module, engineering, review, and lesson memory under `docs/`.
 
 ## Tests Run
 
 - `pnpm test:run`: 3 docs tests, 17 core tests, 2 React adapter tests, 2 Tailwind adapter tests,
-  3 shadcn adapter tests, 31 analyzer tests, and 4 CLI tests passed.
+  3 shadcn adapter tests, 2 Storybook adapter tests, 35 analyzer tests, and 4 CLI tests passed.
 - `pnpm typecheck`: all eight implementation workspaces passed.
-- `pnpm build`: all implementation packages built and the docs app generated 34 routes.
+- `pnpm build`: all implementation packages built and the docs app generated 36 routes.
 - `pnpm test:package`: passed. No package-specific consumer smoke script is registered yet; that is
   an explicit later Phase 1 gate.
-- `pnpm docs:check`: content validation, docs tests, typecheck, and the 34-route production build
+- `pnpm docs:check`: content validation, docs tests, typecheck, and the 36-route production build
   passed.
-- `persist doctor`: passed; Persist OS found two feature folders, five module folders, and 15 ADRs.
+- `persist doctor`: passed; Persist OS found two feature folders, five module folders, and 16 ADRs.
 
 ## Results
 
@@ -69,8 +75,16 @@ implemented.
 - The shadcn bridge admits no more than 20 config files or 1 MiB by default. A config-byte limit
   leaves React components usable and returns a bounded diagnostic. The Reuse index golden resolves
   each new registry evidence ID to its `components.json` source location and limitation.
+- Static Storybook analysis matches its named fixture golden. It reads the current tested subset of
+  the local built components manifest and attaches a story only through a matching non-type-only
+  resolved React import. It does not retain snippets, documentation text, props, imports, or absolute
+  paths from the manifest.
+- The Storybook bridge reads only `storybook-static/manifests/components.json` and caps it at 1 MiB
+  by default. General discovery excludes the generated static directory. The fixed reader rejects
+  symlinks at every segment, including a symlink to an in-root excluded secret. Missing, malformed,
+  unmapped, and oversized optional evidence leaves React and shadcn output usable with diagnostics.
 - `analyzeProject` builds one validated deterministic Reuse index from a shared discovery pass and
-  the React, Tailwind, and shadcn bridges. Its named golden proves evidence links, repeat
+  the React, Tailwind, shadcn, and Storybook bridges. Its named golden proves evidence links, repeat
   serialization, and valid partial output after a configured source cap.
 - Cache reads return only a valid index hit, a missing state, or an invalid state that callers rebuild.
   Cache writes atomically replace only `.lattice/cache/reuse-index.json` after core validation.
@@ -84,9 +98,12 @@ implemented.
 
 ## Remaining Risks
 
-- Storybook manifest evidence, packed CLI proof, and the benchmark are not complete.
+- Packed CLI proof and the benchmark are not complete.
 - Package-local tsconfig, tsconfig `extends`, multi-step aliases, and more than one shadcn wildcard
   remain unsupported until fixtures and security review define a wider boundary.
+- Storybook's rich components manifest is a preview API. Custom output directories, development
+  server access, ref formats, and wider fields remain unsupported until fixtures and review define a
+  wider boundary.
 - Cross-platform packed tests must assess the documented filesystem race and `O_NOFOLLOW`
   differences.
 - Phase 1 cannot be released until AC-01 through AC-17 and every quality gate pass together.

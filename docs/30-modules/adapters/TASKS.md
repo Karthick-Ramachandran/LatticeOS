@@ -21,5 +21,7 @@
 - Done: Implement static shadcn configured-source evidence. A supported `aliases.ui` value maps
   bounded React components through repository-relative, exact, or one-wildcard direct root aliases.
   It adds corroborating registry records with a named adapter golden and analyzer index golden.
-- Todo: Implement Storybook evidence from a stable local manifest without parsing or executing
-  Storybook configuration.
+- Done: Implement bounded Storybook components-manifest evidence at the fixed local build path. A
+  manifest component maps only through a non-type-only resolved React story import with a matching
+  display name. Direct tests cover mapping, malformed and unmapped data, type-only imports, limits,
+  and a named golden.

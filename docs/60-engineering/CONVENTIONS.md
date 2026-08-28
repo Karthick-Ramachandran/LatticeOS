@@ -19,6 +19,10 @@ than inventing parallel models or helpers.
 - `analyzeShadcn` and `analyzeShadcnProjectFromDiscovery` are the only configured shadcn source-tree
   mapper. They reuse normalized React components and attach corroborating `registry` evidence rather
   than inventing a registry component model.
+- `STORYBOOK_COMPONENTS_MANIFEST_PATH`, `RepositoryRoot.readStorybookComponentsManifest`,
+  `analyzeStorybook`, and `analyzeStorybookProjectFromDiscovery` are the only Storybook manifest
+  path and mapper. They require a resolved React story import and matching display name before they
+  attach corroborating `story` evidence.
 - CLI JSON envelopes use the schema/version helpers in `packages/core`.
 - Test repositories live under `fixtures/`; reusable fixture builders live with analyzer tests.
 - Feature guides and copy-ready Agent prompts use the shared templates in `apps/docs/content/templates`.

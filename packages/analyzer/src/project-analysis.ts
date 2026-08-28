@@ -25,10 +25,15 @@ import {
   type AnalyzeShadcnProjectOptions,
   type ShadcnProjectAnalysis,
 } from "./shadcn-project.js";
+import {
+  analyzeStorybookProjectFromDiscovery,
+  type AnalyzeStorybookProjectOptions,
+  type StorybookProjectAnalysis,
+} from "./storybook-project.js";
 
 const DEFAULT_GENERATOR_VERSION = "0.0.0-dev";
 
-export interface AnalyzeProjectOptions extends AnalyzeReactProjectOptions, AnalyzeTailwindProjectOptions, AnalyzeShadcnProjectOptions {
+export interface AnalyzeProjectOptions extends AnalyzeReactProjectOptions, AnalyzeTailwindProjectOptions, AnalyzeShadcnProjectOptions, AnalyzeStorybookProjectOptions {
   readonly generatorVersion?: string;
 }
 
@@ -37,6 +42,7 @@ export interface BuildReuseIndexInput {
   readonly react: ReactProjectAnalysis["analysis"];
   readonly tailwind: TailwindProjectAnalysis["analysis"];
   readonly shadcn?: ShadcnProjectAnalysis["analysis"];
+  readonly storybook?: StorybookProjectAnalysis["analysis"];
   readonly generatorVersion?: string;
 }
 
@@ -76,8 +82,9 @@ function mergeDiagnostics(
   react: readonly AnalysisDiagnostic[],
   tailwind: readonly AnalysisDiagnostic[],
   shadcn: readonly AnalysisDiagnostic[],
+  storybook: readonly AnalysisDiagnostic[],
 ): AnalysisDiagnostic[] {
-  return [...discovery, ...react, ...tailwind, ...shadcn];
+  return [...discovery, ...react, ...tailwind, ...shadcn, ...storybook];
 }
 
 export function buildReuseIndex(input: BuildReuseIndexInput): ReuseIndex {
@@ -86,7 +93,7 @@ export function buildReuseIndex(input: BuildReuseIndexInput): ReuseIndex {
     generator: { name: "lattice", version: resolveGeneratorVersion(input.generatorVersion) },
     project: input.discovery.project,
     packages: input.discovery.packages,
-    components: input.shadcn?.components ?? input.react.components,
+    components: input.storybook?.components ?? input.shadcn?.components ?? input.react.components,
     imports: input.react.imports,
     usages: input.react.usages,
     tailwind: input.tailwind.tailwind,
@@ -95,12 +102,14 @@ export function buildReuseIndex(input: BuildReuseIndexInput): ReuseIndex {
       ...input.react.evidence,
       ...input.tailwind.evidence,
       ...(input.shadcn?.evidence ?? []),
+      ...(input.storybook?.evidence ?? []),
     ]),
     diagnostics: mergeDiagnostics(
       input.discovery.diagnostics,
       input.react.diagnostics,
       input.tailwind.diagnostics,
       input.shadcn?.diagnostics ?? [],
+      input.storybook?.diagnostics ?? [],
     ),
   });
   assertReuseIndex(index);
@@ -112,14 +121,16 @@ export async function analyzeProject(root: RepositoryRoot, options: AnalyzeProje
   const react = await analyzeReactProjectFromDiscovery(root, discovery, options);
   const tailwind = await analyzeTailwindProjectFromDiscovery(root, discovery, options);
   const shadcn = await analyzeShadcnProjectFromDiscovery(root, discovery, react, options);
+  const storybook = await analyzeStorybookProjectFromDiscovery(root, discovery, react, shadcn.analysis.components, options);
   return {
     index: buildReuseIndex({
       discovery,
       react: react.analysis,
       tailwind: tailwind.analysis,
       shadcn: shadcn.analysis,
+      storybook: storybook.analysis,
       ...(options.generatorVersion !== undefined ? { generatorVersion: options.generatorVersion } : {}),
     }),
-    truncated: react.truncated || tailwind.truncated || shadcn.truncated,
+    truncated: react.truncated || tailwind.truncated || shadcn.truncated || storybook.truncated,
   };
 }

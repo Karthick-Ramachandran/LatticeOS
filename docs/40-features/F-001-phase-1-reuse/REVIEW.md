@@ -3,8 +3,8 @@
 ## Status
 
 In progress. The T2 core, T3 discovery and React bridge, direct and bridged Tailwind analysis,
-static shadcn evidence, generated writes, and CLI behavior were reviewed on 2026-08-29. Storybook
-evidence, packaging, and the benchmark still require review.
+static shadcn and Storybook evidence, generated writes, and CLI behavior were reviewed on
+2026-08-29. Packaging and the benchmark still require review.
 
 ## Findings
 
@@ -131,7 +131,7 @@ No blocker was found in the ADR-0015 shadcn slice.
   shared index validation, deterministic goldens, and bounded config admission.
 
 Package-local tsconfig, `extends`, multi-step aliases, and more than one wildcard remain unsupported
-until fixtures and review define a wider boundary. Storybook remains separate optional work.
+until fixtures and review define a wider boundary.
 
 ### shadcn conventions review
 
@@ -146,13 +146,49 @@ No convention finding was raised in the final pass.
   validated `ReuseIndex`. The source-evidence boundary is recorded in `CONVENTIONS.md` because it is
   now the canonical shadcn mapping path.
 
+### Storybook manifest security review
+
+No blocker remains in the ADR-0016 Storybook slice.
+
+- The adapter receives bounded manifest text, normalized components, and normalized imports only. It
+  parses JSON data with no filesystem, network, dev-server, registry, MCP, telemetry, cloud, AI API,
+  child-process, dynamic-evaluation, or source-execution path. It adds no dependency.
+- General discovery excludes `storybook-static`, so generated assets cannot enter React or Tailwind
+  analysis. `RepositoryRoot` permits one explicit read of
+  `storybook-static/manifests/components.json`, validates containment and size, and rejects symlinks
+  on every segment of that fixed path. It cannot receive a caller-controlled manifest location.
+- The adapter ignores arbitrary manifest descriptions, snippets, imports, props, and absolute paths.
+  A story attaches only when its repository-relative CSF path has a non-type-only resolved React
+  import whose component display name matches the manifest entry. The record is corroborating, not a
+  rendered-output or semantic claim.
+- Tests cover generated-directory exclusion, fixed-path-only admission, an in-root secret symlink,
+  byte bounds, absence, malformed and unmapped data, type-only imports, no content leaks, stable
+  goldens, and valid combined Reuse output.
+
+Storybook marks its current rich components manifest as preview. LatticeOS supports the documented
+fixture subset only. Custom output directories, dev-server access, ref formats, and wider manifest
+fields require a new fixture and review.
+
+### Storybook conventions review
+
+No convention finding was raised in the final pass.
+
+- `STORYBOOK_COMPONENTS_MANIFEST_PATH` and its dedicated `RepositoryRoot` reader are the only
+  generated-output exception. They do not create a generic excluded-file reader.
+- `analyzeStorybook` and `analyzeStorybookProjectFromDiscovery` follow the adapter and analyzer
+  naming rules and reuse normalized `UiComponent`, `UiImport`, `EvidenceRecord`, and
+  `AnalysisDiagnostic` contracts.
+- The mapping retains established evidence policy: it uses corroborating `story` records, requires
+  an inspectable source link, sorts output, and does not introduce a separate Storybook component
+  model. `CONVENTIONS.md` records the canonical boundary.
+
 ### In-memory Reuse index assembly security review
 
 No blocker was found in the read-only index assembly slice.
 
 - `analyzeProject` performs discovery once and passes that same bounded result to the React,
-  Tailwind, and shadcn bridges. It does not add a filesystem, write, network, telemetry, cloud, MCP,
-  child-process, or dynamic-evaluation path.
+  Tailwind, shadcn, and Storybook bridges. It does not add a filesystem write, network, telemetry,
+  cloud, MCP, child-process, or dynamic-evaluation path.
 - `buildReuseIndex` accepts normalized discovery and adapter outputs only. It sorts and validates the
   complete core contract before return. A conflicting evidence ID stops assembly rather than allowing
   one adapter to overwrite another record.

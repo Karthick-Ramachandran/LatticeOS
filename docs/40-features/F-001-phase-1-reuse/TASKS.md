@@ -117,7 +117,12 @@ Evidence to date:
 - `analyzeShadcnProjectFromDiscovery` admits at most 20 config files and 1 MiB of total config text
   by default, then merges matching registry evidence into the Reuse index. It has bridge bounds and
   named index-golden coverage.
-- Storybook manifest evidence remains in progress.
+- `@latticeos/adapter-storybook` reads the current fixture subset of the built local components
+  manifest. It maps a story only through a resolved non-type-only React import and a matching display
+  name, then adds corroborating story evidence.
+- `analyzeStorybookProjectFromDiscovery` reads only the fixed local manifest path with a 1 MiB
+  default bound. Generated Storybook output stays excluded from normal discovery, malformed or
+  unmappable input stays bounded, and the combined Reuse index golden proves the evidence link.
 
 ## T5: Deliver Reuse CLI Workflows
 
@@ -139,9 +144,9 @@ Tests:
 
 Evidence to date:
 
-- `analyzeProject` calls project detection once, combines bounded React, Tailwind, and shadcn bridge
-  evidence, validates the schema-versioned Reuse index, rejects conflicting evidence IDs, and reports
-  a valid partial index when an adapter cap is reached.
+- `analyzeProject` calls project detection once, combines bounded React, Tailwind, shadcn, and
+  Storybook bridge evidence, validates the schema-versioned Reuse index, rejects conflicting
+  evidence IDs, and reports a valid partial index when an adapter cap is reached.
 - `readReuseIndex` and `writeReuseIndex` safely rebuild the exact generated cache path when state is
   missing, malformed, oversized, or incompatible. Atomic replacement and symlink refusal have
   focused tests.

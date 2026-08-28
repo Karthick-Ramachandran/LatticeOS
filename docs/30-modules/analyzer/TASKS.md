@@ -25,5 +25,8 @@
 - Done: Admit bounded shadcn configuration through `RepositoryRoot`, map supported static UI aliases
   to existing React components, and merge corroborating registry evidence into the Reuse index. The
   bridge has config-byte and file limits plus direct and index goldens.
+- Done: Exclude generated `storybook-static` output from discovery and read only its fixed components
+  manifest through a dedicated bounded root method. The bridge maps import-backed stories, leaves
+  React/shadcn output usable when optional evidence fails, and has bounds plus index-golden coverage.
 - Todo: Extend TypeScript project support beyond direct root compiler options only when fixtures and
   a security review prove the additional configuration boundary.

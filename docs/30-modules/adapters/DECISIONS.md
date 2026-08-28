@@ -11,3 +11,4 @@ Record durable module decisions here.
 - [ADR-0012](../../adrs/ADR-0012-static-source-evidence-extraction-method.md)
 - [ADR-0013](../../adrs/ADR-0013-tailwind-class-bundle-occurrence-representation.md)
 - [ADR-0015](../../adrs/ADR-0015-static-shadcn-configuration-evidence-mapping.md)
+- [ADR-0016](../../adrs/ADR-0016-bounded-storybook-manifest-evidence.md)

@@ -15,6 +15,7 @@ export const HARD_MAX_DEPTH = 100;
 export const HARD_MAX_DIRECTORY_ENTRIES = 100_000;
 export const REUSE_INDEX_CACHE_PATH = ".lattice/cache/reuse-index.json";
 export const LATTICE_CONFIG_PATH = ".lattice/config.json";
+export const STORYBOOK_COMPONENTS_MANIFEST_PATH = "storybook-static/manifests/components.json";
 export const INITIAL_LATTICE_CONFIG_CONTENT = '{\n  "schemaVersion": 1\n}\n';
 
 const excludedDirectoryNames = new Set([
@@ -30,6 +31,7 @@ const excludedDirectoryNames = new Set([
   "dist",
   "build",
   "out",
+  "storybook-static",
 ]);
 
 const excludedFileNames = new Set([
@@ -128,7 +130,10 @@ export class RepositoryRoot {
     return new RepositoryRoot(canonical);
   }
 
-  private async resolveExistingPath(repositoryPath: string): Promise<{ requested: RepositoryPath; canonical: string }> {
+  private async resolveExistingPath(
+    repositoryPath: string,
+    allowDefaultExcluded = false,
+  ): Promise<{ requested: RepositoryPath; canonical: string }> {
     let normalized: RepositoryPath;
     try {
       normalized = normalizeRepositoryPath(repositoryPath);
@@ -138,7 +143,7 @@ export class RepositoryRoot {
         error instanceof Error ? error.message : "Repository path is invalid",
       );
     }
-    if (isDefaultExcluded(normalized)) {
+    if (!allowDefaultExcluded && isDefaultExcluded(normalized)) {
       throw new AnalyzerError("PATH_EXCLUDED", `Repository path is excluded: ${normalized}`, normalized);
     }
 
@@ -310,14 +315,18 @@ export class RepositoryRoot {
     }
   }
 
-  async readText(repositoryPath: string, maxBytes = DEFAULT_MAX_FILE_BYTES): Promise<string> {
+  private async readTextInternal(
+    repositoryPath: string,
+    maxBytes: number,
+    allowDefaultExcluded: boolean,
+  ): Promise<string> {
     if (!Number.isInteger(maxBytes) || maxBytes < 1 || maxBytes > HARD_MAX_FILE_BYTES) {
       throw new AnalyzerError(
         "BOUND_INVALID",
         `Maximum read size must be an integer between 1 and ${HARD_MAX_FILE_BYTES}`,
       );
     }
-    const resolved = await this.resolveExistingPath(repositoryPath);
+    const resolved = await this.resolveExistingPath(repositoryPath, allowDefaultExcluded);
     let handle;
     try {
       const noFollow = typeof constants.O_NOFOLLOW === "number" ? constants.O_NOFOLLOW : 0;
@@ -359,6 +368,36 @@ export class RepositoryRoot {
     } finally {
       await handle?.close();
     }
+  }
+
+  async readText(repositoryPath: string, maxBytes = DEFAULT_MAX_FILE_BYTES): Promise<string> {
+    return this.readTextInternal(repositoryPath, maxBytes, false);
+  }
+
+  async readStorybookComponentsManifest(maxBytes = DEFAULT_MAX_FILE_BYTES): Promise<string> {
+    let target = this.absolutePath;
+    for (const segment of STORYBOOK_COMPONENTS_MANIFEST_PATH.split("/")) {
+      target = join(target, segment);
+      let metadata;
+      try {
+        metadata = await lstat(target);
+      } catch (error) {
+        if (errorCode(error) === "ENOENT") return this.readTextInternal(STORYBOOK_COMPONENTS_MANIFEST_PATH, maxBytes, true);
+        throw new AnalyzerError(
+          "STORYBOOK_MANIFEST_UNREADABLE",
+          "Storybook components manifest could not be inspected safely.",
+          STORYBOOK_COMPONENTS_MANIFEST_PATH,
+        );
+      }
+      if (metadata.isSymbolicLink()) {
+        throw new AnalyzerError(
+          "STORYBOOK_MANIFEST_SYMLINK",
+          "Storybook components manifest path cannot contain a symbolic link.",
+          STORYBOOK_COMPONENTS_MANIFEST_PATH,
+        );
+      }
+    }
+    return this.readTextInternal(STORYBOOK_COMPONENTS_MANIFEST_PATH, maxBytes, true);
   }
 
   async readReuseIndexCache(maxBytes = HARD_MAX_FILE_BYTES): Promise<string> {

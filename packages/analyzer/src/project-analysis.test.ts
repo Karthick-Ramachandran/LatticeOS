@@ -26,6 +26,11 @@ test("builds one validated deterministic Reuse index from shared project discove
       .find((component) => component.displayName === "Button")
       ?.evidenceIds.some((id) => id.startsWith("ev:shadcn:registry:")),
   );
+  assert.ok(
+    first.index.components
+      .find((component) => component.displayName === "Button")
+      ?.evidenceIds.some((id) => id.startsWith("ev:storybook:story:")),
+  );
   assert.ok(first.index.tailwind.tokens.some((token) => token.name === "--color-brand"));
   assert.ok(first.index.tailwind.repeatedClassBundles.some((bundle) => bundle.count === 2));
   assert.equal(

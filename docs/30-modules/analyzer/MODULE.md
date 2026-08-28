@@ -18,8 +18,9 @@ orchestrating adapters, recording diagnostics, and managing generated state.
 
 - Implemented: `RepositoryRoot.open`, confined `readText`, bounded `listFiles`, default exclusions,
   `detectProject`, `analyzeReactProject`, `analyzeTailwindProject`,
-  `analyzeShadcnProjectFromDiscovery`, `analyzeProject`, `buildReuseIndex`, `readReuseIndex`,
-  `writeReuseIndex`, `inspectLatticeConfig`, and `writeInitialLatticeConfig`.
+  `analyzeShadcnProjectFromDiscovery`, `analyzeStorybookProjectFromDiscovery`, `analyzeProject`,
+  `buildReuseIndex`, `readReuseIndex`, `writeReuseIndex`, `inspectLatticeConfig`, and
+  `writeInitialLatticeConfig`.
 
 ## Boundaries
 
@@ -47,8 +48,15 @@ constructs a complete Reuse index.
 adapter, and returns corroborating registry evidence. It does not execute configuration, read a
 registry, or block React output when optional config is absent, malformed, or unsupported.
 
+`analyzeStorybookProjectFromDiscovery` reads only the fixed
+`storybook-static/manifests/components.json` path through a dedicated bounded root method.
+`storybook-static` remains excluded from ordinary discovery. The bridge passes the text, normalized
+components, and React imports to the adapter. It does not start Storybook, access a development
+server, execute configuration, or let an arbitrary manifest path become analyzer input.
+
 `analyzeProject` discovers once, passes that result to all implemented bridges, and returns a
-validated, sorted `ReuseIndex` plus a truncation flag. `buildReuseIndex` is the pure assembly operation. It accepts
+validated, sorted `ReuseIndex` plus a truncation flag. `buildReuseIndex` is the pure assembly
+operation. It accepts
 only normalized discovery and adapter results, rejects conflicting evidence IDs, and does not write
 cache or report state.
 

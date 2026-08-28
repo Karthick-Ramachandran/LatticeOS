@@ -6,7 +6,8 @@
         "displayName": "Button",
         "evidenceIds": [
           "ev:react:export:5d164be9fb1eae89b199",
-          "ev:shadcn:registry:70a705c0afb3ff74e332"
+          "ev:shadcn:registry:70a705c0afb3ff74e332",
+          "ev:storybook:story:2ced11150ed0ead9ead1"
         ],
         "exportKey": "Button",
         "id": "react:@fixture/ui:packages/ui/src/button.tsx#Button",
@@ -937,6 +938,22 @@
           "path": "components.json"
         },
         "method": "static-config"
+      },
+      {
+        "classification": "corroborating",
+        "fingerprint": "sha256:db9ce91bc35152d1291d226c0c9c3d2129d49bc7351ba2fc0a00711a87fd8966",
+        "id": "ev:storybook:story:2ced11150ed0ead9ead1",
+        "kind": "story",
+        "limitations": [
+          "The generated manifest corroborates that this component has a named Storybook example.",
+          "The manifest does not prove rendered output, runtime behavior, semantic intent, or reuse suitability."
+        ],
+        "location": {
+          "column": 1,
+          "line": 1,
+          "path": "storybook-static/manifests/components.json"
+        },
+        "method": "manifest"
       },
       {
         "classification": "heuristic",

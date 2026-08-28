@@ -33,11 +33,10 @@ Use the Persist CLI for new feature memory and decisions as AGENTS.md requires.
 - packages/core: schema version 1, stable component IDs, validation, deterministic JSON, lexical
   evidence-backed ranking, ambiguity, and bounded context.
 - packages/analyzer: confined repository reads, exclusions, bounds, workspace packages, static tool
-  detection, React/Tailwind/shadcn bridge orchestration, deterministic Reuse index assembly,
+  detection, React/Tailwind/shadcn/Storybook bridge orchestration, deterministic Reuse index assembly,
   generated cache lifecycle, and the fixed initialization-config writer are implemented.
-- packages/adapters: React component analysis, static Tailwind token/class evidence, and static
-  shadcn configured-source evidence are implemented. Storybook manifest evidence remains Phase 1
-  work.
+- packages/adapters: React component analysis, static Tailwind token/class evidence, static shadcn
+  configured-source evidence, and bounded local Storybook manifest evidence are implemented.
 - packages/cli: source-tested `init`, `search`, `inspect`, and `context` commands are implemented.
   The package is not published and packed-consumer proof is still required.
 
@@ -50,6 +49,7 @@ the package is published.
 - Public guide and complete Agent prompt: apps/docs/content/docs/features/phase-1-reuse.mdx
 - Safe CLI initialization: apps/docs/content/docs/cli/init.mdx
 - shadcn static evidence: apps/docs/content/docs/features/shadcn-static-evidence.mdx
+- Storybook manifest evidence: apps/docs/content/docs/features/storybook-manifest-evidence.mdx
 - Core index reference: apps/docs/content/docs/reference/reuse-index.mdx
 - Evidence policy: apps/docs/content/docs/reference/evidence-model.mdx
 - Agent documentation contract: apps/docs/content/docs/contributing/agent-ready-documentation.mdx

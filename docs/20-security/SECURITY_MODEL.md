@@ -18,6 +18,8 @@ Phase 1 has no server, account, cloud service, telemetry, MCP runtime, or AI API
 - Never execute analyzed repository source or JavaScript/TypeScript configuration.
 - Resolve every read and write against the selected repository root and reject escaping symlinks.
 - Exclude dependency, VCS, generated build, coverage, secret, and LatticeOS cache paths by default.
+- Exclude generated Storybook static output from normal discovery. A separate bounded read may access
+  only `storybook-static/manifests/components.json` after Storybook detection.
 
 ## Authentication And Authorization
 

@@ -1,4 +1,4 @@
 {
   "title": "Features",
-  "pages": ["phase-1-reuse", "project-discovery", "react-component-analysis", "tailwind-static-analysis", "shadcn-static-evidence", "reuse-index-assembly", "reuse-index-cache"]
+  "pages": ["phase-1-reuse", "project-discovery", "react-component-analysis", "tailwind-static-analysis", "shadcn-static-evidence", "storybook-manifest-evidence", "reuse-index-assembly", "reuse-index-cache"]
 }
