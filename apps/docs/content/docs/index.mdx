@@ -1,0 +1,30 @@
+---
+title: LatticeOS
+description: Find and reuse the UI your repository already has.
+---
+
+LatticeOS gives coding agents evidence about existing React components, real usage sites, props,
+stories, installed registry components, and repeated Tailwind structures before they write new UI.
+
+<Callout title="Current build" type="info">
+  Phase 1 Reuse is in progress. The docs say what is implemented and what is still planned. Figma and
+  visual convergence stay out of the build until Reuse passes its benchmark.
+</Callout>
+
+## Start here
+
+- [Read the Phase 1 Reuse guide](/docs/features/phase-1-reuse)
+- [Understand the evidence model](/docs/reference/evidence-model)
+- [See the planned CLI](/docs/cli)
+- [Copy the full implementation prompt](/docs/features/phase-1-reuse#agent-implementation-prompt)
+
+## What good evidence looks like
+
+A result should tell you which component it found, where it is exported, which props are documented
+by source, where the repository already uses it, and why it ranked for the task. If analysis cannot
+prove a fact, the output labels the limit instead of filling the gap with a guess.
+
+This structure is deliberate. Storybook asks agents to verify documented props and stories before
+using a component. Figma Code Connect links design components to real code paths and usage guidance.
+shadcn registries expose concrete component records. Next.js ships version-matched docs for agents.
+LatticeOS applies the same evidence-first idea to the repository as a whole.

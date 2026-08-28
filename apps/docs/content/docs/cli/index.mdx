@@ -1,0 +1,19 @@
+---
+title: CLI
+description: The planned public lattice command surface.
+---
+
+The public command is `lattice`. These commands are planned and are not released yet.
+
+```text title="Phase 1 commands"
+lattice init
+lattice search <query>
+lattice inspect <id-or-name>
+lattice context <task>
+```
+
+Analysis commands support `--json`. Global options will include `--root`, `--help`, and `--version`.
+The JSON contract is versioned and deterministic. Human output and JSON describe the same result.
+
+`lattice init` uses a dry-run-capable plan, skips existing files, and requires explicit `--force` to
+replace a LatticeOS-owned file. It never writes application source.

@@ -1,0 +1,27 @@
+---
+title: Getting started
+description: Run the documentation site while Phase 1 is being built.
+---
+
+The `lattice` CLI is not released yet. You can run the documentation site and inspect the accepted
+requirements now.
+
+```bash title="Repository setup"
+pnpm install
+pnpm docs:dev
+```
+
+Open [http://localhost:3000/docs](http://localhost:3000/docs).
+
+Before changing implementation, read `AGENTS.md` and the repository memory it names. The active
+feature is `docs/40-features/F-001-phase-1-reuse/`.
+
+## Check the docs
+
+```bash title="Documentation gates"
+pnpm docs:check
+persist doctor
+```
+
+`docs:check` validates feature coverage and Agent prompt shape, runs docs tests and type checking,
+then builds the production site.

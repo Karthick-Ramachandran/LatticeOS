@@ -1,0 +1,19 @@
+node_modules/
+.pnpm-store/
+.DS_Store
+
+# Build and test output
+dist/
+coverage/
+*.tsbuildinfo
+apps/docs/.next/
+apps/docs/.source/
+
+# Reconstructable LatticeOS state
+.lattice/cache/
+.lattice/reports/
+
+# Consumer secrets are never project input
+.env
+.env.*
+!.env.example
