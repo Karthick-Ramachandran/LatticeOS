@@ -7,4 +7,5 @@ model preferences.
 
 ## Lessons
 
-- (none yet) Record the first lesson when one is learned.
+- Fumadocs generated server collections are imported from `.source/server`, not `.source`; keep docs
+  typechecking in the gate so a version-specific generated API mismatch fails before deployment.

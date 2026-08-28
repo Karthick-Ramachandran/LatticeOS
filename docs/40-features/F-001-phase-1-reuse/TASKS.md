@@ -1,21 +1,130 @@
 # Tasks: Phase 1 Reuse
 
-## T1: Define Scope
+## T1: Establish Durable Scope And Decisions
+
+Status: Done
+
+Scope:
+
+- Reconcile the approved root baselines into product/feature memory.
+- Define acceptance, architecture impact, security, tests, conventions, and module boundaries.
+- Complete and accept ADR-0001 through ADR-0009.
+
+Acceptance:
+
+- `persist doctor` has no template warnings or ADR-reference errors.
+- Product and feature docs explicitly block later phases until the Reuse benchmark passes.
+- Product is named LatticeOS and the public CLI command is `lattice` everywhere current memory names
+  the executable.
+
+Tests:
+
+- `persist doctor`
+- Link/reference inspection.
+
+Do Not:
+
+- Start implementation before PRD, acceptance, architecture impact, and test plan are clear.
+
+## T2: Scaffold Workspace And Core Contracts
 
 Status: Todo
 
 Scope:
 
-- TBD
+- Create the strict pnpm/TypeScript workspace, package boundaries, build/test scripts, core domain
+  contracts, stable component IDs, deterministic JSON, and tests.
 
 Acceptance:
 
-- TBD
+- Core has no framework/filesystem adapter dependency; IDs and serialization satisfy AC-07/AC-13.
 
 Tests:
 
-- TBD
+- Core unit tests, dependency-boundary check, typecheck, and build.
 
-Do Not:
+## T3: Implement Safe Project And React Analysis
 
-- Start implementation before PRD, acceptance, architecture impact, and test plan are clear.
+Status: Todo
+
+Scope:
+
+- Repository root validation, project/workspace detection, tsconfig/alias resolution, and React
+  component/prop/import/export/JSX usage analysis.
+
+Acceptance:
+
+- AC-02 through AC-07 pass on golden fixtures.
+
+Tests:
+
+- Unit, golden fixture, malformed input, traversal, symlink, exclusion, and large-file tests.
+
+## T4: Implement Reuse Evidence Adapters
+
+Status: Todo
+
+Scope:
+
+- Tailwind token/static bundle analysis plus optional shadcn and Storybook evidence.
+
+Acceptance:
+
+- AC-08 and AC-09 pass without executing consumer configuration.
+
+Tests:
+
+- v3/v4 Tailwind, class-merger, dynamic-syntax diagnostic, shadcn, Storybook, absent, and malformed
+  fixtures.
+
+## T5: Deliver Reuse CLI Workflows
+
+Status: Todo
+
+Scope:
+
+- Generated index lifecycle and `lattice init`, `search`, `inspect`, and `context` with human/JSON
+  output.
+
+Acceptance:
+
+- AC-10 through AC-14 pass; output is compact and deterministic.
+
+Tests:
+
+- CLI integration, JSON golden, cache atomicity, overwrite, external working-directory, and failure
+  exit tests.
+
+## T6: Prove Consumer Installation And Reuse Improvement
+
+Status: Todo
+
+Scope:
+
+- Pack/install in clean Next.js fixtures and run the documented control vs. treatment benchmark.
+
+Acceptance:
+
+- AC-01, AC-15, and AC-16 pass with committed evidence.
+
+Tests:
+
+- Package smoke/integration, production consumer type/build checks where applicable, benchmark
+  assertions, and all repository gates.
+
+## T7: Review And Release Phase 1
+
+Status: Todo
+
+Scope:
+
+- Architecture/conventions/security review, documentation reconciliation, completion report, and
+  final Persist validation.
+
+Acceptance:
+
+- No unresolved high-severity finding; all skipped checks and residual risks are explicit.
+
+Tests:
+
+- Full required-gate run from a clean install.
