@@ -17,7 +17,7 @@ orchestrating adapters, recording diagnostics, and managing generated state.
 ## Public Interfaces
 
 - Implemented: `RepositoryRoot.open`, confined `readText`, bounded `listFiles`, default exclusions,
-  and `detectProject`.
+  `detectProject`, and `analyzeReactProject`.
 - Planned in later F-001 slices: `analyzeProject`, `buildReuseIndex`, `readReuseIndex`, and
   `writeReuseIndex`.
 
@@ -30,3 +30,8 @@ Discovery never follows symlinks. Explicit reads may resolve an in-root file sym
 target is rejected. Generated `.lattice/cache` and `.lattice/reports` state is excluded while
 committed `.lattice` configuration remains readable. Incomplete scans report missing tool markers as
 unknown rather than absent.
+
+`analyzeReactProject` is the sole analyzer bridge into the React adapter. It admits a bounded source
+set through `RepositoryRoot`, assigns nearest workspace ownership, reads direct root tsconfig aliases
+as data, and never loads `extends`. The bridge does not yet support package-specific tsconfig files
+or assemble a complete Reuse index.

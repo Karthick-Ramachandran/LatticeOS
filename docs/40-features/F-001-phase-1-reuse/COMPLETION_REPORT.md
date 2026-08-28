@@ -20,7 +20,7 @@ orchestrates the adapter.
 
 ## Tests Run
 
-- `pnpm test:run`: 3 docs tests, 15 core tests, 2 React adapter tests, and 10 analyzer tests passed.
+- `pnpm test:run`: 3 docs tests, 15 core tests, 2 React adapter tests, and 13 analyzer tests passed.
 - `pnpm typecheck`: all eight implementation workspaces passed.
 - `pnpm build`: all implementation packages built and the docs app generated 24 routes.
 - `pnpm test:package`: passed. No package-specific consumer smoke script is registered yet; that is
@@ -37,6 +37,8 @@ orchestrates the adapter.
   configuration non-execution, and incomplete-scan status are covered.
 - Direct React evidence matches its named workspace golden. The adapter indexes the tested component,
   prop, import, alias, JSX, composition, and call forms without executing consumer code.
+- The analyzer bridge matches its named project golden. It applies direct root aliases, marks
+  aggregate source limits incomplete, and ignores tsconfig `extends` without loading it.
 
 ## Remaining Risks
 

@@ -79,8 +79,11 @@ Evidence to date:
 - `@latticeos/adapter-react` has a named workspace golden covering named/default/function/arrow/memo/
   forwardRef components, inherited and defaulted literal props, aliases, imports, JSX, composition,
   call sites, deterministic evidence, malformed syntax, and virtual-root traversal rejection.
-- Static tsconfig parsing, source ownership selection, and analyzer-to-adapter orchestration remain
-  in progress.
+- `analyzeReactProject` admits a bounded source set through `RepositoryRoot`, assigns nearest package
+  ownership, parses direct root tsconfig aliases without loading `extends`, calls the React adapter,
+  and marks aggregate source limits as incomplete. Its named project golden and config non-execution
+  test pass.
+- Package-specific tsconfig projects, index assembly, and the other adapters remain in progress.
 
 ## T4: Implement Reuse Evidence Adapters
 

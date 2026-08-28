@@ -9,5 +9,9 @@
 - Done: Scaffold the analyzer package with inward core and adapter dependencies.
 - Done: Implement root validation, confined reads, default exclusions, symlink handling, and bounds.
 - Done: Implement static project, workspace, package, and frontend tool discovery with a named golden.
-- Todo: Implement TypeScript project resolution and adapter orchestration.
+- Done: Implement bounded React source selection, nearest workspace ownership, direct root tsconfig
+  alias parsing, and analyzer-to-adapter orchestration. The bridge has a named golden, aggregate
+  source limits, and a no-execution tsconfig test.
+- Todo: Extend TypeScript project support beyond direct root compiler options only when fixtures and
+  a security review prove the additional configuration boundary.
 - Todo: Implement deterministic atomic index lifecycle.

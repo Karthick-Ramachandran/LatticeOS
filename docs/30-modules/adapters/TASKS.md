@@ -11,7 +11,7 @@
 - Done: Implement React analysis for direct named/default functions, named arrows, `memo`,
   `forwardRef`, typed/defaulted/variant props, imports, aliases, JSX usage, composition, and direct
   calls. A named Next.js workspace golden and malformed-input tests prove the current boundary.
-- Todo: Connect `RepositoryRoot` inventory and static tsconfig parsing to the adapter without
-  weakening its virtual-host boundary.
+- Done: Connect `RepositoryRoot` inventory and direct root tsconfig aliases to the adapter through
+  analyzer-owned bounded source selection and a virtual host.
 - Todo: Implement Tailwind static evidence and exact repetition.
 - Todo: Implement shadcn and Storybook optional evidence.

@@ -4,9 +4,10 @@ description: Static React component, prop, import, and usage evidence.
 ---
 
 <Callout title="Implemented" type="info">
-  `@latticeos/adapter-react` analyzes an admitted set of React and TypeScript source files through a
-  bounded virtual TypeScript 6.0.3 program. Analyzer orchestration, tsconfig loading, cache writes,
-  and CLI output are still separate work.
+  `@latticeos/adapter-react` analyzes React and TypeScript source through a bounded virtual
+  TypeScript 6.0.3 program. `analyzeReactProject` now admits that source through `RepositoryRoot`
+  and reads direct root `tsconfig` aliases as data. Cache writes, other adapters, index assembly, and
+  CLI output are still separate work.
 </Callout>
 
 ## What it reads
@@ -36,6 +37,20 @@ const result = analyzeReact({
 Every source path must already be a normalized, repository-relative path. The adapter rejects
 traversal and duplicate paths before it builds its program.
 
+For normal repository analysis, call the analyzer bridge instead:
+
+```ts title="Analyze an admitted repository"
+import { analyzeReactProject, RepositoryRoot } from "@latticeos/analyzer";
+
+const root = await RepositoryRoot.open("/absolute/path/to/repository");
+const result = await analyzeReactProject(root);
+```
+
+The bridge selects JavaScript and TypeScript source from the bounded discovery inventory, excludes
+known tool configuration and `.storybook` files, assigns the nearest workspace package key, and
+passes the admitted source to the adapter. It records `truncated: true` when its source limits make
+the result incomplete.
+
 ## Evidence it returns
 
 | Evidence | Supported forms | Notes |
@@ -58,6 +73,18 @@ and has no default library. Module resolution can only find an admitted virtual 
 The TypeScript version declared by a consumer is not executed or loaded. LatticeOS uses its pinned
 compiler to inspect source that the analyzer already admitted.
 
+`analyzeReactProject` reads only a root `tsconfig.json` and only its direct `compilerOptions.baseUrl`
+and `compilerOptions.paths` values. It accepts standard JSON comments, rejects traversal and
+absolute alias targets, and ignores `extends` instead of loading another file. Package-specific
+projects, inherited settings, and other compiler options remain unsupported in this bridge.
+
+| Bridge bound | Default | Result when reached |
+| --- | ---: | --- |
+| React source files | 5,000 | Stop source selection and record `REACT_SOURCE_FILE_LIMIT` |
+| Total admitted source | 20 MiB | Stop source selection and record `REACT_SOURCE_BYTES_LIMIT` |
+| One React source file | 1 MiB | Skip the source and record `REACT_SOURCE_UNREADABLE` |
+| Project diagnostics | 100 | Keep a bounded `REACT_PROJECT_DIAGNOSTIC_LIMIT` record |
+
 ## Limits
 
 - Only direct component declarations are indexed. A barrel file can help resolve an import, but it
@@ -78,17 +105,18 @@ all supported component forms, inherited and defaulted props, literal variants, 
 direct call, JSX usage, composition, malformed syntax, and a rejected path outside the virtual
 repository.
 
-The snapshot is tracked at
-`fixtures/goldens/react-analysis.next-workspace.golden.json`. Update it only with
-`pnpm --filter @latticeos/adapter-react golden:update`, then inspect the diff and run the adapter
-test.
+The direct-adapter snapshot is tracked at
+`fixtures/goldens/react-analysis.next-workspace.golden.json`. The analyzer bridge has its own
+snapshot at `fixtures/goldens/react-project.next-workspace.golden.json`. Update them only with
+`pnpm --filter @latticeos/adapter-react golden:update` and
+`pnpm --filter @latticeos/analyzer golden:update`, then inspect the diffs and run their tests.
 
 ## Agent implementation prompt
 
 Copy this prompt into an agent working on the next change to React analysis.
 
 ```text title="Agent implementation prompt"
-Extend the implemented LatticeOS React component-analysis adapter. Do not start Tailwind, shadcn,
+Extend the implemented LatticeOS React component-analysis path. Do not start Tailwind, shadcn,
 Storybook, cache writes, CLI commands, Figma, browser, Converge, or source rewriting work.
 
 Read first:
@@ -104,11 +132,14 @@ Read first:
 10. docs/60-engineering/LESSONS.md
 11. docs/40-features/F-001-phase-1-reuse/
 12. docs/30-modules/adapters/
-13. ADR-0003, ADR-0005, ADR-0008, ADR-0009, and ADR-0011 under docs/adrs/
-14. this guide and the existing React adapter tests and fixture golden
+13. docs/30-modules/analyzer/
+14. ADR-0003, ADR-0005, ADR-0008, ADR-0009, and ADR-0011 under docs/adrs/
+15. this guide and the existing React adapter, analyzer bridge, and fixture-golden tests
 
 Current contract:
 - `analyzeReact` receives only normalized repository-relative source text and package keys.
+- `analyzeReactProject` is the only bridge from `RepositoryRoot` discovery into that adapter. It
+  supports direct root `baseUrl` and `paths` settings and must keep its source and diagnostic limits.
 - It uses a LatticeOS-owned TypeScript 6.0.3 virtual host. Do not execute, import, require, or
   transpile consumer source or configuration.
 - It returns framework-neutral `UiComponent`, `UiProp`, `UiImport`, `UiUsage`, `EvidenceRecord`,
@@ -122,7 +153,9 @@ expectation, source-backed evidence, diagnostic behavior, and documentation prov
 
 Rules:
 - Preserve the virtual-host boundary. The adapter must not use Node filesystem APIs for consumer
-  analysis.
+  analysis. The bridge must use `RepositoryRoot` for every consumer read.
+- Do not execute, merge, or follow tsconfig `extends`. Reject unsafe aliases and state limits in a
+  diagnostic instead of resolving outside the selected repository.
 - Reject traversal, duplicate source paths, and invalid package identity before evidence creation.
 - Keep all result paths relative and POSIX-style. Sort every emitted collection deterministically.
 - An unresolved or dynamic construct needs an explicit bounded diagnostic or a clear omission. Do
@@ -133,7 +166,7 @@ Rules:
   decision, stop and request human confirmation before `persist adr supersede`.
 
 Required tests:
-- Run `pnpm --filter @latticeos/adapter-react test`.
+- Run `pnpm --filter @latticeos/adapter-react test` and `pnpm --filter @latticeos/analyzer test`.
 - Add a direct test for the new supported form and a negative or malformed-input test when the risk
   warrants one.
 - Update the named workspace golden through the documented command. Never hand-edit a snapshot.
@@ -147,6 +180,6 @@ Documentation:
 
 Completion evidence:
 Report files changed, supported and unsupported forms, diagnostics, exact test results, documentation
-updated, remaining risks, and whether analyzer orchestration still has work left. Do not claim the
+updated, remaining risks, and whether Reuse index assembly still has work left. Do not claim the
 Phase 1 MVP is complete.
 ```

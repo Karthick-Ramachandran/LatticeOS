@@ -49,6 +49,27 @@ No blocker was found in the direct React analysis slice.
 The adapter has not yet read consumer files itself. `RepositoryRoot` remains the required authority
 for exclusions, symlink handling, per-file bounds, and source admission.
 
+### React project bridge security review
+
+No blocker was found in the bridge from repository discovery into React analysis.
+
+- The bridge lists and reads every consumer path through `RepositoryRoot`. Its selected source set
+  inherits the repository's exclusion, symlink, and per-file controls.
+- It stops before TypeScript receives more than 5,000 files or 20 MiB by default. A selection limit
+  marks the result truncated and emits a bounded diagnostic instead of presenting partial evidence
+  as complete.
+- The root tsconfig parser reads text only. It accepts comments, inspects direct `baseUrl` and
+  `paths`, ignores `extends`, rejects unsafe base URLs and alias targets, and does not execute or
+  merge another configuration file.
+- Compiler-path aliases are bounded. The bridge handles prototype-sensitive alias keys without
+  placing them in the returned map. Tests cover an escaping target and `__proto__` input.
+- Runtime analysis has no write, network, telemetry, cloud, MCP, AI API, child-process, or dynamic
+  evaluation path. The only new write is the explicit developer golden-update command, which has a
+  fixed fixture output path.
+
+The root-only configuration boundary is intentional and documented. Package-specific tsconfig files
+and inherited configuration need a new fixture and security review before they are added.
+
 ### Dependency and network review
 
 - TypeScript 6.0.3 is the compiler dependency added to the analyzer and React adapter boundaries.

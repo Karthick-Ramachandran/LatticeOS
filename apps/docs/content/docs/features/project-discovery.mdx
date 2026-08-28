@@ -5,8 +5,9 @@ description: Confined repository reads and static frontend tool detection.
 
 <Callout title="Implemented" type="info">
   `RepositoryRoot` and `detectProject` are implemented and covered by a named Next.js workspace
-  fixture. The direct React adapter is implemented separately; TypeScript project resolution and
-  analyzer orchestration are the next slice.
+  fixture. The analyzer also bridges bounded source and direct root tsconfig aliases into the React
+  adapter. Package-specific TypeScript projects, index assembly, cache writes, and CLI behavior are
+  still separate work.
 </Callout>
 
 ## What it does

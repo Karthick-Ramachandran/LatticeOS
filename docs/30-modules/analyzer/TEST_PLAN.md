@@ -3,13 +3,15 @@
 ## Unit Tests
 
 - Root resolution, path normalization, exclusions, bounds, stale/corrupt cache, atomic writes, project
-  detection, workspace ownership, and diagnostics.
+  detection, workspace ownership, direct root tsconfig aliases, aggregate source limits, and
+  diagnostics.
 
 ## Integration Tests
 
-- Golden consumer fixtures combine core and every adapter; repeated runs are byte-stable.
+- React bridge and direct-adapter goldens cover the named consumer fixture. Full core-index and every
+  adapter integration remains later Phase 1 work.
 
 ## Security Tests
 
 - Traversal, absolute paths, escaping symlinks, secret/generated paths, config non-execution,
-  oversized files, malformed input, and overwrite rules.
+  oversized files, aggregate source limits, malformed input, and overwrite rules.
