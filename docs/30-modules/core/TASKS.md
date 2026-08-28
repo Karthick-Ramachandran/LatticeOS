@@ -6,6 +6,6 @@
 
 ## Tasks
 
-- Todo: Implement and test public contracts.
-- Todo: Add generated JSON schema artifacts.
-- Todo: Update docs examples when a public field changes.
+- Done: Implement and test public contracts.
+- Done: Add generated JSON schema artifacts and a stale-artifact gate.
+- Done: Document schema version 1, identity, ranking, resolution, and budget behavior.

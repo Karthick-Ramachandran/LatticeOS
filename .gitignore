@@ -6,6 +6,7 @@ node_modules/
 dist/
 coverage/
 *.tsbuildinfo
+.test-dist/
 apps/docs/.next/
 apps/docs/.source/
 

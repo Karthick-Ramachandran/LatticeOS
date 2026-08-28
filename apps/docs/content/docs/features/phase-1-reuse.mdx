@@ -4,8 +4,9 @@ description: Give agents source-backed UI reuse evidence before they generate co
 ---
 
 <Callout title="Status" type="warning">
-  Requirements and architecture are accepted. Implementation is in progress, so commands below are
-  the target contract until tests prove them.
+  Requirements and architecture are accepted. The framework-neutral core contract is implemented
+  and tested. Repository analysis, evidence adapters, and the public CLI remain in progress, so
+  commands below are the target contract until their tests prove them.
 </Callout>
 
 ## Outcome
@@ -35,6 +36,9 @@ Each recommendation has reason codes that resolve to evidence records.
 | `limitations` | Dynamic or unsupported syntax that analysis could not prove |
 
 A score explains ranking. It does not claim that two components have the same product meaning.
+
+See the [implemented Reuse index reference](/docs/reference/reuse-index) for component identity,
+validation, serialization, search, ambiguity, and context budget behavior.
 
 ## Planned workflow
 

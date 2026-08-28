@@ -1,0 +1,29 @@
+{
+  "name": "@latticeos/analyzer",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@latticeos/core": "workspace:*",
+    "@latticeos/adapter-react": "workspace:*",
+    "@latticeos/adapter-shadcn": "workspace:*",
+    "@latticeos/adapter-storybook": "workspace:*",
+    "@latticeos/adapter-tailwind": "workspace:*"
+  }
+}

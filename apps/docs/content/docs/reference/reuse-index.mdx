@@ -1,0 +1,91 @@
+---
+title: Reuse index
+description: The implemented core data contract for Phase 1 evidence.
+---
+
+<Callout title="Implemented" type="info">
+  Schema version 1, component IDs, validation, deterministic serialization, lexical ranking,
+  component resolution, and context budgets are implemented in `@latticeos/core`. Repository
+  analysis and the public CLI are still in progress.
+</Callout>
+
+## Component identity
+
+Every React component uses one host-independent ID:
+
+```text title="Canonical component ID"
+react:<package-key>:<repository-relative-source>#<export-key>
+```
+
+For example:
+
+```text
+react:@acme/ui:packages/ui/src/button.tsx#Button
+react:root:src/card.tsx#local:CardBody
+```
+
+`package-key` is the nearest workspace package name or `root`. Paths use forward slashes and stay
+relative to the analyzed repository. Local components use `local:<declaration-name>` and cannot be
+returned as public reuse candidates.
+
+The ID changes when package ownership, source path, or export slot changes. An implementation edit
+inside the same declaration does not change it.
+
+## Index contents
+
+`ReuseIndex` schema version 1 stores:
+
+- project and tool detection;
+- workspace packages;
+- components and declared props;
+- imports, usages, and composition links;
+- Tailwind tokens and exact repeated class bundles;
+- evidence records and bounded diagnostics.
+
+The generated schema is tracked at
+`packages/core/schema/reuse-index.schema.json`. Runtime validation rejects unknown evidence links,
+host-specific paths, mismatched component identity fields, missing component or usage links, and
+unsupported schema versions.
+
+## Deterministic output
+
+`serializeReuseIndex` validates the index, sorts semantic collections, sorts object keys, and writes
+one trailing newline. Input collection order does not change the serialized bytes. The analyzer will
+use this function before cache writes and JSON snapshots.
+
+```ts title="Validate and serialize an index"
+import { serializeReuseIndex, validateReuseIndex } from "@latticeos/core";
+
+const validation = validateReuseIndex(input);
+if (!validation.ok) {
+  throw new Error(validation.issues.map((issue) => `${issue.path}: ${issue.message}`).join("\n"));
+}
+
+const json = serializeReuseIndex(validation.value);
+```
+
+## Search and inspect behavior
+
+`rankReuseCandidates` uses exact component names and lexical matches from names, paths, declared
+props, and usage paths. Each scoring reason includes evidence IDs that resolve in the same index.
+Local components are excluded. Ties fall back to the stable component ID.
+
+This is repository evidence, not product meaning. The core never claims semantic equivalence from a
+score.
+
+`resolveComponent` accepts a canonical ID or a component name. A name collision returns every
+candidate in stable order with an `ambiguous` status. It does not choose one silently.
+
+## Context budgets
+
+`buildReuseContext` accepts `maxItems` and `maxCharacters`. It keeps ranked order, counts the exact
+rendered context text, and reports omitted items. If the highest-ranked item does not fit, the result
+is empty and marked as truncated. A lower-ranked component is not substituted just because its text
+is shorter.
+
+## Current proof
+
+Core tests cover canonical identity round trips, traversal and absolute-path rejection, schema
+validation, unknown evidence, identity mismatch, byte-stable serialization, public-only ranking,
+evidence links, ambiguity, and exact item and character limits. The dependency-boundary test also
+rejects framework, workspace, and filesystem imports from core runtime files.

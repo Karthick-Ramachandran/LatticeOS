@@ -58,6 +58,59 @@ importers:
         specifier: 7.0.2
         version: 7.0.2
 
+  packages/adapters/react:
+    dependencies:
+      '@latticeos/core':
+        specifier: workspace:*
+        version: link:../../core
+
+  packages/adapters/shadcn:
+    dependencies:
+      '@latticeos/core':
+        specifier: workspace:*
+        version: link:../../core
+
+  packages/adapters/storybook:
+    dependencies:
+      '@latticeos/core':
+        specifier: workspace:*
+        version: link:../../core
+
+  packages/adapters/tailwind:
+    dependencies:
+      '@latticeos/core':
+        specifier: workspace:*
+        version: link:../../core
+
+  packages/analyzer:
+    dependencies:
+      '@latticeos/adapter-react':
+        specifier: workspace:*
+        version: link:../adapters/react
+      '@latticeos/adapter-shadcn':
+        specifier: workspace:*
+        version: link:../adapters/shadcn
+      '@latticeos/adapter-storybook':
+        specifier: workspace:*
+        version: link:../adapters/storybook
+      '@latticeos/adapter-tailwind':
+        specifier: workspace:*
+        version: link:../adapters/tailwind
+      '@latticeos/core':
+        specifier: workspace:*
+        version: link:../core
+
+  packages/cli:
+    dependencies:
+      '@latticeos/analyzer':
+        specifier: workspace:*
+        version: link:../analyzer
+      '@latticeos/core':
+        specifier: workspace:*
+        version: link:../core
+
+  packages/core: {}
+
 packages:
 
   '@alloc/quick-lru@5.2.0':

@@ -6,6 +6,7 @@
 
 ## Tasks
 
+- Done: Scaffold the analyzer package with inward core and adapter dependencies.
 - Todo: Implement root validation and default exclusions.
 - Todo: Implement project/workspace discovery and adapter orchestration.
 - Todo: Implement deterministic atomic index lifecycle.

@@ -6,6 +6,8 @@
 
 ## Tasks
 
+- Done: Scaffold separate React, Tailwind, shadcn, and Storybook adapter packages with core-only
+  inward dependencies.
 - Todo: Implement the React adapter and golden syntax matrix.
 - Todo: Implement Tailwind static evidence and exact repetition.
 - Todo: Implement shadcn and Storybook optional evidence.

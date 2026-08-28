@@ -1,11 +1,13 @@
 # LatticeOS
 
-LatticeOS gives coding agents evidence about the UI a repository already has before they write more
-of it.
+LatticeOS is a repository-native UI control plane for coding agents. It gives agents a reliable way
+to understand a product's existing UI, work within its rules, and check whether implementation still
+matches intent.
 
-It is not another UI kit, CSS framework, component generator, or design system. LatticeOS reads the
-React components, props, imports, usages, stories, shadcn records, and Tailwind patterns already in a
-codebase. It then returns a small, source-backed answer an agent can use.
+It is not another UI kit, CSS framework, component generator, or design system. LatticeOS works with
+the tools a repository already chose. Phase 1 starts by reading React components, props, imports,
+usages, stories, shadcn records, and Tailwind patterns, then returning a small source-backed answer an
+agent can use.
 
 > Status: Phase 1 Reuse is under active development. The documentation foundation works today. The
 > analyzer and `lattice` CLI are not published yet, and the command output shown below is the target
@@ -29,8 +31,9 @@ map of the UI and answers questions closer to the work:
 - Are the examples exact facts, supporting examples, or heuristics?
 - What could the analyzer not prove?
 
-That map is the product. LatticeOS does not replace the repository's frontend choices. It helps an
-agent understand and reuse them.
+That map is the first layer of the product. It makes Reuse possible now and gives later checks a
+shared account of what the repository contains. LatticeOS does not replace the repository's frontend
+choices. It gives agents a dependable interface to them.
 
 ## Phase 1 Reuse
 

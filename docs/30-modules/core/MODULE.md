@@ -19,7 +19,9 @@ agent interfaces.
 
 - `ComponentId` constructors/parsers.
 - `ReuseIndex` schema version 1 and validators.
-- Search, inspect resolution, and bounded context functions.
+- `sortReuseIndex` and `serializeReuseIndex` for byte-stable JSON.
+- `rankReuseCandidates`, `resolveComponent`, and `buildReuseContext`.
+- Generated JSON Schema at `packages/core/schema/reuse-index.schema.json`.
 
 ## Boundaries
 

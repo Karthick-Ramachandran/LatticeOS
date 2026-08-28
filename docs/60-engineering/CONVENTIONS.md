@@ -17,6 +17,7 @@ than inventing parallel models or helpers.
 - CLI JSON envelopes use the schema/version helpers in `packages/core`.
 - Test repositories live under `fixtures/`; reusable fixture builders live with analyzer tests.
 - Feature guides and copy-ready Agent prompts use the shared templates in `apps/docs/content/templates`.
+- Workspace packages extend `tsconfig.package.json`; package builds emit from `src/` to `dist/`.
 
 ## Naming Conventions
 

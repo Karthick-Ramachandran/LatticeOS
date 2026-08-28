@@ -28,7 +28,7 @@ Do Not:
 
 ## T2: Scaffold Workspace And Core Contracts
 
-Status: Todo
+Status: Done
 
 Scope:
 
@@ -43,9 +43,18 @@ Tests:
 
 - Core unit tests, dependency-boundary check, typecheck, and build.
 
+Evidence:
+
+- The pnpm workspace contains core, analyzer, React, Tailwind, shadcn, Storybook, CLI, and docs
+  package boundaries with inward dependencies.
+- `@latticeos/core` implements schema version 1, canonical identity, validation, deterministic JSON,
+  evidence-backed lexical ranking, explicit resolution, and context budgets.
+- Fourteen core tests, the dependency-boundary check, generated-schema freshness check, repository
+  typecheck, build, package gate, documentation gate, and Persist validation pass.
+
 ## T3: Implement Safe Project And React Analysis
 
-Status: Todo
+Status: In Progress
 
 Scope:
 
