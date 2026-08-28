@@ -16,10 +16,17 @@ orchestrating adapters, recording diagnostics, and managing generated state.
 
 ## Public Interfaces
 
-- `RepositoryRoot`, `detectProject`, `analyzeProject`, `buildReuseIndex`, `readReuseIndex`, and
+- Implemented: `RepositoryRoot.open`, confined `readText`, bounded `listFiles`, default exclusions,
+  and `detectProject`.
+- Planned in later F-001 slices: `analyzeProject`, `buildReuseIndex`, `readReuseIndex`, and
   `writeReuseIndex`.
 
 ## Boundaries
 
 Analyzer depends on core and adapter interfaces. CLI is its primary caller. All consumer files are
 untrusted data; reads and LatticeOS-owned writes must stay inside the validated root.
+
+Discovery never follows symlinks. Explicit reads may resolve an in-root file symlink. An escaping
+target is rejected. Generated `.lattice/cache` and `.lattice/reports` state is excluded while
+committed `.lattice` configuration remains readable. Incomplete scans report missing tool markers as
+unknown rather than absent.

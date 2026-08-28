@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "jsx": "react-jsx",
+    "paths": {
+      "@fixture/ui": ["packages/ui/src/index.ts"]
+    }
+  }
+}

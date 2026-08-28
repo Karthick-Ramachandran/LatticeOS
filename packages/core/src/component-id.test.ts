@@ -26,7 +26,7 @@ test("component identity supports local export keys without making paths host-sp
 });
 
 test("repository paths reject traversal and absolute inputs", () => {
-  for (const path of ["../secret.ts", "/tmp/source.ts", "C:\\source.ts", "src//button.tsx", "src/"]) {
+  for (const path of ["../secret.ts", "/tmp/source.ts", "C:\\source.ts", "src//button.tsx", "src/", "src/bad\nname.tsx"]) {
     assert.throws(() => normalizeRepositoryPath(path));
   }
   assert.equal(normalizeRepositoryPath("./src/button.tsx"), "src/button.tsx");

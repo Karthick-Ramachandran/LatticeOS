@@ -11,3 +11,5 @@ model preferences.
   typechecking in the gate so a version-specific generated API mismatch fails before deployment.
 - Do not run `pnpm build` and `pnpm docs:check` concurrently because both invoke `next build` against
   the same `.next` lock; run those two repository gates sequentially.
+- Keep golden snapshots outside the consumer fixture root they describe; an inventory golden inside
+  that root includes itself and changes the inventory after it is written.

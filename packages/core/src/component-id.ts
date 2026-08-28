@@ -9,7 +9,7 @@ export interface ComponentIdentity {
 const windowsAbsolutePath = /^[A-Za-z]:[\\/]/u;
 
 export function normalizeRepositoryPath(path: string, allowRoot = false): RepositoryPath {
-  if (path.length === 0 || path.includes("\0") || windowsAbsolutePath.test(path)) {
+  if (path.length === 0 || /[\u0000-\u001F\u007F]/u.test(path) || windowsAbsolutePath.test(path)) {
     throw new Error(`Invalid repository path: ${JSON.stringify(path)}`);
   }
 

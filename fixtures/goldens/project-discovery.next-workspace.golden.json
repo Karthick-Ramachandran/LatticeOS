@@ -1,0 +1,208 @@
+{
+  "diagnostics": [],
+  "evidence": [
+    {
+      "classification": "exact",
+      "fingerprint": "sha256:b8e64eb8a40bd5c6363f3f7a64129bf7e25e14ec8360d3cd7a6a6a3c7130f8c9",
+      "id": "ev:package:manifest:a037030f229f3773",
+      "kind": "package",
+      "limitations": [],
+      "location": {
+        "column": 1,
+        "line": 1,
+        "path": "package.json"
+      },
+      "method": "manifest"
+    },
+    {
+      "classification": "exact",
+      "fingerprint": "sha256:1c33d0894afb86c9fa7f70ea921dac9a9f0ad72d6db9a510f271cc324a578078",
+      "id": "ev:package:manifest:a2a2a469b3fdd335",
+      "kind": "package",
+      "limitations": [],
+      "location": {
+        "column": 1,
+        "line": 1,
+        "path": "packages/ui/package.json"
+      },
+      "method": "manifest"
+    },
+    {
+      "classification": "exact",
+      "fingerprint": "sha256:82c6ea6cf1b1ea07e3092bf6561e42f7a0de800e84c02d012d97fbcb884d82b0",
+      "id": "ev:package:manifest:d772feb7f04d0aac",
+      "kind": "package",
+      "limitations": [],
+      "location": {
+        "column": 1,
+        "line": 1,
+        "path": "apps/web/package.json"
+      },
+      "method": "manifest"
+    },
+    {
+      "classification": "exact",
+      "fingerprint": "sha256:82c6ea6cf1b1ea07e3092bf6561e42f7a0de800e84c02d012d97fbcb884d82b0",
+      "id": "ev:project:nextjs:6b37e700e92a0cdd",
+      "kind": "project",
+      "limitations": [],
+      "location": {
+        "column": 1,
+        "line": 1,
+        "path": "apps/web/package.json"
+      },
+      "method": "manifest"
+    },
+    {
+      "classification": "exact",
+      "fingerprint": "sha256:82c6ea6cf1b1ea07e3092bf6561e42f7a0de800e84c02d012d97fbcb884d82b0",
+      "id": "ev:project:react:890df29b7abe3f7d",
+      "kind": "project",
+      "limitations": [],
+      "location": {
+        "column": 1,
+        "line": 1,
+        "path": "apps/web/package.json"
+      },
+      "method": "manifest"
+    },
+    {
+      "classification": "exact",
+      "fingerprint": "sha256:16123bf9e7a7fd2fe84f38316559af764c5a9fb80e4948b929bbe236c5f887cb",
+      "id": "ev:project:shadcn:4c759b2aa4b7fca9",
+      "kind": "project",
+      "limitations": [],
+      "location": {
+        "column": 1,
+        "line": 1,
+        "path": "components.json"
+      },
+      "method": "static-config"
+    },
+    {
+      "classification": "exact",
+      "fingerprint": "sha256:2c8bda8a608c3b89839175a39ea77c70da6ec4e9ba34317be106a6a2f515af56",
+      "id": "ev:project:storybook:56dead1e73c86065",
+      "kind": "project",
+      "limitations": [],
+      "location": {
+        "column": 1,
+        "line": 1,
+        "path": ".storybook/main.ts"
+      },
+      "method": "static-config"
+    },
+    {
+      "classification": "exact",
+      "fingerprint": "sha256:b8e64eb8a40bd5c6363f3f7a64129bf7e25e14ec8360d3cd7a6a6a3c7130f8c9",
+      "id": "ev:project:tailwind:5ab265f4079fe8f3",
+      "kind": "project",
+      "limitations": [],
+      "location": {
+        "column": 1,
+        "line": 1,
+        "path": "package.json"
+      },
+      "method": "manifest"
+    },
+    {
+      "classification": "exact",
+      "fingerprint": "sha256:b8e64eb8a40bd5c6363f3f7a64129bf7e25e14ec8360d3cd7a6a6a3c7130f8c9",
+      "id": "ev:project:typescript:650064dced15988e",
+      "kind": "project",
+      "limitations": [],
+      "location": {
+        "column": 1,
+        "line": 1,
+        "path": "package.json"
+      },
+      "method": "manifest"
+    }
+  ],
+  "files": [
+    ".storybook/main.ts",
+    "apps/web/app/globals.css",
+    "apps/web/app/settings/page.tsx",
+    "apps/web/next.config.mjs",
+    "apps/web/package.json",
+    "components.json",
+    "package.json",
+    "packages/ui/package.json",
+    "packages/ui/src/index.ts",
+    "packages/ui/src/settings-section.tsx",
+    "pnpm-workspace.yaml",
+    "tsconfig.json"
+  ],
+  "packages": [
+    {
+      "evidenceIds": [
+        "ev:package:manifest:a2a2a469b3fdd335"
+      ],
+      "key": "@fixture/ui",
+      "manifestPath": "packages/ui/package.json",
+      "name": "@fixture/ui",
+      "rootPath": "packages/ui"
+    },
+    {
+      "evidenceIds": [
+        "ev:package:manifest:a037030f229f3773"
+      ],
+      "key": "root",
+      "manifestPath": "package.json",
+      "name": "lattice-next-workspace-fixture",
+      "rootPath": "."
+    },
+    {
+      "evidenceIds": [
+        "ev:package:manifest:d772feb7f04d0aac"
+      ],
+      "key": "web",
+      "manifestPath": "apps/web/package.json",
+      "name": "web",
+      "rootPath": "apps/web"
+    }
+  ],
+  "project": {
+    "packageManager": "pnpm",
+    "rootPath": ".",
+    "tools": {
+      "nextjs": {
+        "evidenceIds": [
+          "ev:project:nextjs:6b37e700e92a0cdd"
+        ],
+        "status": "present"
+      },
+      "react": {
+        "evidenceIds": [
+          "ev:project:react:890df29b7abe3f7d"
+        ],
+        "status": "present"
+      },
+      "shadcn": {
+        "evidenceIds": [
+          "ev:project:shadcn:4c759b2aa4b7fca9"
+        ],
+        "status": "present"
+      },
+      "storybook": {
+        "evidenceIds": [
+          "ev:project:storybook:56dead1e73c86065"
+        ],
+        "status": "present"
+      },
+      "tailwind": {
+        "evidenceIds": [
+          "ev:project:tailwind:5ab265f4079fe8f3"
+        ],
+        "status": "present"
+      },
+      "typescript": {
+        "evidenceIds": [
+          "ev:project:typescript:650064dced15988e"
+        ],
+        "status": "present"
+      }
+    }
+  },
+  "truncated": false
+}

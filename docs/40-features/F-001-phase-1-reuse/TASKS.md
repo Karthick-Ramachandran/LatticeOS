@@ -69,6 +69,15 @@ Tests:
 
 - Unit, golden fixture, malformed input, traversal, symlink, exclusion, and large-file tests.
 
+Evidence to date:
+
+- `RepositoryRoot` confines reads, rejects traversal and escaping symlinks, excludes secret and
+  generated paths, skips discovery symlinks, and bounds files, depth, and bytes.
+- `detectProject` returns root and workspace packages plus source-backed React, Next.js, TypeScript,
+  Tailwind, shadcn, and Storybook presence without executing configuration.
+- The named Next.js workspace golden and ten analyzer tests pass. TypeScript project resolution,
+  React component analysis, aliases, props, imports, composition, and usages remain in progress.
+
 ## T4: Implement Reuse Evidence Adapters
 
 Status: Todo

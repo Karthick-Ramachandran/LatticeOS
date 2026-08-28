@@ -1,0 +1,168 @@
+---
+title: Safe project discovery
+description: Confined repository reads and static frontend tool detection.
+---
+
+<Callout title="Implemented" type="info">
+  `RepositoryRoot` and `detectProject` are implemented and covered by a named Next.js workspace
+  fixture. TypeScript project resolution and React source analysis are the next slice.
+</Callout>
+
+## What it does
+
+Project discovery establishes the boundary that every source adapter must use. It validates one
+repository root, walks a bounded file inventory, identifies workspace packages, and records static
+evidence for React, Next.js, TypeScript, Tailwind, shadcn, and Storybook.
+
+```ts title="Detect a repository"
+import { detectProject, RepositoryRoot } from "@latticeos/analyzer";
+
+const root = await RepositoryRoot.open("/absolute/path/to/repository");
+const discovery = await detectProject(root);
+```
+
+The returned paths are relative to the selected root and use forward slashes. Evidence includes the
+marker location, extraction method, fingerprint, and classification. Source and configuration are
+never imported or evaluated.
+
+## Read boundary
+
+`RepositoryRoot.readText` accepts a normalized relative path. It resolves the real target, rejects a
+target outside the root, opens the final file without following a new final symlink, checks that it
+is a regular file, and enforces the byte limit before and after the read.
+
+Explicit reads may follow a symlink when its resolved target remains inside the repository.
+Discovery does not follow any symlink. It records a bounded diagnostic for an internal, broken, or
+escaping link.
+
+Default exclusions include:
+
+- `.git`, other VCS state, and `node_modules`;
+- `.next`, build output, distribution output, and coverage;
+- `.lattice/cache` and `.lattice/reports`; committed `.lattice` configuration remains readable;
+- `.env` variants and common credential files such as `.npmrc` and `.netrc`.
+
+Application files are read-only in Phase 1.
+
+## Bounds
+
+| Bound | Default | Result when reached |
+| --- | ---: | --- |
+| File bytes | 1,048,576 | Skip the file and report `FILE_SIZE_LIMIT` |
+| Files visited | 20,000 | Stop the walk and report `FILE_COUNT_LIMIT` |
+| Directory depth | 20 | Skip the deeper directory and report `DEPTH_LIMIT` |
+| Entries in one directory | 20,000 | Skip that directory and report `DIRECTORY_ENTRY_LIMIT` |
+
+Configured bounds also have hard ceilings: 16 MiB per read, 100,000 files, depth 100, and 100,000
+entries in one directory. A file that grows during a read cannot make LatticeOS allocate past the
+configured byte limit.
+
+Skipped symlinks, unreadable paths, oversized files, depth limits, file limits, and malformed
+manifests make incomplete negative detections `unknown`. LatticeOS uses `absent` only when the
+bounded scan completed and found no supported marker.
+
+## Workspace and tool evidence
+
+The current workspace detector supports package globs from a root `package.json` workspaces array,
+the `workspaces.packages` form, and simple list entries in `pnpm-workspace.yaml`. It maps a valid root
+manifest to package key `root`. Nested packages use their package name or repository-relative path.
+A duplicate name gets a path suffix and a diagnostic instead of an unstable collision.
+
+Tool status uses package dependencies and static marker files:
+
+| Tool | Supported markers |
+| --- | --- |
+| React | A `react` dependency in a detected package |
+| Next.js | A `next` dependency or `next.config` file |
+| TypeScript | A `typescript` dependency or `tsconfig` file |
+| Tailwind | A `tailwindcss` dependency, `tailwind.config` file, or CSS `@theme` block |
+| shadcn | A parseable `components.json` with a shadcn schema or supported style and alias fields |
+| Storybook | A Storybook dependency or `.storybook/main` or `.storybook/preview` file |
+
+This proves presence, not compatibility with every syntax those tools support. Source-specific
+adapters provide that proof later.
+
+## Test evidence
+
+The named `fixtures/next-workspace` repository contains three package boundaries and all six tool
+markers. Its Next.js and Storybook configuration throws immediately if executed. Detection succeeds,
+which proves this path reads those files only as text.
+
+The golden snapshot lives outside the consumer root at
+`fixtures/goldens/project-discovery.next-workspace.golden.json`. Security tests cover traversal,
+escaping and internal symlinks, excluded secret and generated paths, byte and depth limits, malformed
+manifests, relative diagnostics, and unknown status after incomplete scans.
+
+## Agent implementation prompt
+
+Copy this prompt into an agent working in a repository that needs to reproduce or extend the project
+discovery slice.
+
+```text title="Agent implementation prompt"
+Implement or extend LatticeOS safe project discovery without starting React AST extraction, cache writes, CLI commands, Figma, browser, Converge, or repair work.
+
+Read first:
+1. AGENTS.md
+2. docs/00-product/PRD.md
+3. docs/10-architecture/ARCHITECTURE.md
+4. docs/10-architecture/FILE_WRITE_POLICY.md
+5. docs/20-security/SECURITY_MODEL.md
+6. docs/20-security/THREAT_MODEL.md
+7. docs/50-quality/QUALITY_GATES.md
+8. docs/60-engineering/ENGINEERING_STANDARDS.md
+9. docs/60-engineering/CONVENTIONS.md
+10. docs/60-engineering/LESSONS.md
+11. docs/40-features/F-001-phase-1-reuse/
+12. docs/30-modules/analyzer/
+13. ADR-0004, ADR-0006, ADR-0008, and ADR-0009 under docs/adrs/
+
+Outcome:
+Provide one RepositoryRoot authority for confined reads and one detectProject operation that returns deterministic packages, tool status, evidence, relative paths, and bounded diagnostics from untrusted repository data.
+
+Scope:
+- Validate and canonicalize the caller-selected root.
+- Reject traversal, excluded paths, non-files, oversized files, and symlinks that escape the root.
+- Never follow symlinks during discovery.
+- Bound file visits, directory depth, file bytes, and diagnostic contents.
+- Detect root and workspace packages from supported package.json and pnpm-workspace.yaml forms.
+- Detect React, Next.js, TypeScript, Tailwind, shadcn, and Storybook through dependencies and static marker files.
+- Read JavaScript and TypeScript configuration as text only. Never import, require, transpile, or evaluate it.
+- Use present, absent, and unknown honestly. An incomplete scan cannot prove absence.
+- Return source-backed EvidenceRecord entries with stable IDs and fingerprints.
+
+Ordered work:
+1. Read the current task and module memory and preserve accepted boundaries.
+2. Add or update RepositoryRoot path validation, exclusions, confined reads, and bounds.
+3. Add or update deterministic file discovery with bounded diagnostics.
+4. Parse supported workspace declarations as data and assign stable package keys.
+5. Detect tool markers and create exact evidence records.
+6. Add the named workspace fixture and keep its golden outside the analyzed root.
+7. Add security, malformed-input, truncation, determinism, and non-execution tests.
+8. Update this guide, feature task evidence, analyzer memory, conventions, and lessons before starting another task.
+
+Acceptance:
+- Satisfy the project-detection portion of AC-02, AC-03, AC-07, AC-13, AC-14, and AC-17 in docs/40-features/F-001-phase-1-reuse/ACCEPTANCE.md.
+- All output and diagnostics use repository-relative POSIX paths.
+- Every present tool and package claim resolves to evidence in the same result.
+- Missing markers are unknown after any incomplete read boundary.
+
+Tests:
+- Root missing and root-is-file cases.
+- Traversal, absolute child path, excluded secret path, escaping symlink, internal symlink, and broken symlink cases.
+- File byte, file count, directory depth, unreadable path, and malformed manifest cases.
+- Named Next.js workspace golden with React, Next.js, TypeScript, Tailwind, shadcn, and Storybook evidence.
+- Consumer config that throws if executed.
+- Run pnpm test:run, pnpm typecheck, pnpm build, pnpm test:package, pnpm docs:check, and persist doctor sequentially where the docs build lock requires it.
+
+Documentation:
+- State exact supported workspace and marker forms.
+- State defaults, exclusions, symlink behavior, diagnostics, and incomplete-scan semantics.
+- Label TypeScript project resolution, React extraction, cache writes, and CLI behavior as unimplemented until their tests pass.
+- Apply Humanizer rules to prose without altering facts, code, commands, links, or test evidence.
+
+Stop conditions:
+- Stop for a human decision if an accepted ADR must change, discovery needs to execute consumer code, a new network path is proposed, a read cannot be confined to the root, or a new runtime dependency is needed without review.
+
+Completion evidence:
+Report exact files changed, supported forms, exclusions and limits, tests and results, skipped checks, documentation updated, remaining path-race or platform risks, and whether the slice is ready for React analysis. Do not claim the full Phase 1 MVP is complete.
+```

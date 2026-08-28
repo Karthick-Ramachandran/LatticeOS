@@ -63,6 +63,9 @@ importers:
       '@latticeos/core':
         specifier: workspace:*
         version: link:../../core
+      typescript:
+        specifier: 7.0.2
+        version: 7.0.2
 
   packages/adapters/shadcn:
     dependencies:
@@ -99,6 +102,9 @@ importers:
       '@latticeos/core':
         specifier: workspace:*
         version: link:../core
+      typescript:
+        specifier: 7.0.2
+        version: 7.0.2
 
   packages/cli:
     dependencies:
