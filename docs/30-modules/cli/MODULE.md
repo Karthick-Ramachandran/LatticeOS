@@ -16,8 +16,8 @@ and safe initialization.
 
 ## Public Interfaces
 
-- `lattice init`, `lattice search`, `lattice inspect`, `lattice context`, and global `--help`,
-  `--version`, `--root`, and `--json` options.
+- Implemented: `lattice search`, `lattice inspect`, `lattice context`, and global `--help`,
+  `--version`, `--root`, and `--json` options. `lattice init` remains planned.
 
 ## Boundaries
 

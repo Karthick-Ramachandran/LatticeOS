@@ -1,5 +1,6 @@
 export const REUSE_INDEX_SCHEMA_VERSION = 1 as const;
 export const REUSE_CONTEXT_SCHEMA_VERSION = 1 as const;
+export const LATTICE_CLI_SCHEMA_VERSION = 1 as const;
 
 export type ComponentId = `react:${string}:${string}#${string}`;
 export type RepositoryPath = string;

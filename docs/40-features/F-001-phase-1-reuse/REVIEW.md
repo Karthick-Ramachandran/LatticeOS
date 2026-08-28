@@ -149,6 +149,20 @@ No blocker was found in the ADR-0004 cache lifecycle slice.
 The remaining ancestor-directory replacement race is documented below. Packed cross-platform tests
 must exercise platform differences before Phase 1 release.
 
+### CLI query security review
+
+No blocker was found in the implemented query commands.
+
+- `search`, `inspect`, and `context` accept only a validated repository root and use analyzer and core
+  public interfaces. They do not parse consumer configuration, execute source, access the network, or
+  write application files.
+- Query commands always analyze current source before replacing the fixed generated cache path. A
+  cache-path safety error fails the command rather than emitting a result from unsafe state.
+- JSON results are serialized deterministically with an explicit schema version. Human results go to
+  stdout; parse and analysis failures go to stderr with stable nonzero exit behavior.
+- Copied-fixture tests prove the command does not modify component source. Packed-binary proof and
+  safe `init` behavior remain separate release gates.
+
 ### Dependency and network review
 
 - TypeScript 6.0.3 is the compiler dependency added to the analyzer and React adapter boundaries.

@@ -28,7 +28,7 @@ implemented.
 ## Tests Run
 
 - `pnpm test:run`: 3 docs tests, 17 core tests, 2 React adapter tests, 2 Tailwind adapter tests,
-  and 25 analyzer tests passed.
+  25 analyzer tests, and 3 CLI tests passed.
 - `pnpm typecheck`: all eight implementation workspaces passed.
 - `pnpm build`: all implementation packages built and the docs app generated 30 routes.
 - `pnpm test:package`: passed. No package-specific consumer smoke script is registered yet; that is
@@ -60,10 +60,13 @@ implemented.
 - Cache reads return only a valid index hit, a missing state, or an invalid state that callers rebuild.
   Cache writes atomically replace only `.lattice/cache/reuse-index.json` after core validation.
   Tests prove source preservation and refusal of symlinked cache paths.
+- `lattice search`, `inspect`, and `context` run fresh bounded analysis, refresh only the generated
+  cache, and return deterministic human or schema-versioned JSON output. `init` and packed-binary
+  evidence remain pending.
 
 ## Remaining Risks
 
-- Optional adapters, CLI, packaging, and the benchmark are not complete.
+- Optional adapters, `lattice init`, packed CLI proof, and the benchmark are not complete.
 - The adapter's future analyzer bridge needs aggregate source/project bounds and a denial-of-service
   fixture before it runs on unrestricted repository inventories.
 - Cross-platform packed tests must assess the documented filesystem race and `O_NOFOLLOW`
