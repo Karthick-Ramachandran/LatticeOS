@@ -12,6 +12,8 @@
 - Done: Implement bounded React source selection, nearest workspace ownership, direct root tsconfig
   alias parsing, and analyzer-to-adapter orchestration. The bridge has a named golden, aggregate
   source limits, and a no-execution tsconfig test.
+- Done: Implement bounded Tailwind config, CSS, and source selection through `RepositoryRoot`. The
+  bridge has a named golden, aggregate source limits, and a no-execution configuration test.
 - Todo: Extend TypeScript project support beyond direct root compiler options only when fixtures and
   a security review prove the additional configuration boundary.
 - Todo: Implement deterministic atomic index lifecycle.

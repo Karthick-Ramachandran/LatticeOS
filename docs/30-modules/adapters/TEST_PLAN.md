@@ -12,8 +12,8 @@
 
 ## Integration Tests
 
-- Named Next.js workspace goldens verify direct React and Tailwind evidence. Analyzer integration
-  will add end-to-end Tailwind admission after it owns bounded CSS/config/source selection.
+- Named Next.js workspace goldens verify direct React and Tailwind evidence. The analyzer's Tailwind
+  bridge golden verifies end-to-end bounded CSS, config, and source admission.
 
 ## Security Tests
 

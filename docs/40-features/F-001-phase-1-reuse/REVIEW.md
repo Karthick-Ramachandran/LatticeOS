@@ -2,9 +2,9 @@
 
 ## Status
 
-In progress. The T2 core, T3 discovery, React bridge, and direct Tailwind adapter checkpoints were
-reviewed on 2026-08-29. Generated writes, CLI behavior, packaging, and the benchmark still require
-review.
+In progress. The T2 core, T3 discovery and React bridge, plus direct and bridged Tailwind analysis
+were reviewed on 2026-08-29. Generated writes, CLI behavior, packaging, and the benchmark still
+require review.
 
 ## Findings
 
@@ -90,9 +90,27 @@ No blocker was found in the direct Tailwind analysis slice.
 - The golden-update script is an explicit developer command. It writes only the fixed repository
   fixture snapshot and is outside the runtime adapter and future CLI paths.
 
-The adapter deliberately has no repository read authority. The planned analyzer bridge must select
-CSS, configuration, and source files through `RepositoryRoot`, enforce aggregate limits before it
-calls this adapter, and receive a separate review.
+The adapter deliberately has no repository read authority. `analyzeTailwindProject` selects CSS,
+configuration, and source files through `RepositoryRoot`, enforces aggregate limits before it calls
+the adapter, and has its own review below.
+
+### Tailwind project bridge security review
+
+No blocker was found in the bridge from repository discovery into Tailwind analysis.
+
+- The bridge calls `detectProject` and reads candidate files only through `RepositoryRoot`. It keeps
+  discovery exclusions, root containment, symlink handling, and per-file limits intact.
+- It stops before Tailwind analysis receives more than 5,000 files or 20 MiB by default. A file,
+  byte, unreadable-source, or discovery limit makes the result truncated and reports a bounded
+  diagnostic instead of presenting partial evidence as complete.
+- Only recognized Tailwind config filenames, CSS files, and supported JavaScript or TypeScript
+  sources are admitted. A confident Tailwind absence produces no adapter input.
+- The bridge passes text to the direct adapter and has no import, plugin, network, telemetry, cloud,
+  MCP, child-process, dynamic-evaluation, or write path. The fixture config throws if imported, and
+  the bridge golden test proves that its throw text does not enter the result.
+
+Complete index assembly must avoid bypassing either existing bridge. It needs a separate security
+review when it combines discovery and adapter evidence into a generated Reuse index.
 
 ### Dependency and network review
 
@@ -117,6 +135,5 @@ calls this adapter, and receive a separate review.
 - TypeScript parsing can still consume meaningful CPU and memory for a large admitted source set.
   The future analyzer bridge must enforce an aggregate source and project limit before it invokes the
   adapter, then add a denial-of-service fixture and performance evidence.
-- Tailwind's direct adapter has the same caller-supplied-text posture as the direct React adapter.
-  A future bridge must apply inventory exclusions and aggregate byte and file limits before invoking
-  it on a consumer repository.
+- Tailwind's project bridge applies inventory exclusions and aggregate byte and file limits. A
+  dedicated denial-of-service fixture and performance evidence remain necessary before release.

@@ -24,4 +24,5 @@ framework-neutral core model.
 ## Boundaries
 
 Adapters depend on core. React analysis uses TypeScript 6.0.3 under ADR-0011. Analyzer owns
-filesystem traversal and calls adapters with validated inputs. Adapters never execute consumer code.
+filesystem traversal and calls adapters with validated inputs. `analyzeTailwindProject` is the
+implemented Tailwind admission bridge. Adapters never execute consumer code.

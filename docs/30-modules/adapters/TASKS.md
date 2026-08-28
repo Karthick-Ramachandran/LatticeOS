@@ -16,6 +16,6 @@
 - Done: Implement static Tailwind v4 theme CSS, direct v3 theme configuration values, literal
   className values, fully static class-merging calls, normalized exact repetition, aligned original
   literals, and dynamic-expression diagnostics. A named workspace golden covers the supported forms.
-- Todo: Connect bounded `RepositoryRoot` source selection and static configuration admission to the
-  Tailwind adapter without weakening its no-execution boundary.
+- Done: Connect bounded `RepositoryRoot` source selection and static configuration admission to the
+  Tailwind adapter without weakening its no-execution boundary. A project golden proves the bridge.
 - Todo: Implement shadcn and Storybook optional evidence.

@@ -5,8 +5,8 @@ description: Static theme tokens and repeated utility bundles without executing 
 
 <Callout title="Implemented" type="info">
   `@latticeos/adapter-tailwind` extracts tested static Tailwind evidence from admitted CSS,
-  configuration text, and source text. Analyzer-owned source selection and complete Reuse index
-  assembly are still separate work.
+  configuration text, and source text. `analyzeTailwindProject` now admits those inputs through the
+  analyzer's repository boundary. Complete Reuse index assembly is still separate work.
 </Callout>
 
 ## What it reads
@@ -27,8 +27,29 @@ const result = analyzeTailwind({
 });
 ```
 
-Paths must already be normalized and unique. The analyzer will remain responsible for file size,
-inventory, exclusion, and symlink controls when it becomes the caller.
+Paths must already be normalized and unique. Direct callers own their own admission controls.
+
+## Repository bridge
+
+Call `analyzeTailwindProject` when analysis starts from a repository root. It calls
+`detectProject`, then admits only repository-relative Tailwind configuration files, CSS files, and
+supported JavaScript or TypeScript source files through `RepositoryRoot`. It never imports a
+consumer config.
+
+```ts title="Analyze a repository safely"
+import { analyzeTailwindProject, RepositoryRoot } from "@latticeos/analyzer";
+
+const root = await RepositoryRoot.open("/workspace/product");
+const result = await analyzeTailwindProject(root, {
+  maxTailwindSourceFiles: 5_000,
+  maxTailwindSourceBytes: 20 * 1024 * 1024,
+});
+```
+
+The bridge skips Tailwind source admission when project detection is confidently `absent`. If the
+scan is incomplete or a limit is reached, `truncated` is true and a diagnostic explains which
+evidence may be missing. Default bounds are 5,000 files, 20 MiB total input, 1 MiB per file, and
+100 diagnostics. Hard limits are 20,000 files, 64 MiB, 16 MiB per file, and 1,000 diagnostics.
 
 ## Supported evidence
 
@@ -74,11 +95,13 @@ not a request to create a component.
 
 The named `fixtures/next-workspace` fixture contains a v4 CSS theme, a Tailwind configuration that
 throws if executed, repeated class attributes with different token order, and a fully static `cn`
-call. The adapter golden is
-`fixtures/goldens/tailwind-analysis.next-workspace.golden.json`.
+call. The direct adapter and repository bridge goldens are
+`fixtures/goldens/tailwind-analysis.next-workspace.golden.json` and
+`fixtures/goldens/tailwind-project.next-workspace.golden.json`.
 
-Run `pnpm --filter @latticeos/adapter-tailwind golden:update` to regenerate that snapshot, inspect
-the diff, then run `pnpm --filter @latticeos/adapter-tailwind test`.
+Run `pnpm --filter @latticeos/adapter-tailwind golden:update` and
+`pnpm --filter @latticeos/analyzer golden:update` to regenerate the snapshots, inspect each diff,
+then run the matching package tests.
 
 ## Agent implementation prompt
 
@@ -101,12 +124,16 @@ Read first:
 10. docs/60-engineering/LESSONS.md
 11. docs/40-features/F-001-phase-1-reuse/
 12. docs/30-modules/adapters/
-13. ADR-0007, ADR-0008, ADR-0009, ADR-0012, and ADR-0013 under docs/adrs/
-14. this guide, Tailwind adapter tests, and the named fixture golden
+13. docs/30-modules/analyzer/
+14. ADR-0007, ADR-0008, ADR-0009, ADR-0012, and ADR-0013 under docs/adrs/
+15. this guide, Tailwind adapter and bridge tests, and the named fixture goldens
 
 Current contract:
 - `analyzeTailwind` receives only normalized repository-relative input text. It must not use Node
   filesystem APIs, execute a Tailwind config, import a plugin, or write a consumer path.
+- `analyzeTailwindProject` is the analyzer entry point. It must select every file through
+  `RepositoryRoot`, enforce its aggregate and per-file bounds before calling the adapter, preserve
+  `truncated` state, and never pass raw source text into diagnostics.
 - It returns core `TailwindEvidence`, `EvidenceRecord`, and `AnalysisDiagnostic` contracts. Do not
   create parallel Tailwind result types.
 - CSS `@theme` variables, direct static v3 theme values, literal className values, and fully static
@@ -140,6 +167,7 @@ Documentation:
 
 Completion evidence:
 Report files changed, supported and unsupported forms, exact evidence fields, diagnostics, test
-results, documentation updated, remaining risks, and whether analyzer integration is still pending.
+results, documentation updated, remaining risks, and whether complete Reuse index assembly is still
+pending.
 Do not claim the Phase 1 MVP is complete.
 ```

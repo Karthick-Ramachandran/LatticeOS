@@ -49,12 +49,12 @@ Evidence:
   package boundaries with inward dependencies.
 - `@latticeos/core` implements schema version 1, canonical identity, validation, deterministic JSON,
   evidence-backed lexical ranking, explicit resolution, and context budgets.
-- Fourteen core tests, the dependency-boundary check, generated-schema freshness check, repository
+- Seventeen core tests, the dependency-boundary check, generated-schema freshness check, repository
   typecheck, build, package gate, documentation gate, and Persist validation pass.
 
 ## T3: Implement Safe Project And React Analysis
 
-Status: In Progress
+Status: Done
 
 Scope:
 
@@ -83,7 +83,8 @@ Evidence to date:
   ownership, parses direct root tsconfig aliases without loading `extends`, calls the React adapter,
   and marks aggregate source limits as incomplete. Its named project golden and config non-execution
   test pass.
-- Package-specific tsconfig projects, index assembly, and the other adapters remain in progress.
+- Complete index assembly and the other adapters remain in progress. Package-specific tsconfig
+  inheritance is a later extension to the direct-root configuration boundary.
 
 ## T4: Implement Reuse Evidence Adapters
 
@@ -107,8 +108,10 @@ Evidence to date:
 - `@latticeos/adapter-tailwind` has a named workspace golden for v4 `@theme` variables, direct static
   v3 theme values, className values, fully static `cn` calls, exact reordered repetition, aligned
   source literals, and dynamic-expression diagnostics. It never executes fixture configuration.
-- Analyzer admission for Tailwind CSS, config, and source files plus shadcn and Storybook evidence
-  remain in progress.
+- `analyzeTailwindProject` selects Tailwind configuration, CSS, and source files only through
+  `RepositoryRoot`. It applies explicit aggregate file, byte, and diagnostic limits, preserves
+  incomplete-scan state, and matches its named project golden without executing fixture config.
+- shadcn and Storybook evidence plus complete Reuse index assembly remain in progress.
 
 ## T5: Deliver Reuse CLI Workflows
 

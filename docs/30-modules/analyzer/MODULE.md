@@ -17,7 +17,7 @@ orchestrating adapters, recording diagnostics, and managing generated state.
 ## Public Interfaces
 
 - Implemented: `RepositoryRoot.open`, confined `readText`, bounded `listFiles`, default exclusions,
-  `detectProject`, and `analyzeReactProject`.
+  `detectProject`, `analyzeReactProject`, and `analyzeTailwindProject`.
 - Planned in later F-001 slices: `analyzeProject`, `buildReuseIndex`, `readReuseIndex`, and
   `writeReuseIndex`.
 
@@ -35,3 +35,9 @@ unknown rather than absent.
 set through `RepositoryRoot`, assigns nearest workspace ownership, reads direct root tsconfig aliases
 as data, and never loads `extends`. The bridge does not yet support package-specific tsconfig files
 or assemble a complete Reuse index.
+
+`analyzeTailwindProject` is the analyzer bridge into the Tailwind adapter. It admits Tailwind config,
+CSS, and supported JavaScript or TypeScript sources only after project detection reports Tailwind as
+present or unknown. It applies the same repository exclusions and per-file reads as other analyzer
+work, plus bounded aggregate file, byte, and diagnostic limits. It never imports configuration or
+constructs a complete Reuse index.
