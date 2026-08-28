@@ -13,3 +13,6 @@ model preferences.
   the same `.next` lock; run those two repository gates sequentially.
 - Keep golden snapshots outside the consumer fixture root they describe; an inventory golden inside
   that root includes itself and changes the inventory after it is written.
+- TypeScript 7's package root no longer exposes the classic JavaScript Compiler API; tools that need
+  `Program`, `SourceFile`, and `TypeChecker` must stay on the maintained TypeScript 6.x line until
+  LatticeOS deliberately adopts TypeScript 7's curated IPC API.
