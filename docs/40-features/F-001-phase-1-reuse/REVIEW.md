@@ -2,8 +2,9 @@
 
 ## Status
 
-In progress. The T2 core and T3 safe-discovery checkpoints were reviewed on 2026-08-29. React
-analysis, generated writes, CLI behavior, packaging, and the benchmark still require review.
+In progress. The T2 core, T3 discovery, React bridge, and direct Tailwind adapter checkpoints were
+reviewed on 2026-08-29. Generated writes, CLI behavior, packaging, and the benchmark still require
+review.
 
 ## Findings
 
@@ -70,6 +71,29 @@ No blocker was found in the bridge from repository discovery into React analysis
 The root-only configuration boundary is intentional and documented. Package-specific tsconfig files
 and inherited configuration need a new fixture and security review before they are added.
 
+### Tailwind adapter security review
+
+No blocker was found in the direct Tailwind analysis slice.
+
+- `analyzeTailwind` receives caller-supplied text only. Runtime adapter code imports `node:crypto`
+  for stable fingerprints and has no filesystem, child-process, network, telemetry, MCP, cloud,
+  dynamic-evaluation, or consumer-configuration execution path.
+- CSS and configuration input are parsed as text. The fixture configuration throws when loaded, and
+  the passing test proves analysis does not load it. Imported values, variables, functions, plugins,
+  interpolated templates, and other dynamic values are not evaluated or copied into tokens.
+- Source scanning ignores ordinary strings and comments. Dynamic class expressions and mixed merge
+  calls return bounded diagnostics without copying their contents into evidence. Tests prove a
+  dynamic value named `not-for-output` is absent from the full result.
+- Direct literal `className` evidence is exact static-source evidence. Bare `cn`, `clsx`, and
+  `classnames` matches are heuristic because the adapter does not resolve their imports; the
+  evidence record includes that limitation.
+- The golden-update script is an explicit developer command. It writes only the fixed repository
+  fixture snapshot and is outside the runtime adapter and future CLI paths.
+
+The adapter deliberately has no repository read authority. The planned analyzer bridge must select
+CSS, configuration, and source files through `RepositoryRoot`, enforce aggregate limits before it
+calls this adapter, and receive a separate review.
+
 ### Dependency and network review
 
 - TypeScript 6.0.3 is the compiler dependency added to the analyzer and React adapter boundaries.
@@ -93,3 +117,6 @@ and inherited configuration need a new fixture and security review before they a
 - TypeScript parsing can still consume meaningful CPU and memory for a large admitted source set.
   The future analyzer bridge must enforce an aggregate source and project limit before it invokes the
   adapter, then add a denial-of-service fixture and performance evidence.
+- Tailwind's direct adapter has the same caller-supplied-text posture as the direct React adapter.
+  A future bridge must apply inventory exclusions and aggregate byte and file limits before invoking
+  it on a consumer repository.

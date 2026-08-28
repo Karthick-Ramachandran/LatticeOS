@@ -85,6 +85,79 @@ test("validation rejects unsupported prop defaults and imports that resolve nowh
   }
 });
 
+test("validation keeps class-bundle source literals aligned with their locations", () => {
+  const index = createTestReuseIndex();
+  const evidence = {
+    id: "e.class.bundle",
+    kind: "class-bundle" as const,
+    location: { path: "src/card.tsx", line: 3, column: 1 },
+    method: "static-source" as const,
+    classification: "exact" as const,
+    fingerprint: "sha256:class-bundle",
+    limitations: [],
+  };
+  const invalid = {
+    ...index,
+    tailwind: {
+      tokens: [],
+      repeatedClassBundles: [
+        {
+          classes: ["border", "rounded-lg"],
+          originals: ["rounded-lg border"],
+          count: 2,
+          locations: [
+            { path: "src/card.tsx", line: 3, column: 1 },
+            { path: "src/card.tsx", line: 4, column: 1 },
+          ],
+          evidenceIds: ["e.class.bundle"],
+        },
+      ],
+    },
+    evidence: [...index.evidence, evidence],
+  };
+  const result = validateReuseIndex(invalid);
+
+  assert.equal(result.ok, false);
+  if (!result.ok) assert.ok(result.issues.some((issue) => issue.path.endsWith(".originals")));
+});
+
+test("serialization keeps each original class literal with its sorted location", () => {
+  const index = createTestReuseIndex();
+  const evidence = {
+    id: "e.class.bundle",
+    kind: "class-bundle" as const,
+    location: { path: "src/b.tsx", line: 3, column: 1 },
+    method: "static-source" as const,
+    classification: "exact" as const,
+    fingerprint: "sha256:class-bundle",
+    limitations: [],
+  };
+  const serialized = serializeReuseIndex({
+    ...index,
+    tailwind: {
+      tokens: [],
+      repeatedClassBundles: [
+        {
+          classes: ["rounded-lg", "border"],
+          originals: ["rounded-lg border", "border rounded-lg"],
+          count: 2,
+          locations: [
+            { path: "src/b.tsx", line: 3, column: 1 },
+            { path: "src/a.tsx", line: 2, column: 1 },
+          ],
+          evidenceIds: ["e.class.bundle"],
+        },
+      ],
+    },
+    evidence: [...index.evidence, evidence],
+  });
+  const bundle = JSON.parse(serialized).tailwind.repeatedClassBundles[0];
+
+  assert.deepEqual(bundle.classes, ["border", "rounded-lg"]);
+  assert.deepEqual(bundle.locations.map((item: { path: string }) => item.path), ["src/a.tsx", "src/b.tsx"]);
+  assert.deepEqual(bundle.originals, ["border rounded-lg", "rounded-lg border"]);
+});
+
 test("serialization is byte-stable regardless of collection insertion order", () => {
   const index = createTestReuseIndex();
   const reordered = {

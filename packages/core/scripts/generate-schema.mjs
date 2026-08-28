@@ -193,9 +193,10 @@ const schema = {
           items: {
             type: "object",
             additionalProperties: false,
-            required: ["classes", "count", "locations", "evidenceIds"],
+            required: ["classes", "originals", "count", "locations", "evidenceIds"],
             properties: {
               classes: stringArray,
+              originals: { type: "array", items: { type: "string", minLength: 1 } },
               count: { type: "integer", minimum: 1 },
               locations: { type: "array", items: location },
               evidenceIds,
@@ -214,7 +215,7 @@ const schema = {
           id: { type: "string", minLength: 1 },
           kind: { enum: ["project", "package", "export", "prop", "import", "usage", "composition", "story", "registry", "token", "class-bundle"] },
           location,
-          method: { enum: ["manifest", "ast", "type-checker", "css", "static-config"] },
+          method: { enum: ["manifest", "ast", "type-checker", "css", "static-config", "static-source"] },
           classification: { enum: ["exact", "corroborating", "heuristic"] },
           fingerprint: { type: "string", minLength: 1 },
           limitations: stringArray,

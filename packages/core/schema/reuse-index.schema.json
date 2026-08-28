@@ -578,6 +578,7 @@
             "additionalProperties": false,
             "required": [
               "classes",
+              "originals",
               "count",
               "locations",
               "evidenceIds"
@@ -587,6 +588,13 @@
                 "type": "array",
                 "items": {
                   "type": "string"
+                }
+              },
+              "originals": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
                 }
               },
               "count": {
@@ -710,7 +718,8 @@
               "ast",
               "type-checker",
               "css",
-              "static-config"
+              "static-config",
+              "static-source"
             ]
           },
           "classification": {

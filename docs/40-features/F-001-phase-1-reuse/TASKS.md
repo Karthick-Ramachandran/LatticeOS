@@ -87,7 +87,7 @@ Evidence to date:
 
 ## T4: Implement Reuse Evidence Adapters
 
-Status: Todo
+Status: In Progress
 
 Scope:
 
@@ -101,6 +101,14 @@ Tests:
 
 - v3/v4 Tailwind, class-merger, dynamic-syntax diagnostic, shadcn, Storybook, absent, and malformed
   fixtures.
+
+Evidence to date:
+
+- `@latticeos/adapter-tailwind` has a named workspace golden for v4 `@theme` variables, direct static
+  v3 theme values, className values, fully static `cn` calls, exact reordered repetition, aligned
+  source literals, and dynamic-expression diagnostics. It never executes fixture configuration.
+- Analyzer admission for Tailwind CSS, config, and source files plus shadcn and Storybook evidence
+  remain in progress.
 
 ## T5: Deliver Reuse CLI Workflows
 

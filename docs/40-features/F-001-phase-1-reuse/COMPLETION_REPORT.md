@@ -2,9 +2,9 @@
 
 ## Status
 
-Phase 1 is not complete. T2 core, T3 safe project discovery, and direct React analysis are
-implemented. T3 remains open until the analyzer safely selects sources, reads tsconfig data, and
-orchestrates the adapter.
+Phase 1 is not complete. T2 core, T3 safe project discovery, the React project bridge, and direct
+Tailwind analysis are implemented. T3 remains open until the analyzer admits Tailwind inputs and
+assembles the complete Reuse index.
 
 ## Files Changed
 
@@ -13,19 +13,24 @@ orchestrates the adapter.
 - `packages/analyzer`: repository boundary, project discovery, golden generation, and security tests.
 - `packages/adapters/react`: virtual TypeScript 6.0.3 program, direct component/prop/import/usage
   extraction, diagnostics, fixture golden, and tests.
-- `fixtures/next-workspace` and `fixtures/goldens`: named project-detection evidence.
-- `apps/docs`: Reuse index, safe project-discovery, and React-analysis guides with copy-ready prompts.
+- `packages/adapters/tailwind`: static CSS-theme, configuration-text, and class-bundle extraction,
+  diagnostics, fixture golden, and tests. It does not read a consumer repository or execute config.
+- `fixtures/next-workspace` and `fixtures/goldens`: named project-detection, React, and Tailwind
+  evidence.
+- `apps/docs`: Reuse index, safe project-discovery, React-analysis, and Tailwind-analysis guides
+  with copy-ready prompts.
 - Root contributor, security, license, README, and LLM guidance.
 - Feature, module, engineering, review, and lesson memory under `docs/`.
 
 ## Tests Run
 
-- `pnpm test:run`: 3 docs tests, 15 core tests, 2 React adapter tests, and 13 analyzer tests passed.
+- `pnpm test:run`: 3 docs tests, 17 core tests, 2 React adapter tests, 2 Tailwind adapter tests,
+  and 13 analyzer tests passed.
 - `pnpm typecheck`: all eight implementation workspaces passed.
-- `pnpm build`: all implementation packages built and the docs app generated 24 routes.
+- `pnpm build`: all implementation packages built and the docs app generated 26 routes.
 - `pnpm test:package`: passed. No package-specific consumer smoke script is registered yet; that is
   an explicit later Phase 1 gate.
-- `pnpm docs:check`: content validation, docs tests, typecheck, and the 24-route production build
+- `pnpm docs:check`: content validation, docs tests, typecheck, and the 26-route production build
   passed.
 - `persist doctor`: passed after the final memory update.
 
@@ -39,11 +44,15 @@ orchestrates the adapter.
   prop, import, alias, JSX, composition, and call forms without executing consumer code.
 - The analyzer bridge matches its named project golden. It applies direct root aliases, marks
   aggregate source limits incomplete, and ignores tsconfig `extends` without loading it.
+- Direct Tailwind analysis matches its named fixture golden. It reads v4 CSS theme variables, direct
+  static v3 theme values, literal class attributes, and fully static merge calls. It reports dynamic
+  inputs without copying them into evidence, and preserves original class strings alongside
+  normalized repeated bundles.
 
 ## Remaining Risks
 
-- Analyzer source selection and static tsconfig parsing, Tailwind details, optional adapters, cache
-  writes, CLI, packaging, and the benchmark are not complete.
+- Tailwind source admission and orchestration, optional adapters, cache writes, CLI, packaging, and
+  the benchmark are not complete.
 - The adapter's future analyzer bridge needs aggregate source/project bounds and a denial-of-service
   fixture before it runs on unrestricted repository inventories.
 - Cross-platform packed tests must assess the documented filesystem race and `O_NOFOLLOW`

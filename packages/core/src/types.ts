@@ -26,6 +26,7 @@ export const evidenceMethods = [
   "type-checker",
   "css",
   "static-config",
+  "static-source",
 ] as const;
 
 export type EvidenceMethod = (typeof evidenceMethods)[number];
@@ -148,6 +149,7 @@ export interface TailwindToken {
 
 export interface TailwindClassBundle {
   readonly classes: readonly string[];
+  readonly originals: readonly string[];
   readonly count: number;
   readonly locations: readonly SourceLocation[];
   readonly evidenceIds: readonly string[];

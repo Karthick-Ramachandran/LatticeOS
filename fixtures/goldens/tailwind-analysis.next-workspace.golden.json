@@ -1,0 +1,209 @@
+{
+  "diagnostics": [],
+  "evidence": [
+    {
+      "classification": "heuristic",
+      "fingerprint": "sha256:42aa97d038709c104cbe95c0c55a41e1725e094424880a5c0a630155755a3b6e",
+      "id": "ev:tailwind:class-bundle:5a1f23d4dcddcdd0b2b4",
+      "kind": "class-bundle",
+      "limitations": [
+        "The known merge-helper name was matched statically; its import was not resolved."
+      ],
+      "location": {
+        "column": 29,
+        "endColumn": 57,
+        "endLine": 9,
+        "line": 9,
+        "path": "apps/web/app/page.tsx"
+      },
+      "method": "static-source"
+    },
+    {
+      "classification": "exact",
+      "fingerprint": "sha256:13cd7f3ef9b2ef8e5277096910373e575c205a46fc6dd4f87b2c9b5ae14b224e",
+      "id": "ev:tailwind:class-bundle:6a214a52f2cfd1713fac",
+      "kind": "class-bundle",
+      "limitations": [],
+      "location": {
+        "column": 24,
+        "endColumn": 47,
+        "endLine": 7,
+        "line": 7,
+        "path": "packages/ui/src/settings-section.tsx"
+      },
+      "method": "static-source"
+    },
+    {
+      "classification": "exact",
+      "fingerprint": "sha256:d2091af58235e1235517286981b17404b543bfd49e4493cf05d43aa35e05ab07",
+      "id": "ev:tailwind:class-bundle:704abbd193953a8daf3c",
+      "kind": "class-bundle",
+      "limitations": [],
+      "location": {
+        "column": 28,
+        "endColumn": 81,
+        "endLine": 14,
+        "line": 14,
+        "path": "packages/ui/src/button.tsx"
+      },
+      "method": "static-source"
+    },
+    {
+      "classification": "exact",
+      "fingerprint": "sha256:d2091af58235e1235517286981b17404b543bfd49e4493cf05d43aa35e05ab07",
+      "id": "ev:tailwind:class-bundle:978d8551cd47a0c36ea9",
+      "kind": "class-bundle",
+      "limitations": [],
+      "location": {
+        "column": 21,
+        "endColumn": 74,
+        "endLine": 18,
+        "line": 18,
+        "path": "packages/ui/src/button.tsx"
+      },
+      "method": "static-source"
+    },
+    {
+      "classification": "exact",
+      "fingerprint": "sha256:66407a023c5d1b0379f312361441d1c41084194286d2b198fa09fb8cb5b0b001",
+      "id": "ev:tailwind:token:2df75777fa97b6fb406b",
+      "kind": "token",
+      "limitations": [],
+      "location": {
+        "column": 9,
+        "endColumn": 15,
+        "endLine": 7,
+        "line": 7,
+        "path": "tailwind.config.ts"
+      },
+      "method": "static-config"
+    },
+    {
+      "classification": "exact",
+      "fingerprint": "sha256:66407a023c5d1b0379f312361441d1c41084194286d2b198fa09fb8cb5b0b001",
+      "id": "ev:tailwind:token:62a6e48ff4d1cb7cafeb",
+      "kind": "token",
+      "limitations": [],
+      "location": {
+        "column": 9,
+        "endColumn": 13,
+        "endLine": 10,
+        "line": 10,
+        "path": "tailwind.config.ts"
+      },
+      "method": "static-config"
+    },
+    {
+      "classification": "exact",
+      "fingerprint": "sha256:ef47b78c35dada1aa5a1f92c8d5ccdd86ef276f33cee4aa3d07f15cb4ea4c2cc",
+      "id": "ev:tailwind:token:f94f031f3c50e35624b9",
+      "kind": "token",
+      "limitations": [],
+      "location": {
+        "column": 3,
+        "endColumn": 16,
+        "endLine": 4,
+        "line": 4,
+        "path": "apps/web/app/globals.css"
+      },
+      "method": "css"
+    }
+  ],
+  "tailwind": {
+    "repeatedClassBundles": [
+      {
+        "classes": [
+          "border",
+          "p-4",
+          "rounded-lg"
+        ],
+        "count": 2,
+        "evidenceIds": [
+          "ev:tailwind:class-bundle:5a1f23d4dcddcdd0b2b4",
+          "ev:tailwind:class-bundle:6a214a52f2cfd1713fac"
+        ],
+        "locations": [
+          {
+            "column": 29,
+            "endColumn": 57,
+            "endLine": 9,
+            "line": 9,
+            "path": "apps/web/app/page.tsx"
+          },
+          {
+            "column": 24,
+            "endColumn": 47,
+            "endLine": 7,
+            "line": 7,
+            "path": "packages/ui/src/settings-section.tsx"
+          }
+        ],
+        "originals": [
+          "border p-4 rounded-lg",
+          "rounded-lg border p-4"
+        ]
+      },
+      {
+        "classes": [
+          "gap-2",
+          "inline-flex",
+          "items-center",
+          "px-4",
+          "py-2",
+          "rounded-md"
+        ],
+        "count": 2,
+        "evidenceIds": [
+          "ev:tailwind:class-bundle:704abbd193953a8daf3c",
+          "ev:tailwind:class-bundle:978d8551cd47a0c36ea9"
+        ],
+        "locations": [
+          {
+            "column": 28,
+            "endColumn": 81,
+            "endLine": 14,
+            "line": 14,
+            "path": "packages/ui/src/button.tsx"
+          },
+          {
+            "column": 21,
+            "endColumn": 74,
+            "endLine": 18,
+            "line": 18,
+            "path": "packages/ui/src/button.tsx"
+          }
+        ],
+        "originals": [
+          "inline-flex items-center gap-2 rounded-md px-4 py-2",
+          "py-2 px-4 rounded-md gap-2 items-center inline-flex"
+        ]
+      }
+    ],
+    "tokens": [
+      {
+        "evidenceIds": [
+          "ev:tailwind:token:f94f031f3c50e35624b9"
+        ],
+        "name": "--color-brand",
+        "sourcePath": "apps/web/app/globals.css",
+        "value": "oklch(0.62 0.18 255)"
+      },
+      {
+        "evidenceIds": [
+          "ev:tailwind:token:2df75777fa97b6fb406b"
+        ],
+        "name": "colors.accent",
+        "sourcePath": "tailwind.config.ts",
+        "value": "#7c3aed"
+      },
+      {
+        "evidenceIds": [
+          "ev:tailwind:token:62a6e48ff4d1cb7cafeb"
+        ],
+        "name": "spacing.card",
+        "sourcePath": "tailwind.config.ts",
+        "value": "1.25rem"
+      }
+    ]
+  }
+}

@@ -6,12 +6,14 @@
   The React suite now covers named/default/function/arrow/memo/forwardRef forms, inherited props,
   optional/defaulted literal variants, alias imports, JSX, composition, call sites, malformed syntax,
   and virtual-root traversal rejection.
+- The Tailwind suite covers v4 `@theme` CSS, direct static v3 theme configuration, className values,
+  fully static merge calls, reordered repeated bundles, original-literal alignment, dynamic source,
+  and configuration non-execution.
 
 ## Integration Tests
 
-- The named Next.js workspace golden verifies direct normalized React evidence. Analyzer orchestration
-  will add the end-to-end adapter integration test after it owns safe source selection and tsconfig
-  parsing.
+- Named Next.js workspace goldens verify direct React and Tailwind evidence. Analyzer integration
+  will add end-to-end Tailwind admission after it owns bounded CSS/config/source selection.
 
 ## Security Tests
 

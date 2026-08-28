@@ -13,5 +13,9 @@
   calls. A named Next.js workspace golden and malformed-input tests prove the current boundary.
 - Done: Connect `RepositoryRoot` inventory and direct root tsconfig aliases to the adapter through
   analyzer-owned bounded source selection and a virtual host.
-- Todo: Implement Tailwind static evidence and exact repetition.
+- Done: Implement static Tailwind v4 theme CSS, direct v3 theme configuration values, literal
+  className values, fully static class-merging calls, normalized exact repetition, aligned original
+  literals, and dynamic-expression diagnostics. A named workspace golden covers the supported forms.
+- Todo: Connect bounded `RepositoryRoot` source selection and static configuration admission to the
+  Tailwind adapter without weakening its no-execution boundary.
 - Todo: Implement shadcn and Storybook optional evidence.

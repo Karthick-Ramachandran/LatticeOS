@@ -1,4 +1,4 @@
 {
   "title": "Features",
-  "pages": ["phase-1-reuse", "project-discovery", "react-component-analysis"]
+  "pages": ["phase-1-reuse", "project-discovery", "react-component-analysis", "tailwind-static-analysis"]
 }

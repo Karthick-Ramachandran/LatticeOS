@@ -1,0 +1,145 @@
+---
+title: Tailwind static analysis
+description: Static theme tokens and repeated utility bundles without executing configuration.
+---
+
+<Callout title="Implemented" type="info">
+  `@latticeos/adapter-tailwind` extracts tested static Tailwind evidence from admitted CSS,
+  configuration text, and source text. Analyzer-owned source selection and complete Reuse index
+  assembly are still separate work.
+</Callout>
+
+## What it reads
+
+The adapter accepts caller-supplied, repository-relative text. It does not open files, import a
+Tailwind configuration, run a plugin, or write output.
+
+```ts title="Analyze admitted Tailwind inputs"
+import { analyzeTailwind } from "@latticeos/adapter-tailwind";
+
+const result = analyzeTailwind({
+  repeatedBundleThreshold: 2,
+  sources: [
+    { path: "app/globals.css", kind: "css", content: cssText },
+    { path: "tailwind.config.ts", kind: "config", content: configText },
+    { path: "components/card.tsx", kind: "source", content: sourceText },
+  ],
+});
+```
+
+Paths must already be normalized and unique. The analyzer will remain responsible for file size,
+inventory, exclusion, and symlink controls when it becomes the caller.
+
+## Supported evidence
+
+| Input | Supported form | Result |
+| --- | --- | --- |
+| Tailwind v4 CSS | Custom properties inside `@theme { ... }` | Tokens such as `--color-brand` with their CSS values |
+| Tailwind v3 configuration text | Direct `theme` and `theme.extend` object values that are static strings or numbers | Tokens such as `colors.accent` and `spacing.card` |
+| JSX and TSX source | Quoted `className` values, brace-wrapped static strings, and fully static `cn`, `clsx`, or `classnames` calls | Exact repeated class-bundle evidence |
+
+Class literals use the `static-source` method from ADR-0012. It means a deterministic text scanner
+matched a literal in admitted source. It does not mean LatticeOS evaluated an expression or inferred
+component meaning.
+
+## Repeated bundles
+
+The adapter splits a static class string on whitespace and sorts tokens for comparison. A bundle
+appears only when its occurrence count meets `repeatedBundleThreshold`, which defaults to 2.
+
+The index follows ADR-0013 and keeps both views:
+
+- `classes` is the normalized token sequence used for grouping.
+- `originals` contains the source literal for every occurrence, in the same order as `locations`.
+
+For example, `"rounded-lg border p-4"` and `"border p-4 rounded-lg"` produce one repeated bundle,
+but inspect output retains both spellings and their source locations. This is repetition evidence,
+not a request to create a component.
+
+## Limits
+
+- Config parsing reads only direct object literals below `theme`. It does not load imports, execute
+  code, resolve variables, arrays, function calls, or plugins.
+- Source scanning ignores matches inside ordinary strings and comments. It supports the literal forms
+  listed above, not arbitrary JavaScript or JSX expressions.
+- A no-substitution template string is static. Any interpolation is dynamic.
+- A merge call is indexed only if every top-level argument is a static string. Mixed calls report a
+  diagnostic and do not invent a complete bundle.
+- Bare `cn`, `clsx`, and `classnames` calls are matched by name without import resolution. Their
+  source evidence is marked heuristic and says why.
+- Dynamic `className` expressions and dynamic config values are reported without copying those values
+  into evidence.
+
+## Test evidence
+
+The named `fixtures/next-workspace` fixture contains a v4 CSS theme, a Tailwind configuration that
+throws if executed, repeated class attributes with different token order, and a fully static `cn`
+call. The adapter golden is
+`fixtures/goldens/tailwind-analysis.next-workspace.golden.json`.
+
+Run `pnpm --filter @latticeos/adapter-tailwind golden:update` to regenerate that snapshot, inspect
+the diff, then run `pnpm --filter @latticeos/adapter-tailwind test`.
+
+## Agent implementation prompt
+
+Copy this prompt into an agent working on a Tailwind evidence change.
+
+```text title="Agent implementation prompt"
+Extend the implemented LatticeOS static Tailwind adapter. Do not start shadcn, Storybook, cache
+writes, CLI commands, Figma, browser, Converge, source rewriting, or semantic similarity work.
+
+Read first:
+1. AGENTS.md
+2. docs/00-product/PRD.md
+3. docs/10-architecture/ARCHITECTURE.md
+4. docs/10-architecture/FILE_WRITE_POLICY.md
+5. docs/20-security/SECURITY_MODEL.md
+6. docs/20-security/THREAT_MODEL.md
+7. docs/50-quality/QUALITY_GATES.md
+8. docs/60-engineering/ENGINEERING_STANDARDS.md
+9. docs/60-engineering/CONVENTIONS.md
+10. docs/60-engineering/LESSONS.md
+11. docs/40-features/F-001-phase-1-reuse/
+12. docs/30-modules/adapters/
+13. ADR-0007, ADR-0008, ADR-0009, ADR-0012, and ADR-0013 under docs/adrs/
+14. this guide, Tailwind adapter tests, and the named fixture golden
+
+Current contract:
+- `analyzeTailwind` receives only normalized repository-relative input text. It must not use Node
+  filesystem APIs, execute a Tailwind config, import a plugin, or write a consumer path.
+- It returns core `TailwindEvidence`, `EvidenceRecord`, and `AnalysisDiagnostic` contracts. Do not
+  create parallel Tailwind result types.
+- CSS `@theme` variables, direct static v3 theme values, literal className values, and fully static
+  `cn`, `clsx`, and `classnames` calls are the supported forms.
+- A repeated bundle preserves normalized comparison classes and original strings aligned with source
+  locations. Do not turn a repeated bundle into a component or a semantic recommendation.
+
+Rules:
+- Keep parsing static and bounded. Dynamic expressions, imported values, plugin output, variable
+  references, interpolated templates, and unfamiliar merge helpers need an explicit diagnostic or
+  a clear omission.
+- Every token and class bundle needs evidence in the same result, including relative location,
+  extraction method, fingerprint, classification, and limitations.
+- Preserve source literals. Sort only the separate normalized comparison tokens.
+- Update generated core schema and validation whenever a public evidence contract changes.
+- Do not change an accepted ADR. Stop for human confirmation if a different data model, dependency,
+  execution path, or security boundary is needed.
+
+Required tests:
+- Run `pnpm --filter @latticeos/adapter-tailwind test`.
+- Add a named fixture, golden, and negative dynamic or malformed-input test for every new supported
+  form.
+- Regenerate snapshots only with the documented update command. Do not hand-edit them.
+- Run complete repository gates before claiming the slice complete.
+
+Documentation:
+- Update this guide, adapter module memory, feature task evidence, review notes, schema reference,
+  and completion evidence in the same change.
+- Keep prose factual and direct. Preserve code, commands, links, frontmatter, facts, and test
+  evidence when applying the Humanizer rules.
+
+Completion evidence:
+Report files changed, supported and unsupported forms, exact evidence fields, diagnostics, test
+results, documentation updated, remaining risks, and whether analyzer integration is still pending.
+Do not claim the Phase 1 MVP is complete.
+```

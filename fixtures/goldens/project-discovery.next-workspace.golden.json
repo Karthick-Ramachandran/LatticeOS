@@ -134,6 +134,7 @@
     "packages/ui/src/index.ts",
     "packages/ui/src/settings-section.tsx",
     "pnpm-workspace.yaml",
+    "tailwind.config.ts",
     "tsconfig.json"
   ],
   "packages": [

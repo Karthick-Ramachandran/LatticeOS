@@ -6,6 +6,7 @@ export default function Page() {
   return (
     <main>
       {preview}
+      <section className={cn("border p-4", "rounded-lg")}>Static utility bundle</section>
       <SettingsSection title="Workspace settings" />
       <SettingsCard title="Billing" />
       <PrimaryButton label="Save" variant="secondary" />

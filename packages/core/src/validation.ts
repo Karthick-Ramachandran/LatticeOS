@@ -408,6 +408,9 @@ function checkTailwind(value: unknown, evidenceIds: ReadonlySet<string>, issues:
       if (!isStringArray(bundle.classes) || bundle.classes.length === 0) {
         issues.push({ path: `${path}.classes`, message: "must contain at least one class" });
       }
+      if (!isStringArray(bundle.originals) || bundle.originals.length === 0 || !bundle.originals.every(isNonEmptyString)) {
+        issues.push({ path: `${path}.originals`, message: "must contain at least one original class string" });
+      }
       if (!isPositiveInteger(bundle.count)) issues.push({ path: `${path}.count`, message: "must be a positive integer" });
       if (!Array.isArray(bundle.locations)) {
         issues.push({ path: `${path}.locations`, message: "must be an array" });
@@ -415,6 +418,9 @@ function checkTailwind(value: unknown, evidenceIds: ReadonlySet<string>, issues:
         bundle.locations.forEach((location, locationIndex) => checkLocation(location, `${path}.locations[${locationIndex}]`, issues));
         if (isPositiveInteger(bundle.count) && bundle.count !== bundle.locations.length) {
           issues.push({ path: `${path}.count`, message: "must equal the number of recorded locations" });
+        }
+        if (isStringArray(bundle.originals) && bundle.originals.length !== bundle.locations.length) {
+          issues.push({ path: `${path}.originals`, message: "must align with the recorded locations" });
         }
       }
       checkEvidenceReferences(bundle.evidenceIds, `${path}.evidenceIds`, evidenceIds, issues, true);

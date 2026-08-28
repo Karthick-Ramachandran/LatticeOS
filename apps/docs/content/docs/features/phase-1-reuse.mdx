@@ -47,6 +47,9 @@ boundary, exclusions, scan limits, workspace forms, tool markers, and incomplete
 See [React component analysis](/docs/features/react-component-analysis) for the implemented static
 component, prop, import, JSX, and usage extractor and its supported syntax forms.
 
+See [Tailwind static analysis](/docs/features/tailwind-static-analysis) for the implemented token and
+repeated-bundle extractor, its exact static forms, and its dynamic-expression limits.
+
 ## Planned workflow
 
 ```bash title="Find reusable UI"
@@ -92,7 +95,7 @@ Read first:
 9. docs/60-engineering/LESSONS.md
 10. every file in docs/40-features/F-001-phase-1-reuse/
 11. relevant module memory in docs/30-modules/
-12. accepted ADR-0001 through ADR-0011 in docs/adrs/, noting that ADR-0011 supersedes ADR-0006
+12. accepted ADR-0001 through ADR-0013 in docs/adrs/, noting that ADR-0011 supersedes ADR-0006
 
 Outcome:
 Ship the public `lattice` CLI for a normal React/Next.js/TypeScript/Tailwind repository. It must find existing components and exact repeated UI structures, explain each recommendation with repository evidence, and return compact human and versioned JSON output.

@@ -79,12 +79,18 @@ export function sortReuseIndex(index: ReuseIndex): ReuseIndex {
         .map((item) => ({ ...item, evidenceIds: sortedUnique(item.evidenceIds) }))
         .sort((left, right) => compareStrings(left.name, right.name) || compareStrings(left.sourcePath, right.sourcePath)),
       repeatedClassBundles: [...index.tailwind.repeatedClassBundles]
-        .map((item) => ({
-          ...item,
-          classes: sortedUnique(item.classes),
-          locations: [...item.locations].sort(compareLocations),
-          evidenceIds: sortedUnique(item.evidenceIds),
-        }))
+        .map((item) => {
+          const occurrences = item.locations
+            .map((location, index) => ({ location, original: item.originals[index] as string }))
+            .sort((left, right) => compareLocations(left.location, right.location));
+          return {
+            ...item,
+            classes: [...item.classes].sort(compareStrings),
+            originals: occurrences.map((occurrence) => occurrence.original),
+            locations: occurrences.map((occurrence) => occurrence.location),
+            evidenceIds: sortedUnique(item.evidenceIds),
+          };
+        })
         .sort((left, right) => compareStrings(left.classes.join(" "), right.classes.join(" "))),
     },
     evidence: [...index.evidence]

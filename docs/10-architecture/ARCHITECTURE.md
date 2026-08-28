@@ -73,3 +73,5 @@ shadcn, the CLI, or generated file formats.
 - [ADR-0008](../adrs/ADR-0008-support-evidence-policy.md)
 - [ADR-0009](../adrs/ADR-0009-local-only-privacy-and-network-boundary.md)
 - [ADR-0010](../adrs/ADR-0010-fumadocs-documentation-platform.md)
+- [ADR-0012](../adrs/ADR-0012-static-source-evidence-extraction-method.md)
+- [ADR-0013](../adrs/ADR-0013-tailwind-class-bundle-occurrence-representation.md)
