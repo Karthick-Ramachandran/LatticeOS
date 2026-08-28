@@ -111,7 +111,13 @@ Evidence to date:
 - `analyzeTailwindProject` selects Tailwind configuration, CSS, and source files only through
   `RepositoryRoot`. It applies explicit aggregate file, byte, and diagnostic limits, preserves
   incomplete-scan state, and matches its named project golden without executing fixture config.
-- shadcn and Storybook evidence plus complete Reuse index assembly remain in progress.
+- `@latticeos/adapter-shadcn` maps a supported `components.json` `aliases.ui` value to normalized
+  React components through repository-relative, exact, or one-wildcard direct root aliases. It adds
+  corroborating registry evidence, never executes config, and has a named adapter golden.
+- `analyzeShadcnProjectFromDiscovery` admits at most 20 config files and 1 MiB of total config text
+  by default, then merges matching registry evidence into the Reuse index. It has bridge bounds and
+  named index-golden coverage.
+- Storybook manifest evidence remains in progress.
 
 ## T5: Deliver Reuse CLI Workflows
 
@@ -133,9 +139,9 @@ Tests:
 
 Evidence to date:
 
-- `analyzeProject` calls project detection once, combines bounded React and Tailwind bridge evidence,
-  validates the schema-versioned Reuse index, rejects conflicting evidence IDs, and reports a valid
-  partial index when an adapter cap is reached.
+- `analyzeProject` calls project detection once, combines bounded React, Tailwind, and shadcn bridge
+  evidence, validates the schema-versioned Reuse index, rejects conflicting evidence IDs, and reports
+  a valid partial index when an adapter cap is reached.
 - `readReuseIndex` and `writeReuseIndex` safely rebuild the exact generated cache path when state is
   missing, malformed, oversized, or incompatible. Atomic replacement and symlink refusal have
   focused tests.

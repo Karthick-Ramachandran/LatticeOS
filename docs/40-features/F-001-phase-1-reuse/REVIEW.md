@@ -3,8 +3,8 @@
 ## Status
 
 In progress. The T2 core, T3 discovery and React bridge, direct and bridged Tailwind analysis,
-generated writes, and CLI behavior were reviewed on 2026-08-29. Packaging and the benchmark still
-require review.
+static shadcn evidence, generated writes, and CLI behavior were reviewed on 2026-08-29. Storybook
+evidence, packaging, and the benchmark still require review.
 
 ## Findings
 
@@ -112,12 +112,46 @@ No blocker was found in the bridge from repository discovery into Tailwind analy
 Complete index assembly must avoid bypassing either existing bridge. It needs a separate security
 review when it combines discovery and adapter evidence into a generated Reuse index.
 
+### shadcn static evidence security review
+
+No blocker was found in the ADR-0015 shadcn slice.
+
+- The adapter receives text and normalized data only. It imports Node crypto for stable fingerprints
+  and path operations for repository-relative strings. It has no filesystem read, child-process,
+  registry, package-install, network, telemetry, cloud, MCP, AI API, or dynamic-evaluation path.
+- `components.json` is parsed as JSON data. The adapter supports only a string `aliases.ui` value
+  mapped through a repository-relative directory, exact direct root path alias, or one-wildcard
+  direct root path alias. Unsafe or unsupported forms return diagnostics, not inferred components.
+- Mapped components receive corroborating `registry` evidence whose location and fingerprint point to
+  the config. The record says only that the source tree is configured as a shadcn UI location. It
+  does not claim upstream origin, freshness, semantic role, or general suitability.
+- The analyzer reads candidate config only through `RepositoryRoot`, with 20-file and 1 MiB aggregate
+  defaults. A byte limit leaves the React component list unchanged. Tests cover absent, malformed,
+  and unresolved input without copying config text into output, direct and wildcard alias forms,
+  shared index validation, deterministic goldens, and bounded config admission.
+
+Package-local tsconfig, `extends`, multi-step aliases, and more than one wildcard remain unsupported
+until fixtures and review define a wider boundary. Storybook remains separate optional work.
+
+### shadcn conventions review
+
+No convention finding was raised in the final pass.
+
+- `analyzeShadcn` and `analyzeShadcnProjectFromDiscovery` follow the adapter and analyzer naming
+  rules. They reuse `UiComponent`, `EvidenceRecord`, `AnalysisDiagnostic`, `RepositoryPath`, and
+  `RepositoryRoot` rather than adding parallel models or read authorities.
+- The bridge retains the established analyzer-to-adapter separation. Repository admission stays in
+  `RepositoryRoot`; the adapter receives normalized text and data only.
+- `registry` evidence remains corroborating and each collection is sorted before it enters the
+  validated `ReuseIndex`. The source-evidence boundary is recorded in `CONVENTIONS.md` because it is
+  now the canonical shadcn mapping path.
+
 ### In-memory Reuse index assembly security review
 
 No blocker was found in the read-only index assembly slice.
 
-- `analyzeProject` performs discovery once and passes that same bounded result to the React and
-  Tailwind bridges. It does not add a filesystem, write, network, telemetry, cloud, MCP,
+- `analyzeProject` performs discovery once and passes that same bounded result to the React,
+  Tailwind, and shadcn bridges. It does not add a filesystem, write, network, telemetry, cloud, MCP,
   child-process, or dynamic-evaluation path.
 - `buildReuseIndex` accepts normalized discovery and adapter outputs only. It sorts and validates the
   complete core contract before return. A conflicting evidence ID stops assembly rather than allowing

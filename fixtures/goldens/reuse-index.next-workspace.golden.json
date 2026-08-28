@@ -5,7 +5,8 @@
         "composedComponentIds": [],
         "displayName": "Button",
         "evidenceIds": [
-          "ev:react:export:5d164be9fb1eae89b199"
+          "ev:react:export:5d164be9fb1eae89b199",
+          "ev:shadcn:registry:70a705c0afb3ff74e332"
         ],
         "exportKey": "Button",
         "id": "react:@fixture/ui:packages/ui/src/button.tsx#Button",
@@ -67,7 +68,8 @@
         "composedComponentIds": [],
         "displayName": "ForwardedButton",
         "evidenceIds": [
-          "ev:react:export:05522e9d3e2076165395"
+          "ev:react:export:05522e9d3e2076165395",
+          "ev:shadcn:registry:2993bd41f9fa296ec027"
         ],
         "exportKey": "ForwardedButton",
         "id": "react:@fixture/ui:packages/ui/src/button.tsx#ForwardedButton",
@@ -92,7 +94,8 @@
         "composedComponentIds": [],
         "displayName": "MemoButton",
         "evidenceIds": [
-          "ev:react:export:5d7521abe250f7929795"
+          "ev:react:export:5d7521abe250f7929795",
+          "ev:shadcn:registry:8cc1d4e1fdc3563b882f"
         ],
         "exportKey": "MemoButton",
         "id": "react:@fixture/ui:packages/ui/src/button.tsx#MemoButton",
@@ -117,7 +120,8 @@
         "composedComponentIds": [],
         "displayName": "SecondaryButton",
         "evidenceIds": [
-          "ev:react:export:c34170c25da01341662a"
+          "ev:react:export:c34170c25da01341662a",
+          "ev:shadcn:registry:106a5c68a704350b4a25"
         ],
         "exportKey": "SecondaryButton",
         "id": "react:@fixture/ui:packages/ui/src/button.tsx#SecondaryButton",
@@ -154,7 +158,8 @@
         "composedComponentIds": [],
         "displayName": "SettingsCard",
         "evidenceIds": [
-          "ev:react:export:af0427de23f033fb46fa"
+          "ev:react:export:af0427de23f033fb46fa",
+          "ev:shadcn:registry:3f64bfd220c97daad38f"
         ],
         "exportKey": "default",
         "id": "react:@fixture/ui:packages/ui/src/button.tsx#default",
@@ -181,7 +186,8 @@
         "composedComponentIds": [],
         "displayName": "SettingsSection",
         "evidenceIds": [
-          "ev:react:export:018f8a20fe03ab4c5384"
+          "ev:react:export:018f8a20fe03ab4c5384",
+          "ev:shadcn:registry:bf4125c991332cf46071"
         ],
         "exportKey": "SettingsSection",
         "id": "react:@fixture/ui:packages/ui/src/settings-section.tsx#SettingsSection",
@@ -823,6 +829,114 @@
           "path": "packages/ui/src/button.stories.tsx"
         },
         "method": "ast"
+      },
+      {
+        "classification": "corroborating",
+        "fingerprint": "sha256:16123bf9e7a7fd2fe84f38316559af764c5a9fb80e4948b929bbe236c5f887cb",
+        "id": "ev:shadcn:registry:106a5c68a704350b4a25",
+        "kind": "registry",
+        "limitations": [
+          "The configured UI source tree does not prove this component came from a particular registry.",
+          "This evidence does not establish product intent or universal reuse suitability."
+        ],
+        "location": {
+          "column": 5,
+          "endColumn": 10,
+          "endLine": 8,
+          "line": 8,
+          "path": "components.json"
+        },
+        "method": "static-config"
+      },
+      {
+        "classification": "corroborating",
+        "fingerprint": "sha256:16123bf9e7a7fd2fe84f38316559af764c5a9fb80e4948b929bbe236c5f887cb",
+        "id": "ev:shadcn:registry:2993bd41f9fa296ec027",
+        "kind": "registry",
+        "limitations": [
+          "The configured UI source tree does not prove this component came from a particular registry.",
+          "This evidence does not establish product intent or universal reuse suitability."
+        ],
+        "location": {
+          "column": 5,
+          "endColumn": 10,
+          "endLine": 8,
+          "line": 8,
+          "path": "components.json"
+        },
+        "method": "static-config"
+      },
+      {
+        "classification": "corroborating",
+        "fingerprint": "sha256:16123bf9e7a7fd2fe84f38316559af764c5a9fb80e4948b929bbe236c5f887cb",
+        "id": "ev:shadcn:registry:3f64bfd220c97daad38f",
+        "kind": "registry",
+        "limitations": [
+          "The configured UI source tree does not prove this component came from a particular registry.",
+          "This evidence does not establish product intent or universal reuse suitability."
+        ],
+        "location": {
+          "column": 5,
+          "endColumn": 10,
+          "endLine": 8,
+          "line": 8,
+          "path": "components.json"
+        },
+        "method": "static-config"
+      },
+      {
+        "classification": "corroborating",
+        "fingerprint": "sha256:16123bf9e7a7fd2fe84f38316559af764c5a9fb80e4948b929bbe236c5f887cb",
+        "id": "ev:shadcn:registry:70a705c0afb3ff74e332",
+        "kind": "registry",
+        "limitations": [
+          "The configured UI source tree does not prove this component came from a particular registry.",
+          "This evidence does not establish product intent or universal reuse suitability."
+        ],
+        "location": {
+          "column": 5,
+          "endColumn": 10,
+          "endLine": 8,
+          "line": 8,
+          "path": "components.json"
+        },
+        "method": "static-config"
+      },
+      {
+        "classification": "corroborating",
+        "fingerprint": "sha256:16123bf9e7a7fd2fe84f38316559af764c5a9fb80e4948b929bbe236c5f887cb",
+        "id": "ev:shadcn:registry:8cc1d4e1fdc3563b882f",
+        "kind": "registry",
+        "limitations": [
+          "The configured UI source tree does not prove this component came from a particular registry.",
+          "This evidence does not establish product intent or universal reuse suitability."
+        ],
+        "location": {
+          "column": 5,
+          "endColumn": 10,
+          "endLine": 8,
+          "line": 8,
+          "path": "components.json"
+        },
+        "method": "static-config"
+      },
+      {
+        "classification": "corroborating",
+        "fingerprint": "sha256:16123bf9e7a7fd2fe84f38316559af764c5a9fb80e4948b929bbe236c5f887cb",
+        "id": "ev:shadcn:registry:bf4125c991332cf46071",
+        "kind": "registry",
+        "limitations": [
+          "The configured UI source tree does not prove this component came from a particular registry.",
+          "This evidence does not establish product intent or universal reuse suitability."
+        ],
+        "location": {
+          "column": 5,
+          "endColumn": 10,
+          "endLine": 8,
+          "line": 8,
+          "path": "components.json"
+        },
+        "method": "static-config"
       },
       {
         "classification": "heuristic",

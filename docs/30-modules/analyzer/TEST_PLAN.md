@@ -8,9 +8,9 @@
 
 ## Integration Tests
 
-- React and Tailwind bridges plus their direct-adapter goldens cover the named consumer fixture. Full
-  in-memory index assembly also has a named consumer golden. Optional-adapter integration remains
-  later Phase 1 work.
+- React, Tailwind, and shadcn bridges plus their direct-adapter goldens cover the named consumer
+  fixture. Full in-memory index assembly also has a named consumer golden. Storybook integration
+  remains later Phase 1 work.
 
 ## Security Tests
 
@@ -24,3 +24,6 @@
 - Config tests prove the committed fixed path is inspectable without creating directories, normal
   creation is exclusive, existing content skips, force replaces it, and a symlinked config cannot
   alter an outside file.
+- shadcn bridge tests prove a valid static alias attaches registry evidence, absent or malformed config
+  leaves a valid React-backed index, config byte limits leave React components usable, and the shared
+  Reuse index keeps evidence links deterministic.

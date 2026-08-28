@@ -16,6 +16,9 @@ than inventing parallel models or helpers.
   methods are the only initialization-config path and writer. They do not accept an output path.
 - Adapter outputs implement `packages/core` contracts; adapters do not publish parallel component or
   diagnostic shapes.
+- `analyzeShadcn` and `analyzeShadcnProjectFromDiscovery` are the only configured shadcn source-tree
+  mapper. They reuse normalized React components and attach corroborating `registry` evidence rather
+  than inventing a registry component model.
 - CLI JSON envelopes use the schema/version helpers in `packages/core`.
 - Test repositories live under `fixtures/`; reusable fixture builders live with analyzer tests.
 - Feature guides and copy-ready Agent prompts use the shared templates in `apps/docs/content/templates`.

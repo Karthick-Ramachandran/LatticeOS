@@ -5,9 +5,9 @@ to understand a product's existing UI, work within its rules, and check whether 
 matches intent.
 
 It is not another UI kit, CSS framework, component generator, or design system. LatticeOS works with
-the tools a repository already chose. Phase 1 starts by reading React components, props, imports,
-usages, stories, shadcn records, and Tailwind patterns, then returning a small source-backed answer an
-agent can use.
+the tools a repository already chose. Phase 1 reads React components, props, imports, usages,
+configured shadcn source trees, and Tailwind patterns, then returns a small source-backed answer an
+agent can use. Storybook manifest evidence remains in progress.
 
 > Status: Phase 1 Reuse is under active development. The analyzer and `lattice` commands work in this
 > workspace, but they are not published and have not passed the packed-consumer release gate.
@@ -47,7 +47,7 @@ The Phase 1 contract covers:
 | Project | Workspaces, packages, React, Next.js, TypeScript, Tailwind, shadcn, and Storybook |
 | Components | Named and default exports, props, static variants, imports, JSX composition, and usages |
 | Styling | Tailwind theme values, static classes, known merge calls, and exact repeated class bundles |
-| Supporting examples | Optional Storybook stories and shadcn registry records |
+| Supporting examples | Configured shadcn source records; Storybook manifest evidence is pending |
 | Agent context | Ranked, budgeted results with stable IDs and source evidence |
 
 Phase 1 analysis is static and read-only. It does not run application code or consumer

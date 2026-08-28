@@ -46,7 +46,8 @@ shadcn, the CLI, or generated file formats.
 2. Detect workspace packages, project markers, tsconfig files, and optional tools without executing
    repository code.
 3. Parse TypeScript/JavaScript through the pinned TypeScript Compiler API and collect React evidence.
-4. Conservatively collect static Tailwind, shadcn, and Storybook evidence.
+4. Conservatively collect static Tailwind and shadcn evidence. Storybook manifest evidence remains
+   separate optional work.
 5. Normalize repository-relative paths and stable IDs, sort output deterministically, and build the
    versioned Reuse index.
 6. Serve `search`, `inspect`, and bounded task `context` from that index; refresh when requested or
@@ -78,3 +79,4 @@ shadcn, the CLI, or generated file formats.
 - [ADR-0012](../adrs/ADR-0012-static-source-evidence-extraction-method.md)
 - [ADR-0013](../adrs/ADR-0013-tailwind-class-bundle-occurrence-representation.md)
 - [ADR-0014](../adrs/ADR-0014-latticeos-initialization-configuration-floor.md)
+- [ADR-0015](../adrs/ADR-0015-static-shadcn-configuration-evidence-mapping.md)

@@ -11,7 +11,8 @@
 
 ## Integration Tests
 
-- Golden Next.js App Router and workspace fixtures covering AC-03 through AC-09.
+- Golden Next.js App Router and workspace fixtures covering AC-03 through AC-09, including static
+  shadcn configured-source mapping. Storybook manifest coverage remains required.
 - CLI human and JSON workflows for initialization, detection, search, inspect, and context.
 - Cache regeneration, stale/corrupt cache recovery, invocation outside the consumer root, optional
   adapter absence, and malformed input.
@@ -25,6 +26,8 @@
 - Symlinks inside the root and symlinks escaping the root.
 - `.env`, secret, VCS, dependency, build, coverage, cache, and report exclusions.
 - Proof that JavaScript/TypeScript config is parsed as data and never imported/evaluated.
+- shadcn config count and byte bounds, malformed and unresolved alias diagnostics, and no config
+  content leak into evidence or diagnostics.
 - Oversized/malformed file containment, output/source redaction, init dry-run, skip-existing,
   explicit force, symlink refusal, and interrupted atomic-write behavior.
 

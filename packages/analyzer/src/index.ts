@@ -3,6 +3,16 @@ export * from "./project-analysis.js";
 export * from "./reuse-index-cache.js";
 export * from "./repository-root.js";
 export {
+  DEFAULT_MAX_SHADCN_CONFIG_BYTES,
+  DEFAULT_MAX_SHADCN_CONFIG_FILES,
+  DEFAULT_MAX_SHADCN_DIAGNOSTICS,
+  HARD_MAX_SHADCN_CONFIG_BYTES,
+  HARD_MAX_SHADCN_CONFIG_FILES,
+  HARD_MAX_SHADCN_DIAGNOSTICS,
+  analyzeShadcnProjectFromDiscovery,
+} from "./shadcn-project.js";
+export type { AnalyzeShadcnProjectOptions, ShadcnProjectAnalysis } from "./shadcn-project.js";
+export {
   DEFAULT_MAX_REACT_DIAGNOSTICS,
   DEFAULT_MAX_REACT_SOURCE_BYTES,
   DEFAULT_MAX_REACT_SOURCE_FILES,

@@ -19,3 +19,8 @@ model preferences.
 - With `exactOptionalPropertyTypes`, omit an optional field when it has no value. Passing
   `property: undefined` breaks assignment to a contract where `property?: string` means an omitted
   string only.
+# 2026-08-29 — Node-backed adapter packages need the established local test boundary
+
+When a placeholder adapter starts using Node APIs, copy the React/Tailwind adapter's `types: ["node"]`,
+core prebuild hooks, and test compile configuration before adding tests. The root dependency alone does
+not place Node declarations in a strict package's TypeScript program.

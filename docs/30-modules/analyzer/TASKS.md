@@ -22,5 +22,8 @@
 - Done: Inspect and create the fixed committed `.lattice/config.json` floor for CLI initialization.
   The normal creation path skips existing content; only an explicit force may replace it. Tests cover
   missing, existing, forced, and symlinked config paths without external writes.
+- Done: Admit bounded shadcn configuration through `RepositoryRoot`, map supported static UI aliases
+  to existing React components, and merge corroborating registry evidence into the Reuse index. The
+  bridge has config-byte and file limits plus direct and index goldens.
 - Todo: Extend TypeScript project support beyond direct root compiler options only when fixtures and
   a security review prove the additional configuration boundary.

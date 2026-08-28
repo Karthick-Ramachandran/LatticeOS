@@ -18,4 +18,8 @@
   literals, and dynamic-expression diagnostics. A named workspace golden covers the supported forms.
 - Done: Connect bounded `RepositoryRoot` source selection and static configuration admission to the
   Tailwind adapter without weakening its no-execution boundary. A project golden proves the bridge.
-- Todo: Implement shadcn and Storybook optional evidence.
+- Done: Implement static shadcn configured-source evidence. A supported `aliases.ui` value maps
+  bounded React components through repository-relative, exact, or one-wildcard direct root aliases.
+  It adds corroborating registry records with a named adapter golden and analyzer index golden.
+- Todo: Implement Storybook evidence from a stable local manifest without parsing or executing
+  Storybook configuration.

@@ -4,7 +4,8 @@
 
 Phase 1 is not complete. T2 core, T3 safe project and React analysis, the Tailwind project bridge,
 direct Tailwind analysis, deterministic in-memory Reuse index assembly, generated cache, and CLI
-initialization/query surface are implemented.
+initialization/query surface are implemented. Static shadcn configured-source evidence is also
+implemented.
 
 ## Files Changed
 
@@ -17,26 +18,32 @@ initialization/query surface are implemented.
   extraction, diagnostics, fixture golden, and tests.
 - `packages/adapters/tailwind`: static CSS-theme, configuration-text, and class-bundle extraction,
   diagnostics, fixture golden, and tests. It does not read a consumer repository or execute config.
+- `packages/adapters/shadcn`: static `components.json` alias parsing, configured source-tree mapping,
+  corroborating registry evidence, direct golden generation, and tests. It does not read consumer
+  paths or call a registry.
 - `packages/analyzer`: `analyzeTailwindProject` admits bounded Tailwind configuration, CSS, and
   source text through `RepositoryRoot`, then calls the direct adapter without executing config.
-- `fixtures/next-workspace` and `fixtures/goldens`: named project-detection, React, and Tailwind
-  evidence.
-- `apps/docs`: Reuse index, safe project-discovery, React-analysis, and Tailwind-analysis guides
-  with copy-ready prompts.
+- `packages/analyzer`: `analyzeShadcnProjectFromDiscovery` admits bounded `components.json` text,
+  passes direct root aliases plus normalized React components to the direct adapter, and merges its
+  evidence into the Reuse index.
+- `fixtures/next-workspace` and `fixtures/goldens`: named project-detection, React, Tailwind, and
+  shadcn evidence.
+- `apps/docs`: Reuse index, safe project-discovery, React-analysis, Tailwind-analysis, and shadcn
+  static-evidence guides with copy-ready prompts.
 - Root contributor, security, license, README, and LLM guidance.
 - Feature, module, engineering, review, and lesson memory under `docs/`.
 
 ## Tests Run
 
 - `pnpm test:run`: 3 docs tests, 17 core tests, 2 React adapter tests, 2 Tailwind adapter tests,
-  28 analyzer tests, and 4 CLI tests passed.
+  3 shadcn adapter tests, 31 analyzer tests, and 4 CLI tests passed.
 - `pnpm typecheck`: all eight implementation workspaces passed.
-- `pnpm build`: all implementation packages built and the docs app generated 32 routes.
+- `pnpm build`: all implementation packages built and the docs app generated 34 routes.
 - `pnpm test:package`: passed. No package-specific consumer smoke script is registered yet; that is
   an explicit later Phase 1 gate.
-- `pnpm docs:check`: content validation, docs tests, typecheck, and the 32-route production build
+- `pnpm docs:check`: content validation, docs tests, typecheck, and the 34-route production build
   passed.
-- `persist doctor`: passed after the final memory update.
+- `persist doctor`: passed; Persist OS found two feature folders, five module folders, and 15 ADRs.
 
 ## Results
 
@@ -55,9 +62,16 @@ initialization/query surface are implemented.
 - The Tailwind project bridge matches its named fixture golden. It applies the repository exclusion,
   per-file, aggregate byte, file-count, and diagnostic boundaries before direct analysis. A fixture
   config that throws when imported is read only as text.
+- Static shadcn analysis matches its named fixture golden. It maps a supported `aliases.ui` value to
+  configured React component source with corroborating registry evidence and stated limits. It covers
+  repository-relative, exact, and single-wildcard direct root aliases without reading a consumer path
+  or calling a registry.
+- The shadcn bridge admits no more than 20 config files or 1 MiB by default. A config-byte limit
+  leaves React components usable and returns a bounded diagnostic. The Reuse index golden resolves
+  each new registry evidence ID to its `components.json` source location and limitation.
 - `analyzeProject` builds one validated deterministic Reuse index from a shared discovery pass and
-  the React and Tailwind bridges. Its named golden proves evidence links, repeat serialization, and
-  valid partial output after a configured source cap.
+  the React, Tailwind, and shadcn bridges. Its named golden proves evidence links, repeat
+  serialization, and valid partial output after a configured source cap.
 - Cache reads return only a valid index hit, a missing state, or an invalid state that callers rebuild.
   Cache writes atomically replace only `.lattice/cache/reuse-index.json` after core validation.
   Tests prove source preservation and refusal of symlinked cache paths.
@@ -70,9 +84,9 @@ initialization/query surface are implemented.
 
 ## Remaining Risks
 
-- Optional adapters, packed CLI proof, and the benchmark are not complete.
-- Optional adapter bridges need aggregate source/project bounds and denial-of-service fixtures before
-  they run on unrestricted repository inventories.
+- Storybook manifest evidence, packed CLI proof, and the benchmark are not complete.
+- Package-local tsconfig, tsconfig `extends`, multi-step aliases, and more than one shadcn wildcard
+  remain unsupported until fixtures and security review define a wider boundary.
 - Cross-platform packed tests must assess the documented filesystem race and `O_NOFOLLOW`
   differences.
 - Phase 1 cannot be released until AC-01 through AC-17 and every quality gate pass together.

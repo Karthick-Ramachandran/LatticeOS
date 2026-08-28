@@ -17,9 +17,9 @@ orchestrating adapters, recording diagnostics, and managing generated state.
 ## Public Interfaces
 
 - Implemented: `RepositoryRoot.open`, confined `readText`, bounded `listFiles`, default exclusions,
-  `detectProject`, `analyzeReactProject`, `analyzeTailwindProject`, `analyzeProject`, and
-  `buildReuseIndex`, `readReuseIndex`, `writeReuseIndex`, `inspectLatticeConfig`, and
-  `writeInitialLatticeConfig`.
+  `detectProject`, `analyzeReactProject`, `analyzeTailwindProject`,
+  `analyzeShadcnProjectFromDiscovery`, `analyzeProject`, `buildReuseIndex`, `readReuseIndex`,
+  `writeReuseIndex`, `inspectLatticeConfig`, and `writeInitialLatticeConfig`.
 
 ## Boundaries
 
@@ -42,8 +42,13 @@ present or unknown. It applies the same repository exclusions and per-file reads
 work, plus bounded aggregate file, byte, and diagnostic limits. It never imports configuration or
 constructs a complete Reuse index.
 
-`analyzeProject` discovers once, passes that result to both bridges, and returns a validated sorted
-`ReuseIndex` plus a truncation flag. `buildReuseIndex` is the pure assembly operation. It accepts
+`analyzeShadcnProjectFromDiscovery` admits only bounded `components.json` text through
+`RepositoryRoot`, passes direct root compiler aliases and existing React components to the shadcn
+adapter, and returns corroborating registry evidence. It does not execute configuration, read a
+registry, or block React output when optional config is absent, malformed, or unsupported.
+
+`analyzeProject` discovers once, passes that result to all implemented bridges, and returns a
+validated, sorted `ReuseIndex` plus a truncation flag. `buildReuseIndex` is the pure assembly operation. It accepts
 only normalized discovery and adapter results, rejects conflicting evidence IDs, and does not write
 cache or report state.
 
