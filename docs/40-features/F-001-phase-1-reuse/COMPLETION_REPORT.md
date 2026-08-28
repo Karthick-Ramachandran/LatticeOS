@@ -3,13 +3,14 @@
 ## Status
 
 Phase 1 is not complete. T2 core, T3 safe project and React analysis, the Tailwind project bridge,
-and direct Tailwind analysis are implemented. Complete Reuse index assembly remains open.
+direct Tailwind analysis, and deterministic in-memory Reuse index assembly are implemented.
 
 ## Files Changed
 
 - `packages/core`: schema version 1, identity, validation, stable JSON, ranking, resolution, context,
   generated schema, and tests.
-- `packages/analyzer`: repository boundary, project discovery, golden generation, and security tests.
+- `packages/analyzer`: repository boundary, project discovery, shared bridge orchestration,
+  in-memory index assembly, golden generation, and security tests.
 - `packages/adapters/react`: virtual TypeScript 6.0.3 program, direct component/prop/import/usage
   extraction, diagnostics, fixture golden, and tests.
 - `packages/adapters/tailwind`: static CSS-theme, configuration-text, and class-bundle extraction,
@@ -26,12 +27,12 @@ and direct Tailwind analysis are implemented. Complete Reuse index assembly rema
 ## Tests Run
 
 - `pnpm test:run`: 3 docs tests, 17 core tests, 2 React adapter tests, 2 Tailwind adapter tests,
-  and 15 analyzer tests passed.
+  and 19 analyzer tests passed.
 - `pnpm typecheck`: all eight implementation workspaces passed.
-- `pnpm build`: all implementation packages built and the docs app generated 26 routes.
+- `pnpm build`: all implementation packages built and the docs app generated 28 routes.
 - `pnpm test:package`: passed. No package-specific consumer smoke script is registered yet; that is
   an explicit later Phase 1 gate.
-- `pnpm docs:check`: content validation, docs tests, typecheck, and the 26-route production build
+- `pnpm docs:check`: content validation, docs tests, typecheck, and the 28-route production build
   passed.
 - `persist doctor`: passed after the final memory update.
 
@@ -52,11 +53,13 @@ and direct Tailwind analysis are implemented. Complete Reuse index assembly rema
 - The Tailwind project bridge matches its named fixture golden. It applies the repository exclusion,
   per-file, aggregate byte, file-count, and diagnostic boundaries before direct analysis. A fixture
   config that throws when imported is read only as text.
+- `analyzeProject` builds one validated deterministic Reuse index from a shared discovery pass and
+  the React and Tailwind bridges. Its named golden proves evidence links, repeat serialization, and
+  valid partial output after a configured source cap.
 
 ## Remaining Risks
 
-- Complete Reuse index orchestration, optional adapters, cache writes, CLI, packaging, and the
-  benchmark are not complete.
+- Optional adapters, cache writes, CLI, packaging, and the benchmark are not complete.
 - The adapter's future analyzer bridge needs aggregate source/project bounds and a denial-of-service
   fixture before it runs on unrestricted repository inventories.
 - Cross-platform packed tests must assess the documented filesystem race and `O_NOFOLLOW`

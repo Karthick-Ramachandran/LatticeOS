@@ -115,7 +115,7 @@ Evidence to date:
 
 ## T5: Deliver Reuse CLI Workflows
 
-Status: Todo
+Status: In Progress
 
 Scope:
 
@@ -130,6 +130,13 @@ Tests:
 
 - CLI integration, JSON golden, cache atomicity, overwrite, external working-directory, and failure
   exit tests.
+
+Evidence to date:
+
+- `analyzeProject` calls project detection once, combines bounded React and Tailwind bridge evidence,
+  validates the schema-versioned Reuse index, rejects conflicting evidence IDs, and reports a valid
+  partial index when an adapter cap is reached.
+- Cache lifecycle and all public `lattice` commands remain in progress.
 
 ## T6: Prove Consumer Installation And Reuse Improvement
 

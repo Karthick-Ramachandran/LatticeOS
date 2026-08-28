@@ -17,9 +17,9 @@ orchestrating adapters, recording diagnostics, and managing generated state.
 ## Public Interfaces
 
 - Implemented: `RepositoryRoot.open`, confined `readText`, bounded `listFiles`, default exclusions,
-  `detectProject`, `analyzeReactProject`, and `analyzeTailwindProject`.
-- Planned in later F-001 slices: `analyzeProject`, `buildReuseIndex`, `readReuseIndex`, and
-  `writeReuseIndex`.
+  `detectProject`, `analyzeReactProject`, `analyzeTailwindProject`, `analyzeProject`, and
+  `buildReuseIndex`.
+- Planned in later F-001 slices: `readReuseIndex` and `writeReuseIndex`.
 
 ## Boundaries
 
@@ -41,3 +41,8 @@ CSS, and supported JavaScript or TypeScript sources only after project detection
 present or unknown. It applies the same repository exclusions and per-file reads as other analyzer
 work, plus bounded aggregate file, byte, and diagnostic limits. It never imports configuration or
 constructs a complete Reuse index.
+
+`analyzeProject` discovers once, passes that result to both bridges, and returns a validated sorted
+`ReuseIndex` plus a truncation flag. `buildReuseIndex` is the pure assembly operation. It accepts
+only normalized discovery and adapter results, rejects conflicting evidence IDs, and does not write
+cache or report state.

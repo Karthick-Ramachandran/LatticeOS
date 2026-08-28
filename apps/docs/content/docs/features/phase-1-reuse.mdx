@@ -5,9 +5,9 @@ description: Give agents source-backed UI reuse evidence before they generate co
 
 <Callout title="Status" type="warning">
   Requirements and architecture are accepted. The framework-neutral core contract is implemented
-  and tested. Safe project discovery and direct React component analysis are also implemented.
-  Analyzer orchestration, the other evidence adapters, and the public CLI remain in progress, so
-  commands below are the target contract until their tests prove them.
+  and tested. Safe project discovery, React and Tailwind analysis, and deterministic in-memory
+  index assembly are also implemented. Optional evidence adapters, cache lifecycle, and the public
+  CLI remain in progress, so commands below are the target contract until their tests prove them.
 </Callout>
 
 ## Outcome
@@ -49,6 +49,9 @@ component, prop, import, JSX, and usage extractor and its supported syntax forms
 
 See [Tailwind static analysis](/docs/features/tailwind-static-analysis) for the implemented token and
 repeated-bundle extractor, its exact static forms, and its dynamic-expression limits.
+
+See [Reuse index assembly](/docs/features/reuse-index-assembly) for the implemented read-only
+analysis entry point, deterministic index validation, truncation behavior, and its named golden.
 
 ## Planned workflow
 

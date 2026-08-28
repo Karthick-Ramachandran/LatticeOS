@@ -110,12 +110,12 @@ function sortDiagnostics(diagnostics: readonly AnalysisDiagnostic[], maxDiagnost
   ];
 }
 
-export async function analyzeTailwindProject(
+export async function analyzeTailwindProjectFromDiscovery(
   root: RepositoryRoot,
+  discovery: ProjectDiscovery,
   options: AnalyzeTailwindProjectOptions = {},
 ): Promise<TailwindProjectAnalysis> {
   const limits = resolveLimits(options);
-  const discovery = await detectProject(root, options);
   const diagnostics: AnalysisDiagnostic[] = [];
   const addDiagnostic = (item: AnalysisDiagnostic): void => {
     if (diagnostics.length < limits.maxDiagnostics) diagnostics.push(item);
@@ -188,4 +188,11 @@ export async function analyzeTailwindProject(
     analysis: { ...analysis, diagnostics: sortDiagnostics([...diagnostics, ...analysis.diagnostics], limits.maxDiagnostics) },
     truncated,
   };
+}
+
+export async function analyzeTailwindProject(
+  root: RepositoryRoot,
+  options: AnalyzeTailwindProjectOptions = {},
+): Promise<TailwindProjectAnalysis> {
+  return analyzeTailwindProjectFromDiscovery(root, await detectProject(root, options), options);
 }

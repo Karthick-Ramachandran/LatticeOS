@@ -112,6 +112,24 @@ No blocker was found in the bridge from repository discovery into Tailwind analy
 Complete index assembly must avoid bypassing either existing bridge. It needs a separate security
 review when it combines discovery and adapter evidence into a generated Reuse index.
 
+### In-memory Reuse index assembly security review
+
+No blocker was found in the read-only index assembly slice.
+
+- `analyzeProject` performs discovery once and passes that same bounded result to the React and
+  Tailwind bridges. It does not add a filesystem, write, network, telemetry, cloud, MCP,
+  child-process, or dynamic-evaluation path.
+- `buildReuseIndex` accepts normalized discovery and adapter outputs only. It sorts and validates the
+  complete core contract before return. A conflicting evidence ID stops assembly rather than allowing
+  one adapter to overwrite another record.
+- The optional generator version is constrained before it enters serializable output. Empty, padded,
+  control-character, and oversized values are rejected.
+- The assembly result keeps an explicit truncation flag. Existing adapter and discovery diagnostics
+  stay in the index, so callers can see why partial evidence is incomplete.
+
+Cache writes remain out of scope. They require the separate file-write review already planned under
+ADR-0004 and F-001 T5.
+
 ### Dependency and network review
 
 - TypeScript 6.0.3 is the compiler dependency added to the analyzer and React adapter boundaries.
@@ -133,7 +151,7 @@ review when it combines discovery and adapter evidence into a generated Reuse in
 - Cache and report write safety is not implemented yet and receives a separate security review in
   F-001 T5.
 - TypeScript parsing can still consume meaningful CPU and memory for a large admitted source set.
-  The future analyzer bridge must enforce an aggregate source and project limit before it invokes the
-  adapter, then add a denial-of-service fixture and performance evidence.
+  The React bridge applies aggregate limits, but a dedicated denial-of-service fixture and performance
+  evidence remain necessary before release.
 - Tailwind's project bridge applies inventory exclusions and aggregate byte and file limits. A
   dedicated denial-of-service fixture and performance evidence remain necessary before release.

@@ -16,3 +16,6 @@ model preferences.
 - TypeScript 7's package root no longer exposes the classic JavaScript Compiler API; tools that need
   `Program`, `SourceFile`, and `TypeChecker` must stay on the maintained TypeScript 6.x line until
   LatticeOS deliberately adopts TypeScript 7's curated IPC API.
+- With `exactOptionalPropertyTypes`, omit an optional field when it has no value. Passing
+  `property: undefined` breaks assignment to a contract where `property?: string` means an omitted
+  string only.

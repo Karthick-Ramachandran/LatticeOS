@@ -5,8 +5,9 @@ description: The implemented core data contract for Phase 1 evidence.
 
 <Callout title="Implemented" type="info">
   Schema version 1, component IDs, validation, deterministic serialization, lexical ranking,
-  component resolution, and context budgets are implemented in `@latticeos/core`. Repository
-  analysis and the public CLI are still in progress.
+  component resolution, and context budgets are implemented in `@latticeos/core`. The analyzer now
+  builds an in-memory index from its React and Tailwind bridges. Cache lifecycle and the public CLI
+  are still in progress.
 </Callout>
 
 ## Component identity
@@ -51,8 +52,9 @@ unsupported schema versions.
 ## Deterministic output
 
 `serializeReuseIndex` validates the index, sorts semantic collections, sorts object keys, and writes
-one trailing newline. Input collection order does not change the serialized bytes. The analyzer will
-use this function before cache writes and JSON snapshots.
+one trailing newline. Input collection order does not change the serialized bytes. The analyzer uses
+the same sorting and validation model before returning an in-memory index. It will use
+`serializeReuseIndex` before later cache writes and JSON snapshots.
 
 ```ts title="Validate and serialize an index"
 import { serializeReuseIndex, validateReuseIndex } from "@latticeos/core";
@@ -90,3 +92,7 @@ Core tests cover canonical identity round trips, traversal and absolute-path rej
 validation, unknown evidence, identity mismatch, byte-stable serialization, public-only ranking,
 evidence links, ambiguity, and exact item and character limits. The dependency-boundary test also
 rejects framework, workspace, and filesystem imports from core runtime files.
+
+The analyzer has a named full-index golden that combines project, React, and Tailwind evidence. See
+[Reuse index assembly](/docs/features/reuse-index-assembly) for its read-only entry point,
+truncation semantics, generator version, and test evidence.

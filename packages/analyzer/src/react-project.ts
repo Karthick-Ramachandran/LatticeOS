@@ -290,12 +290,12 @@ function sortDiagnostics(diagnostics: readonly AnalysisDiagnostic[], maxDiagnost
   ];
 }
 
-export async function analyzeReactProject(
+export async function analyzeReactProjectFromDiscovery(
   root: RepositoryRoot,
+  discovery: ProjectDiscovery,
   options: AnalyzeReactProjectOptions = {},
 ): Promise<ReactProjectAnalysis> {
   const limits = resolveLimits(options);
-  const discovery = await detectProject(root, options);
   const diagnostics: AnalysisDiagnostic[] = [];
   const addDiagnostic = (item: AnalysisDiagnostic): void => {
     if (diagnostics.length < limits.maxDiagnostics) diagnostics.push(item);
@@ -380,4 +380,11 @@ export async function analyzeReactProject(
     analysis: { ...analysis, diagnostics: sortDiagnostics([...diagnostics, ...analysis.diagnostics], limits.maxDiagnostics) },
     truncated,
   };
+}
+
+export async function analyzeReactProject(
+  root: RepositoryRoot,
+  options: AnalyzeReactProjectOptions = {},
+): Promise<ReactProjectAnalysis> {
+  return analyzeReactProjectFromDiscovery(root, await detectProject(root, options), options);
 }
