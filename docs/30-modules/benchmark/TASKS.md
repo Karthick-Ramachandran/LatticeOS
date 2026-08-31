@@ -2,7 +2,7 @@
 
 ## Active Work
 
-- F-003 T3: capture qualified randomized agent trials with independent review.
+- F-003 T3: run prepared randomized agent trials with independent review.
 
 ## Tasks
 
@@ -11,5 +11,7 @@
   result checker that reports missing evidence as insufficient.
 - Done: Add synthetic verifier fixtures and focused path, hash, context, pair, annotation, metric,
   and deterministic-summary tests.
+- Done: Add a fixed temporary-pair preparer that copies the controlled fixture, randomizes condition
+  order, records agent metadata, and captures the exact treatment context without running an agent.
 - Todo: Capture qualified paired agent trials without changing pre-registered tasks or scoring.
 - Todo: Update decisions and review evidence when behavior changes.

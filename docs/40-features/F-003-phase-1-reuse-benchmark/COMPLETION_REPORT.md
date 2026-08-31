@@ -3,22 +3,23 @@
 ## Status
 
 In progress. The protocol, three pre-registered task manifests, local validator, fixed result checker,
-and synthetic verifier fixtures are implemented. Qualified agent trials are still pending.
+synthetic verifier fixtures, and temporary trial-pair preparer are implemented. Qualified agent trials
+are still pending.
 
 ## Files Changed
 
 - `benchmarks/reuse-v1`: task manifests, bounded artifact contract, result validator, fixed checker,
-  synthetic verifier fixtures, and focused tests.
+  synthetic verifier fixtures, randomized temporary-pair preparer, and focused tests.
 - Root package scripts, Fumadocs guidance, F-003 and benchmark module memory, F-001 status, README,
   and `llms.txt`.
 
 ## Tests Run
 
-- `pnpm test:benchmark` passes with nine focused tests.
+- `pnpm test:benchmark` passes with fourteen focused tests.
 - `pnpm benchmark:check` intentionally reports `insufficient` and exits with status 1 while no real
   result record exists.
 - `pnpm test:run` passes: 3 docs, 17 core, 2 React adapter, 2 Tailwind adapter, 3 shadcn adapter,
-  2 Storybook adapter, 35 analyzer, 4 CLI, and 9 benchmark tests.
+  2 Storybook adapter, 35 analyzer, 4 CLI, and 14 benchmark tests.
 - `pnpm typecheck` passes across all eight implementation workspaces.
 - `pnpm build` passes and generates 40 documentation routes.
 - `pnpm test:package` passes the packed CLI consumer proof.
@@ -38,6 +39,8 @@ delivery task and the evidence F-001 AC-15 still requires.
 - No qualified benchmark result exists. F-001 AC-15 remains unmet.
 - The current checker has no `results.json`, so it correctly returns `insufficient` rather than a
   passing summary.
+- `pnpm benchmark:prepare` creates the two exact agent inputs and fresh workspaces but does not call
+  an agent or create an agent result.
 
 ## Remaining Risks
 

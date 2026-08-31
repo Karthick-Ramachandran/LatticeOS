@@ -3,9 +3,9 @@
 ## Status
 
 In progress. The T2 core, T3 discovery and React bridge, direct and bridged Tailwind analysis,
-static shadcn and Storybook evidence, generated writes, CLI behavior, and the packed-consumer proof
-were reviewed on 2026-08-29. ADR-0017 defines the benchmark protocol; its harness and qualified agent
-trials still require review.
+static shadcn and Storybook evidence, generated writes, CLI behavior, packed-consumer proof, and the
+benchmark validator and temporary-pair preparer were reviewed. ADR-0017 still requires qualified
+agent trials.
 
 ## Findings
 
@@ -285,9 +285,9 @@ No convention finding was raised in the final pass.
   verification out of the shipped CLI contract. Its only new package script follows the existing
   `test:<scope>` gate naming.
 
-### Reuse benchmark harness review
+### Reuse benchmark harness and pair-preparer review
 
-No blocker was found in the T2 benchmark harness.
+No blocker was found in the T2 benchmark harness or its T3 input preparation.
 
 - The benchmark keeps its task manifests, artifacts, and result checker under the developer-only
   `benchmarks/reuse-v1` boundary. It reuses the existing `lattice context --json` contract and does
@@ -295,8 +295,16 @@ No blocker was found in the T2 benchmark harness.
 - The validator reads bounded regular files below its artifact root and rejects path traversal,
   symlinks, changed hashes, control-context leakage, invalid annotations, mismatched pairs, and
   malformed identifiers without echoing submitted text in errors.
-- No network, telemetry, cloud, MCP, AI API, child-process, fixture execution, or application-source
-  write path was added. Nine focused tests and the full repository gate set pass.
+- The preparer accepts no user-selected destination. It copies the controlled fixture only after
+  rejecting symlinks and non-regular paths, rechecks source files while copying, caps the fixture at
+  500 files and 8 MiB, excludes generated cache and report directories, and writes only beneath an
+  OS-created temporary directory. It removes its exact temporary directory on failure and removes
+  the generated treatment cache before any agent sees the workspace while preserving committed
+  Lattice configuration.
+- The preparer captures treatment context through the existing CLI JSON interface. It does not start
+  an agent, execute the fixture, create a result, or add network, telemetry, cloud, MCP, AI API,
+  child-process, or committed application-source write behavior. Fourteen focused benchmark tests and
+  the full repository gate set pass.
 - Synthetic verifier records are rejected for release evidence. F-001 AC-15 remains blocked until
   T3 records qualified randomized agent trials with independent review.
 

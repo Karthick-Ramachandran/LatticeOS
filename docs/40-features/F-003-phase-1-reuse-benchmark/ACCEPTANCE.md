@@ -17,10 +17,11 @@
 - **ACB-05 Gate result:** at least three qualified pairs exist for every pre-registered task. The
   treatment total is higher for appropriate canonical reuse and is no higher for inappropriate
   canonical reuse. The report includes the full task and treatment context for every qualified pair.
-- **ACB-06 Harness safety:** the harness reads only committed benchmark records and fixture/submission
-  text under its controlled root. It does not execute submitted code or configuration, make a network
-  call, collect secrets or personal data, add a runtime dependency, or write outside its generated
-  report path.
+- **ACB-06 Harness safety:** the validator reads only committed benchmark records and
+  fixture/submission text under its controlled root. The preparer may write only to a fresh
+  OS-created temporary pair directory and never accepts an output path. Neither tool executes
+  submitted code or configuration, makes a network call, collects secrets or personal data, adds a
+  runtime dependency, or writes the committed fixture or a result record.
 - **ACB-07 Documentation:** Fumadocs explains the protocol, limitations, and exact trial prompt.
   Repository memory, the parent feature, README, and `llms.txt` distinguish a working harness from a
   completed benchmark result.

@@ -49,12 +49,12 @@ Do Not:
 
 ## T3: Capture qualified agent trials
 
-Status: Todo
+Status: In progress
 
 Scope:
 
-- Run each pre-registered task in randomized matched control/treatment pairs and have an independent
-  reviewer fill the explicit annotations.
+- Prepare and run each pre-registered task in randomized matched control/treatment pairs, then have
+  an independent reviewer fill the explicit annotations.
 
 Acceptance:
 
@@ -63,6 +63,8 @@ Acceptance:
 
 Tests:
 
+- The pair preparer tests real CLI context capture, isolated fresh fixtures, randomized order,
+  treatment-cache removal, fixture preservation, and metadata validation.
 - Deterministic evaluator, record validation, and all repository gates.
 
 Do Not:

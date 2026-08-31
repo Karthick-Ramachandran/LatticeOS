@@ -13,7 +13,10 @@
     "typecheck": "pnpm -r typecheck",
     "test:run": "pnpm -r test && pnpm test:benchmark",
     "test:package": "pnpm -r --if-present test:package",
+    "pretest:benchmark": "pnpm --filter @latticeos/cli build",
     "test:benchmark": "node --test benchmarks/reuse-v1/tests/*.test.mjs",
+    "prebenchmark:prepare": "pnpm --filter @latticeos/cli build",
+    "benchmark:prepare": "node benchmarks/reuse-v1/scripts/prepare-trial.mjs",
     "benchmark:check": "node benchmarks/reuse-v1/scripts/check-results.mjs",
     "docs:dev": "pnpm --filter @latticeos/docs dev",
     "docs:check": "pnpm --filter @latticeos/docs check"

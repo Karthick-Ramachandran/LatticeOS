@@ -2,7 +2,8 @@
 
 ## Status
 
-In progress. The protocol and T2 harness are reviewed. Qualified trials remain.
+In progress. The protocol, T2 validator, and T3 temporary-pair preparer are reviewed. Qualified
+trials remain.
 
 ## Findings
 
@@ -14,8 +15,17 @@ In progress. The protocol and T2 harness are reviewed. Qualified trials remain.
   backslash paths, symlinks, changed hashes, control-context leakage, malformed treatment context,
   invalid annotation locations, and pair mismatches. Focused tests confirm errors do not include
   supplied source markers or malformed identifiers.
-- The harness uses Node filesystem and crypto APIs only. It has no dependency, network, telemetry,
-  cloud, MCP, AI API, child-process, fixture execution, or application-source write behavior.
+- The validator uses Node filesystem and crypto APIs only. It has no dependency, network, telemetry,
+  cloud, MCP, AI API, child-process, fixture execution, or committed application-source write
+  behavior.
+- The preparer accepts no destination path. It creates a single OS temporary root, admits only the
+  controlled fixture after a regular-file and symlink preflight, rechecks each file before copying,
+  excludes generated cache and report directories, and caps the copy at 500 files and 8 MiB. It
+  removes only its generated `.lattice` cache, preserves committed configuration, and removes its
+  exact temporary root on failure. It neither calls an agent nor creates a result record.
+- Treatment context comes from the existing in-process CLI JSON interface after the treatment copy
+  exists. The saved context is the treatment-only prompt difference; the cache used to generate it is
+  removed before an agent can receive the workspace.
 - `pnpm benchmark:check` reports an absent trial record as insufficient and exits nonzero. It does
   not turn a missing result into a pass.
 - The module uses the existing CLI JSON context, controlled fixture, root package-script naming, and
@@ -25,5 +35,5 @@ In progress. The protocol and T2 harness are reviewed. Qualified trials remain.
 
 - Windows may require local privileges to create the symlink used by one focused test. The validator
   rejects symlinks on every platform, while that assertion runs where symlink creation is available.
-- T3 needs fresh randomized agent runs and an independent reviewer. Synthetic verifier data cannot
-  replace either requirement.
+- T3 needs fresh randomized agent runs and an independent reviewer. The new preparer makes those
+  inputs reproducible, but synthetic verifier data cannot replace either requirement.

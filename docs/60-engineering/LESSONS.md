@@ -23,6 +23,8 @@ model preferences.
   packed-consumer test removes that field only in its temporary install copy and restores it before analysis.
 - Synthetic paired records must clone nested control and treatment values. Shared in-memory fixtures
   can hide a mismatch that separate JSON records would expose.
+- When preparing a treatment workspace, remove only generated cache paths. Removing `.lattice` as a
+  whole can make the control and treatment inputs differ by deleting committed configuration.
 - If a Next build is idle while holding `apps/docs/.next/lock` after a tooling interruption, stop that
   exact build before retrying. Do not start another docs build while the lock exists.
 # 2026-08-29 — Node-backed adapter packages need the established local test boundary

@@ -42,8 +42,9 @@ Use the Persist CLI for new feature memory and decisions as AGENTS.md requires.
   The package gate proves an installed tarball can analyze the controlled Next.js fixture. It is not
   published, and the Reuse benchmark is still required.
 - benchmarks/reuse-v1: pre-registered source-only tasks, local result validation, and synthetic
-  verifier tests are implemented. They do not count as an agent result; qualified matched trials are
-  still required.
+  verifier tests are implemented. `pnpm benchmark:prepare` makes fresh randomized control/treatment
+  workspaces and captures the exact treatment context. Neither tool counts as an agent result;
+  qualified matched trials are still required.
 
 Do not describe workspace CLI examples as published behavior. The packed-consumer gate passes, but
 the package is pre-release and the Reuse benchmark still blocks Phase 1 completion.

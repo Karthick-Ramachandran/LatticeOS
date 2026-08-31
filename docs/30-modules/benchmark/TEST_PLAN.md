@@ -11,8 +11,10 @@
 
 - The local result checker validates only its fixed result location. With no recorded result it emits
   an insufficient summary and exits nonzero.
-- T3 will generate treatment context from the CLI in copied fixtures and validate audited agent-trial
-  records without executing a fixture or submission.
+- The trial preparer makes two fresh fixture copies, randomizes their order, captures a real CLI
+  treatment context, excludes generated cache/report directories, removes only the generated Reuse
+  cache, preserves committed Lattice configuration, and leaves the committed fixture unchanged.
+- T3 will validate audited agent-trial records without executing a fixture or submission.
 
 ## Security Tests
 
@@ -20,4 +22,7 @@
   hashes, control-context leakage, and source text in errors. The symlink assertion is conditional on
   Windows because creating a symlink can require local privileges.
 - Prove by implementation review that the harness has no submission execution, network, telemetry,
-  child-process, or runtime write path.
+  or child-process path. The validator has no write path; the preparer has only its bounded temporary
+  pair-directory write path.
+- The preparer accepts no output path. It writes only below an OS-created temporary directory and
+  removes that directory if preparation fails.

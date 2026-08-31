@@ -188,6 +188,9 @@ Evidence to date:
   benchmark outcome have been recorded yet.
 - The F-003 validator, three pre-registered tasks, synthetic verifier cases, and fixed result checker
   are complete. They prove the protocol only; AC-15 still needs qualified trials.
+- `pnpm benchmark:prepare` now makes fresh randomized control/treatment pairs and captures the exact
+  treatment JSON without starting an agent. It removes only the generated Reuse cache before the
+  agent runs and preserves any committed Lattice configuration.
 
 ## T7: Review And Release Phase 1
 

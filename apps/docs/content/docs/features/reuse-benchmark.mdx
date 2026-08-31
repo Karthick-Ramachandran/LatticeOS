@@ -63,6 +63,26 @@ Before `benchmarks/reuse-v1/results/results.json` contains qualified trials, thi
 `insufficient` JSON summary and exits with status 1. Do not change that result to green without
 recorded trials.
 
+## Prepare a real pair
+
+```bash title="Prepare a randomized pair"
+pnpm benchmark:prepare \
+  --task notification-settings \
+  --pair notification-pair-1 \
+  --agent-label <agent-label> \
+  --agent-version <agent-version> \
+  --agent-config-hash <sha256-of-the-agent-configuration>
+```
+
+The preparer makes two fresh fixture copies in an OS temporary directory, randomly assigns control or
+treatment to first or second, and prints the two prompt paths. It uses the real local CLI to save the
+treatment JSON, then removes its generated `.lattice` cache from the workspace. Control gets the same
+prompt without that JSON. The command does not start an agent, run a submission, or write a result.
+
+Use the first prompt before the second. Give an agent only its own workspace and prompt. After both
+runs, an independent reviewer must inspect the allowed source file and create the result record. A
+prepared pair is not a qualified trial.
+
 See [ADR-0017](https://github.com/Karthick-Ramachandran/LatticeOS/blob/main/docs/adrs/ADR-0017-reproducible-phase-1-reuse-benchmark-protocol.md)
 and [F-003 delivery memory](https://github.com/Karthick-Ramachandran/LatticeOS/tree/main/docs/40-features/F-003-phase-1-reuse-benchmark)
 for the full contract.
@@ -138,10 +158,11 @@ Ordered work:
 1. Maintain the implemented task/result/annotation contracts and path boundaries.
 2. Keep the three pre-registered tasks and synthetic verifier cases synchronized with their source
    fixture and evidence contracts.
-3. Generate and save treatment context from the current CLI against a copied fixture.
+3. Use `pnpm benchmark:prepare` to make one fresh randomized pair and save the exact treatment context
+   from the current CLI.
 4. Keep the deterministic local validator and summary strict. It must report insufficient evidence
    rather than pass an empty or incomplete record set.
-5. Capture fresh randomized matched agent pairs, then have an independent reviewer annotate outcomes.
+5. Run the prepared prompts with fresh agents, then have an independent reviewer annotate outcomes.
 6. Reconcile F-001 acceptance, review, completion report, README, llms.txt, module memory, and this
    guide with the actual result.
 

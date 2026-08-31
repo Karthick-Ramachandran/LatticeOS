@@ -5,8 +5,8 @@
 Phase 1 is not complete. T2 core, T3 safe project and React analysis, the Tailwind project bridge,
 direct Tailwind analysis, deterministic in-memory Reuse index assembly, generated cache, and CLI
 initialization/query surface are implemented. Static shadcn configured-source evidence and bounded
-local Storybook manifest evidence are implemented. The packed-consumer proof now passes; the Reuse
-benchmark and final release review remain.
+local Storybook manifest evidence are implemented. The packed-consumer proof and the benchmark's
+temporary-pair preparation now pass; qualified trials and final release review remain.
 
 ## Files Changed
 
@@ -48,7 +48,7 @@ benchmark and final release review remain.
 ## Tests Run
 
 - `pnpm test:run`: 3 docs tests, 17 core tests, 2 React adapter tests, 2 Tailwind adapter tests,
-  3 shadcn adapter tests, 2 Storybook adapter tests, 35 analyzer tests, 4 CLI tests, and 9 benchmark
+  3 shadcn adapter tests, 2 Storybook adapter tests, 35 analyzer tests, 4 CLI tests, and 14 benchmark
   tests passed.
 - `pnpm typecheck`: all eight implementation workspaces passed.
 - `pnpm build`: all implementation packages built and the docs app generated 40 routes.
@@ -118,14 +118,16 @@ were updated with the same change.
   worktree, exposes the `lattice` binary, runs help and a real JSON search, writes the valid generated
   cache, and leaves Button source unchanged. The test does not publish packages or execute fixture
   application code.
-- The local benchmark harness commits three source-only tasks, validates bounded hash-verified trial
-  records, rejects synthetic data as release evidence, and returns a nonzero insufficient result while
-  no real trials exist. Nine focused tests cover the frozen contract and failure modes.
+- The local benchmark harness commits three source-only tasks, prepares randomized temporary matched
+  pairs, validates bounded hash-verified trial records, rejects synthetic data as release evidence,
+  and returns a nonzero insufficient result while no real trials exist. Fourteen focused tests cover
+  the frozen contract, temporary-pair boundary, and failure modes.
 
 ## Remaining Risks
 
 - The control-versus-treatment Reuse benchmark is not complete. F-003 and ADR-0017 define its
-  local source-only protocol; the harness is implemented and qualified agent trials remain.
+  local source-only protocol; preparation and validation are implemented, and qualified agent trials
+  remain.
 - Package-local tsconfig, tsconfig `extends`, multi-step aliases, and more than one shadcn wildcard
   remain unsupported until fixtures and security review define a wider boundary.
 - Storybook's rich components manifest is a preview API. Custom output directories, development
