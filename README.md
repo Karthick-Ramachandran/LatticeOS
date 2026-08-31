@@ -11,8 +11,9 @@ agent can use. It also connects a bounded local Storybook components manifest wh
 resolves to an indexed React component.
 
 > Status: Phase 1 Reuse is under active development. The analyzer, `lattice` commands, and packed
-> consumer proof work in this workspace. The package is not published, and the Reuse benchmark still
-> blocks Phase 1 completion.
+> consumer proof work in this workspace. The Reuse benchmark harness and pre-registered tasks are
+> also in place, but no qualified agent trials are recorded. The package is not published, and the
+> benchmark still blocks Phase 1 completion.
 
 [Why](#why-latticeos-exists) · [Phase 1](#phase-1-reuse) · [Evidence](#evidence-before-confidence) ·
 [CLI](#current-cli) · [Docs](#documentation) · [Roadmap](#roadmap) · [Feedback](#feedback-wanted)

@@ -11,8 +11,10 @@
   "scripts": {
     "build": "pnpm -r build",
     "typecheck": "pnpm -r typecheck",
-    "test:run": "pnpm -r test",
+    "test:run": "pnpm -r test && pnpm test:benchmark",
     "test:package": "pnpm -r --if-present test:package",
+    "test:benchmark": "node --test benchmarks/reuse-v1/tests/*.test.mjs",
+    "benchmark:check": "node benchmarks/reuse-v1/scripts/check-results.mjs",
     "docs:dev": "pnpm --filter @latticeos/docs dev",
     "docs:check": "pnpm --filter @latticeos/docs check"
   },

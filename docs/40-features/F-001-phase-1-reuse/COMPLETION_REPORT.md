@@ -48,15 +48,16 @@ benchmark and final release review remain.
 ## Tests Run
 
 - `pnpm test:run`: 3 docs tests, 17 core tests, 2 React adapter tests, 2 Tailwind adapter tests,
-  3 shadcn adapter tests, 2 Storybook adapter tests, 35 analyzer tests, and 4 CLI tests passed.
+  3 shadcn adapter tests, 2 Storybook adapter tests, 35 analyzer tests, 4 CLI tests, and 9 benchmark
+  tests passed.
 - `pnpm typecheck`: all eight implementation workspaces passed.
-- `pnpm build`: all implementation packages built and the docs app generated 38 routes.
+- `pnpm build`: all implementation packages built and the docs app generated 40 routes.
 - `pnpm test:package`: passed. The CLI package gate built seven local packages, installed their
   tarballs in the temporary Next.js workspace fixture, ran `lattice --help` and `lattice search Button
   --json`, confirmed the generated schema-version-1 cache, and verified Button source preservation.
-- `pnpm docs:check`: content validation, docs tests, typecheck, and the 38-route production build
+- `pnpm docs:check`: content validation, docs tests, typecheck, and the 40-route production build
   passed.
-- `persist doctor`: passed; Persist OS found two feature folders, five module folders, and 16 ADRs.
+- `persist doctor`: passed; Persist OS found three feature folders, six module folders, and 17 ADRs.
 
 ## Skipped checks
 
@@ -117,11 +118,14 @@ were updated with the same change.
   worktree, exposes the `lattice` binary, runs help and a real JSON search, writes the valid generated
   cache, and leaves Button source unchanged. The test does not publish packages or execute fixture
   application code.
+- The local benchmark harness commits three source-only tasks, validates bounded hash-verified trial
+  records, rejects synthetic data as release evidence, and returns a nonzero insufficient result while
+  no real trials exist. Nine focused tests cover the frozen contract and failure modes.
 
 ## Remaining Risks
 
 - The control-versus-treatment Reuse benchmark is not complete. F-003 and ADR-0017 define its
-  local source-only protocol; the harness and qualified agent trials remain.
+  local source-only protocol; the harness is implemented and qualified agent trials remain.
 - Package-local tsconfig, tsconfig `extends`, multi-step aliases, and more than one shadcn wildcard
   remain unsupported until fixtures and security review define a wider boundary.
 - Storybook's rich components manifest is a preview API. Custom output directories, development

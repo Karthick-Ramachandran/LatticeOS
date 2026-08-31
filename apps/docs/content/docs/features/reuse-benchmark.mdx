@@ -4,8 +4,8 @@ description: Measure whether LatticeOS context changes canonical UI reuse on con
 ---
 
 <Callout title="Status" type="warning">
-  The protocol is accepted. The harness and pre-registered tasks are still being built. No qualified
-  agent result exists, so Phase 1 Reuse has not passed its benchmark gate.
+  The protocol, three pre-registered tasks, and local validator are implemented. No qualified agent
+  result exists, so Phase 1 Reuse has not passed its benchmark gate.
 </Callout>
 
 The benchmark asks one narrow question: when an agent has LatticeOS Reuse context, does it use more
@@ -43,6 +43,25 @@ failed, out-of-scope, or unreviewed runs are reported but cannot make the gate p
 The protocol is local and developer-only. The harness reads static records and submission text. It
 does not execute application code or configuration, call a network service, collect personal data,
 or publish a package.
+
+## Run the verifier
+
+```bash title="Verify protocol and synthetic cases"
+pnpm test:benchmark
+```
+
+The test suite validates the three committed task manifests, a synthetic verifier record, insufficient
+paired evidence, the positive metric rule, an inappropriate-reuse regression, changed context, control
+leakage, symlinks, annotation locations, and deterministic output. Synthetic records can never satisfy
+the release gate.
+
+```bash title="Evaluate recorded trials"
+pnpm benchmark:check
+```
+
+Before `benchmarks/reuse-v1/results/results.json` contains qualified trials, this command writes an
+`insufficient` JSON summary and exits with status 1. Do not change that result to green without
+recorded trials.
 
 See [ADR-0017](https://github.com/Karthick-Ramachandran/LatticeOS/blob/main/docs/adrs/ADR-0017-reproducible-phase-1-reuse-benchmark-protocol.md)
 and [F-003 delivery memory](https://github.com/Karthick-Ramachandran/LatticeOS/tree/main/docs/40-features/F-003-phase-1-reuse-benchmark)
@@ -116,11 +135,12 @@ Rules:
   a second ranking system or let the benchmark modify ranking to improve its score.
 
 Ordered work:
-1. Validate the task/result/annotation contracts and path boundaries.
-2. Add at least three pre-registered tasks and synthetic verifier fixtures for pass and failure modes.
+1. Maintain the implemented task/result/annotation contracts and path boundaries.
+2. Keep the three pre-registered tasks and synthetic verifier cases synchronized with their source
+   fixture and evidence contracts.
 3. Generate and save treatment context from the current CLI against a copied fixture.
-4. Build a deterministic local validator and summary. It must report insufficient evidence rather than
-   pass an empty or incomplete record set.
+4. Keep the deterministic local validator and summary strict. It must report insufficient evidence
+   rather than pass an empty or incomplete record set.
 5. Capture fresh randomized matched agent pairs, then have an independent reviewer annotate outcomes.
 6. Reconcile F-001 acceptance, review, completion report, README, llms.txt, module memory, and this
    guide with the actual result.

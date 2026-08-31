@@ -25,7 +25,7 @@ Do Not:
 
 ## T2: Implement pre-registered tasks and validator
 
-Status: Todo
+Status: Done
 
 Scope:
 
@@ -39,7 +39,9 @@ Acceptance:
 
 Tests:
 
-- Benchmark unit tests and root quality gates.
+- `pnpm test:benchmark` covers synthetic verifier data, task manifests, insufficient pairs, metric
+  regression, changed context, control leakage, symlinks, annotation locations, and stable summaries.
+- Root quality gates are recorded in the completion report after this implementation slice.
 
 Do Not:
 

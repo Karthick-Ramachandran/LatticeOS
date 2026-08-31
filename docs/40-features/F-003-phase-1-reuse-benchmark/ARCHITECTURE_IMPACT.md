@@ -2,8 +2,8 @@
 
 ## Affected Modules
 
-- `benchmark` is a new developer-only module. It owns task manifests, result validation, summary,
-  reviewer-record format, and benchmark documentation.
+- `benchmark` is a new developer-only module. It owns task manifests, result validation, a fixed
+  result checker, deterministic summary, reviewer-record format, and benchmark documentation.
 - `fixtures/next-workspace` remains the controlled consumer input. The benchmark never makes it a
   runtime dependency or rewrites the committed fixture.
 - `packages/cli` supplies the treatment context through its existing `lattice context --json`
@@ -15,9 +15,10 @@ ADR-0017 defines the fairness, audit, safety, and release-gate rules. No accepte
 
 ## Security Impact
 
-The harness is local and developer-only. It accepts only repository-relative declared record paths,
-reads submissions as text, and must not execute them. Recorded data contains task and context output
-from the controlled fixture only; it excludes credentials, private source, and participant identity.
+The harness is local and developer-only. It accepts only bounded, hash-verified repository-relative
+artifact paths, reads submissions as text, and does not execute them. Recorded data contains task and
+context output from the controlled fixture only; it excludes credentials, private source, and
+participant identity.
 There is no auth, server, network, telemetry, cloud, MCP runtime, AI API, runtime dependency, or
 application-source write. A generated summary, if added, stays in the benchmark-owned path and gets
 an explicit path/overwrite review.

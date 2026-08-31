@@ -285,6 +285,21 @@ No convention finding was raised in the final pass.
   verification out of the shipped CLI contract. Its only new package script follows the existing
   `test:<scope>` gate naming.
 
+### Reuse benchmark harness review
+
+No blocker was found in the T2 benchmark harness.
+
+- The benchmark keeps its task manifests, artifacts, and result checker under the developer-only
+  `benchmarks/reuse-v1` boundary. It reuses the existing `lattice context --json` contract and does
+  not add a second ranking system, public CLI command, cache, or runtime API.
+- The validator reads bounded regular files below its artifact root and rejects path traversal,
+  symlinks, changed hashes, control-context leakage, invalid annotations, mismatched pairs, and
+  malformed identifiers without echoing submitted text in errors.
+- No network, telemetry, cloud, MCP, AI API, child-process, fixture execution, or application-source
+  write path was added. Nine focused tests and the full repository gate set pass.
+- Synthetic verifier records are rejected for release evidence. F-001 AC-15 remains blocked until
+  T3 records qualified randomized agent trials with independent review.
+
 ### Dependency and network review
 
 - TypeScript 6.0.3 is the compiler dependency added to the analyzer and React adapter boundaries.

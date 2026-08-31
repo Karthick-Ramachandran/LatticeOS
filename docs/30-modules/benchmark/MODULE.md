@@ -18,12 +18,14 @@ on pre-registered coding-agent tasks.
 
 ## Public Interfaces
 
-- Planned: a developer-only benchmark command that validates a `reuse-v1` result set and emits a
-  deterministic local summary.
-- Planned: task and result JSON contracts documented under F-003. They are not LatticeOS runtime APIs.
+- `pnpm test:benchmark` runs the local `reuse-v1` manifest and validator tests.
+- `pnpm benchmark:check` reads only `benchmarks/reuse-v1/results/results.json`, validates it, and
+  prints a deterministic local summary. It exits nonzero until qualified agent trials pass.
+- Task and result JSON contracts are documented under F-003. They are not LatticeOS runtime APIs.
 
 ## Boundaries
 
 The module consumes the existing `lattice context --json` output as treatment evidence and only reads
-controlled fixture/submission text. It never executes a submission or consumer configuration. It
-uses no network, secrets, telemetry, cloud, MCP runtime, AI API, or new runtime dependency.
+bounded, hash-verified records under its artifact root. It never executes a submission or consumer
+configuration. It uses no network, secrets, telemetry, cloud, MCP runtime, AI API, or new runtime
+dependency.

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "team-settings-section",
+  "fixture": {
+    "path": "fixtures/next-workspace",
+    "gitTree": "474f8c8841997b2105d1cfcaf9226f23b08a2e7a"
+  },
+  "task": "Add a team settings section.",
+  "allowedSubmissionPaths": [
+    "apps/web/app/settings/team/page.tsx"
+  ],
+  "expectedCanonicalComponents": [
+    {
+      "componentId": "react:@fixture/ui:packages/ui/src/settings-section.tsx#SettingsSection",
+      "displayName": "SettingsSection",
+      "sourcePath": "packages/ui/src/settings-section.tsx",
+      "importSpecifier": "@fixture/ui"
+    }
+  ],
+  "reviewRubric": "Count a listed component as appropriate only when its inspected use supports the stated page. Count it as inappropriate when it is imported or rendered in the allowed submission but does not support that task. Record a source location and a reason for every annotation."
+}

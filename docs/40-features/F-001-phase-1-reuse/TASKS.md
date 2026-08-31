@@ -186,6 +186,8 @@ Evidence to date:
   block AC-15, AC-16, and Phase 1 completion.
 - F-003 and ADR-0017 now define the local source-only benchmark protocol. No qualified agent pairs or
   benchmark outcome have been recorded yet.
+- The F-003 validator, three pre-registered tasks, synthetic verifier cases, and fixed result checker
+  are complete. They prove the protocol only; AC-15 still needs qualified trials.
 
 ## T7: Review And Release Phase 1
 
