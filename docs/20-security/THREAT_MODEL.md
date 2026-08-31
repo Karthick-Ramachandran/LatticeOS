@@ -24,6 +24,8 @@ Accepted Phase 1 threat model.
 - Untrusted repository data to parsers and normalized core entities.
 - Normalized evidence to generated cache/report writes.
 - Packaged LatticeOS code to consumer repositories and CI environments.
+- The package builder's fixed compiled closure in the current LatticeOS checkout. It is trusted build
+  input, not a caller-selected repository; ADR-0019 records its narrower integrity boundary.
 
 ## Threats
 

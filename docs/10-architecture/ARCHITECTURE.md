@@ -80,3 +80,5 @@ shadcn, the CLI, or generated file formats.
 - [ADR-0014](../adrs/ADR-0014-latticeos-initialization-configuration-floor.md)
 - [ADR-0015](../adrs/ADR-0015-static-shadcn-configuration-evidence-mapping.md)
 - [ADR-0016](../adrs/ADR-0016-bounded-storybook-manifest-evidence.md)
+- [ADR-0018](../adrs/ADR-0018-bundled-npm-cli-distribution.md)
+- [ADR-0019](../adrs/ADR-0019-trusted-build-checkout-package-input.md)

@@ -1,0 +1,42 @@
+{
+  "name": "@latticeos/cli",
+  "version": "0.1.0-rc.0",
+  "description": "Repository-native UI reuse evidence for coding agents.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "bin": {
+    "lattice": "./dist/bin.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "@latticeos/adapter-react": "0.1.0-rc.0",
+    "@latticeos/adapter-shadcn": "0.1.0-rc.0",
+    "@latticeos/adapter-storybook": "0.1.0-rc.0",
+    "@latticeos/adapter-tailwind": "0.1.0-rc.0",
+    "@latticeos/analyzer": "0.1.0-rc.0",
+    "@latticeos/core": "0.1.0-rc.0",
+    "typescript": "6.0.3"
+  },
+  "bundledDependencies": [
+    "@latticeos/adapter-react",
+    "@latticeos/adapter-shadcn",
+    "@latticeos/adapter-storybook",
+    "@latticeos/adapter-tailwind",
+    "@latticeos/analyzer",
+    "@latticeos/core",
+    "typescript"
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "name": "@latticeos/cli",
-  "version": "0.0.0",
+  "version": "0.1.0-rc.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -26,7 +26,10 @@
     "pretest": "pnpm --filter @latticeos/analyzer build",
     "test": "pnpm test:compile && node --test .test-dist/*.test.js",
     "pretest:package": "pnpm -r --filter @latticeos/cli... build",
-    "test:package": "node scripts/test-packed-consumer.mjs"
+    "test:package:workspace": "node scripts/test-packed-consumer.mjs",
+    "test:npm-package": "node --test scripts/npm-package.test.mjs",
+    "test:package": "node scripts/test-packed-consumer.mjs && pnpm test:npm-package && node scripts/test-npm-consumer.mjs",
+    "release:pack": "node scripts/release-pack.mjs"
   },
   "dependencies": {
     "@latticeos/analyzer": "workspace:*",

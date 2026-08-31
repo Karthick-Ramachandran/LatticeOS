@@ -15,10 +15,11 @@ pnpm test:package
 
 ## What the gate checks
 
-The CLI package builds its seven required LatticeOS packages, then packs each one into a tarball. A
-temporary copy of `fixtures/next-workspace` installs those local tarballs with npm. Install scripts
-are disabled. The test restores the fixture's workspace declaration before analysis, so `lattice`
-sees the same React, Next.js, Tailwind, shadcn, and Storybook markers that the fixture commits.
+The gate has two artifact checks. The legacy check builds the seven LatticeOS packages, packs each one
+into a tarball, and installs them in a temporary copy of `fixtures/next-workspace`. It keeps coverage
+for the workspace markers LatticeOS analyzes. The bundled check stages one self-contained
+`@latticeos/cli` tarball and installs it offline into `fixtures/npm-consumer`, a minimal standalone
+TypeScript/JSX repository. Install scripts are disabled for both checks.
 
 The test then proves all of these facts:
 
@@ -29,30 +30,36 @@ The test then proves all of these facts:
 - `packages/ui/src/button.tsx` has identical contents before and after analysis.
 - The temporary tarballs and consumer directory are removed when the test ends.
 
+The bundled check also proves that its artifact has no workspace declaration, bundles its fixed
+internal runtime closure, passes `npm pack --dry-run --offline`, installs without registry access,
+reports its pre-release version, and finds `Button` in the standalone fixture.
+
 The test does not start Next.js, build the fixture application, publish to npm, or execute fixture
 source or configuration. It is a package and analysis proof, not an application-runtime test.
 
 ## Why the temporary workspace change exists
 
-The fixture contains `workspace:*` dependencies that npm cannot install directly in this controlled
-tarball setup. The gate removes only the root `workspaces` field in its temporary copy for `npm
-install --workspaces=false`, then restores that field before it invokes `lattice`. The committed
-fixture and its workspace detection behavior remain unchanged.
+The controlled Next.js fixture contains `workspace:*` dependencies that npm cannot install directly
+in the legacy seven-tarball setup. That check removes only the root `workspaces` field in its
+temporary copy for `npm install --workspaces=false`, then restores the field before it invokes
+`lattice`. The committed fixture and its workspace detection behavior remain unchanged. The bundled
+artifact check does not need this workaround.
 
 ## Security boundary
 
-The test script has fixed package directories and uses a temporary directory it created itself. It
-does not accept a consumer-supplied package path. Package installation uses local LatticeOS tarballs,
-disables lifecycle scripts, and omits fixture development dependencies. A package manager can still
-contact its registry to resolve the existing pinned TypeScript dependency during this developer test;
-the shipped `lattice` runtime has no network path.
+The test scripts have fixed package directories and use temporary directories they create themselves.
+They do not accept a consumer-supplied package path. Package installation uses local LatticeOS
+tarballs, disables lifecycle scripts, and omits fixture development dependencies. The bundled check
+uses `npm --offline`, so it has no registry resolution step. The shipped `lattice` runtime has no
+network path.
 
 ## Test evidence
 
-`packages/cli/scripts/test-packed-consumer.mjs` is the implementation. The package gate builds
-dependencies first, then runs that script. It has passed against the controlled Next.js workspace
-fixture with the installed binary, help command, real search command, generated-cache check, and
-source-preservation assertion.
+`packages/cli/scripts/test-packed-consumer.mjs` and
+`packages/cli/scripts/test-npm-consumer.mjs` implement the checks. The package gate builds
+dependencies first. It has passed against the controlled Next.js workspace fixture and the minimal
+standalone fixture with installed binary, version/help commands, real search, generated-cache, and
+source-preservation assertions.
 
 ## Agent implementation prompt
 

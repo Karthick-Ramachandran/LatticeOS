@@ -21,13 +21,14 @@ and safe initialization.
   `.lattice/config.json` file by default; `--write` creates it and `--write --force` is the only
   replacement form.
 - Developer-only package proof: `pnpm test:package` builds, packs, and installs the CLI dependency
-  closure in the controlled Next.js fixture. It runs the extracted `lattice` binary without
-  publishing a package or changing CLI runtime behavior.
+  closure in both the controlled Next.js fixture and a minimal external TypeScript/JSX fixture. The
+  external proof installs one bundled tarball offline, runs the extracted `lattice` binary, and does
+  not publish a package or change CLI runtime behavior.
 
 ## Boundaries
 
 CLI depends on analyzer and core public interfaces. Human and JSON output describe the same result.
 Machine output remains stable within its schema version. Init writes only the fixed, validated
 LatticeOS config through `RepositoryRoot`; it never accepts a destination path or writes application
-source. The packed test has fixed package inputs, disables install scripts, restores temporary
-workspace metadata before analysis, and removes only its own temporary directory.
+source. The package builders have fixed inputs, disable install scripts, restore temporary workspace
+metadata before the legacy fixture analysis, and remove only their own temporary directories.

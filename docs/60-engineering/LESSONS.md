@@ -25,8 +25,12 @@ model preferences.
   can hide a mismatch that separate JSON records would expose.
 - When preparing a treatment workspace, remove only generated cache paths. Removing `.lattice` as a
   whole can make the control and treatment inputs differ by deleting committed configuration.
+- Persist treats completion language in an in-progress feature report as a completion signal. State
+  that planning is recorded and implementation is pending until the feature itself is ready.
 - If a Next build is idle while holding `apps/docs/.next/lock` after a tooling interruption, stop that
   exact build before retrying. Do not start another docs build while the lock exists.
+- Keep `apply_patch` paths inside the repository root; an unrelated absolute path can silently create
+  a user file.
 # 2026-08-29 — Node-backed adapter packages need the established local test boundary
 
 When a placeholder adapter starts using Node APIs, copy the React/Tailwind adapter's `types: ["node"]`,

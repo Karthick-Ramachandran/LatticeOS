@@ -54,6 +54,11 @@ Runtime dependencies are minimized. Resolutions are exact in the lockfile. New r
 require review for maintenance, license, install scripts, network behavior, and transitive risk.
 Analyzer fixtures prove behavior against the pinned TypeScript compiler version.
 
+The developer-only bundled CLI builder reads only its fixed compiled closure in the current LatticeOS
+checkout after a local build. It does not accept a consumer source path. Static links are rejected, but
+a concurrent same-user mutation of that checkout is outside this pre-release builder's integrity
+boundary; see ADR-0019. This does not relax `lattice` handling of an analyzed repository.
+
 ## Security Verification
 
 Tests cover traversal, symlink escape, excluded secret/generated paths, malformed input,
@@ -62,3 +67,4 @@ non-execution of repository config, safe overwrite behavior, and deterministic l
 ## Accepted Decision
 
 - [ADR-0009: Local-only privacy and network boundary](../adrs/ADR-0009-local-only-privacy-and-network-boundary.md)
+- [ADR-0019: Trusted build checkout package input](../adrs/ADR-0019-trusted-build-checkout-package-input.md)

@@ -36,7 +36,8 @@ than inventing parallel models or helpers.
   `buildReuseIndex`; adapters use `analyze<Source>`.
 - Repository paths in data and snapshots are POSIX-style and relative to the analyzed root.
 - Diagnostics and JSON schemas carry explicit stable codes or versions.
-- Tests use `*.test.ts`; golden data uses `*.golden.json`.
+- Source-package tests use `*.test.ts`. Developer-only package boundary tests that Node runs directly
+  may use `*.test.mjs`; golden data uses `*.golden.json`.
 
 ## Rules
 

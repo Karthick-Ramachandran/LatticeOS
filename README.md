@@ -11,9 +11,10 @@ agent can use. It also connects a bounded local Storybook components manifest wh
 resolves to an indexed React component.
 
 > Status: Phase 1 Reuse is under active development. The analyzer, `lattice` commands, and packed
-> consumer proof work in this workspace. The Reuse benchmark can also prepare fresh randomized agent
-> pairs from its pre-registered tasks, but no qualified trials are recorded. The package is not
-> published, and the benchmark still blocks Phase 1 completion.
+> consumer proof work in this workspace. A single bundled pre-release tarball also installs offline
+> into a minimal external fixture. The Reuse benchmark can prepare fresh randomized agent pairs from
+> pre-registered tasks, but no qualified trials are recorded. The package is not published, and the
+> benchmark still blocks Phase 1 completion.
 
 [Why](#why-latticeos-exists) · [Phase 1](#phase-1-reuse) · [Evidence](#evidence-before-confidence) ·
 [CLI](#current-cli) · [Docs](#documentation) · [Roadmap](#roadmap) · [Feedback](#feedback-wanted)
@@ -101,6 +102,32 @@ Limit: product meaning is not inferred from the score
 Human output is for quick reading. JSON has an explicit schema version, deterministic order,
 stable component IDs, evidence links, and limitations.
 
+### Try the local pre-release
+
+To give someone a one-file evaluation artifact without publishing it, run this from a LatticeOS
+checkout:
+
+```bash
+pnpm release:pack
+```
+
+It prints the path to a temporary `@latticeos/cli@0.1.0-rc.0` tarball. Install that file in a scratch
+directory with npm offline mode and lifecycle scripts disabled, then use the installed binary to
+analyze a repository through `--root`:
+
+```bash
+mkdir latticeos-eval
+cd latticeos-eval
+npm init --yes
+npm install --offline --ignore-scripts --no-audit --no-fund --no-save --package-lock=false /absolute/path/latticeos-cli-0.1.0-rc.0.tgz
+./node_modules/.bin/lattice --root /absolute/path/to/ui-repository search Button --json
+```
+
+The artifact is local and pre-release. It does not publish anything, execute the target repository,
+or rewrite application source. Analysis writes the generated reuse cache under `.lattice/cache/`.
+See the [local npm pre-release guide](apps/docs/content/docs/cli/npm-pre-release.mdx) for the full
+copy-ready workflow and agent prompt.
+
 ## Documentation
 
 Documentation is built alongside each feature with [Fumadocs](https://www.fumadocs.dev/). Every
@@ -113,6 +140,7 @@ Start with:
 - [Evidence model](apps/docs/content/docs/reference/evidence-model.mdx)
 - [Agent-ready documentation contract](apps/docs/content/docs/contributing/agent-ready-documentation.mdx)
 - [Packed consumer proof](apps/docs/content/docs/cli/packed-consumer.mdx)
+- [Local npm pre-release and agent prompt](apps/docs/content/docs/cli/npm-pre-release.mdx)
 - [Reuse benchmark protocol](apps/docs/content/docs/features/reuse-benchmark.mdx)
 - [Repository guide for language models](llms.txt)
 - [Phase 1 acceptance criteria](docs/40-features/F-001-phase-1-reuse/ACCEPTANCE.md)

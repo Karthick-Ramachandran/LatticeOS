@@ -16,3 +16,6 @@
 - Done: Build the CLI dependency closure, pack its local artifacts, install them in the controlled
   Next.js fixture with install scripts disabled, and prove `lattice --help`, JSON search, generated
   cache output, extracted package identity, and source preservation.
+- Done: Stage the fixed compiled dependency closure in one temporary bundled npm tarball. Install it
+  offline in the minimal external TypeScript/JSX fixture and prove version, help, JSON search,
+  generated-cache output, extracted package identity, and source preservation.

@@ -7,8 +7,8 @@
 Repository: https://github.com/Karthick-Ramachandran/LatticeOS
 Product name: LatticeOS
 Public CLI name: lattice
-Status: pre-release; the packed-consumer test and local benchmark test suite pass, but no qualified
-benchmark trial is recorded and the analyzer and CLI are not published
+Status: pre-release; the package gate proves both a seven-tarball workspace fixture and one bundled
+offline-installed CLI artifact. No qualified benchmark trial is recorded, and nothing is published.
 
 ## Read before changing code
 
@@ -39,23 +39,26 @@ Use the Persist CLI for new feature memory and decisions as AGENTS.md requires.
 - packages/adapters: React component analysis, static Tailwind token/class evidence, static shadcn
   configured-source evidence, and bounded local Storybook manifest evidence are implemented.
 - packages/cli: source-tested `init`, `search`, `inspect`, and `context` commands are implemented.
-  The package gate proves an installed tarball can analyze the controlled Next.js fixture. It is not
-  published, and the Reuse benchmark is still required.
+  The package gate proves the legacy controlled Next.js fixture and one bundled tarball installed
+  offline in a minimal external TypeScript/JSX fixture. It is not published, and the Reuse benchmark
+  is still required.
 - benchmarks/reuse-v1: pre-registered source-only tasks, local result validation, and synthetic
   verifier tests are implemented. `pnpm benchmark:prepare` makes fresh randomized control/treatment
   workspaces and captures the exact treatment context. Neither tool counts as an agent result;
   qualified matched trials are still required.
 
-Do not describe workspace CLI examples as published behavior. The packed-consumer gate passes, but
-the package is pre-release and the Reuse benchmark still blocks Phase 1 completion.
+Do not describe workspace CLI examples as published behavior. The one-artifact package proof passes,
+but the package is pre-release and the Reuse benchmark still blocks Phase 1 completion.
 
 ## Active feature
 
 - Product and acceptance: docs/40-features/F-001-phase-1-reuse/
+- Bundled npm CLI distribution: docs/40-features/F-004-npm-cli-distribution/
 - Benchmark protocol and delivery evidence: docs/40-features/F-003-phase-1-reuse-benchmark/
 - Public guide and complete Agent prompt: apps/docs/content/docs/features/phase-1-reuse.mdx
 - Safe CLI initialization: apps/docs/content/docs/cli/init.mdx
 - Packed consumer proof: apps/docs/content/docs/cli/packed-consumer.mdx
+- Local bundled npm pre-release: apps/docs/content/docs/cli/npm-pre-release.mdx
 - Reuse benchmark protocol: apps/docs/content/docs/features/reuse-benchmark.mdx
 - shadcn static evidence: apps/docs/content/docs/features/shadcn-static-evidence.mdx
 - Storybook manifest evidence: apps/docs/content/docs/features/storybook-manifest-evidence.mdx

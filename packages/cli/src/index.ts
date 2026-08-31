@@ -15,7 +15,7 @@ import {
   writeReuseIndex,
 } from "@latticeos/analyzer";
 
-export const CLI_VERSION = "0.0.0";
+export const CLI_VERSION = "0.1.0-rc.0";
 export const DEFAULT_CONTEXT_MAX_ITEMS = 8;
 export const DEFAULT_CONTEXT_MAX_CHARACTERS = 6_000;
 
