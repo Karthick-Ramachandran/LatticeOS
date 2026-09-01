@@ -1,0 +1,99 @@
+{
+  "command": "context",
+  "result": {
+    "characterCount": 628,
+    "items": [
+      {
+        "recommendation": {
+          "componentId": "react:@fixture/ui:packages/ui/src/settings-section.tsx#SettingsSection",
+          "displayName": "SettingsSection",
+          "reasons": [
+            {
+              "code": "name-token",
+              "evidenceIds": [
+                "ev:react:export:018f8a20fe03ab4c5384",
+                "ev:shadcn:registry:bf4125c991332cf46071"
+              ],
+              "message": "Component name matches: section, settings",
+              "score": 60
+            },
+            {
+              "code": "path-token",
+              "evidenceIds": [
+                "ev:react:export:018f8a20fe03ab4c5384",
+                "ev:shadcn:registry:bf4125c991332cf46071"
+              ],
+              "message": "Source path matches: section, settings",
+              "score": 24
+            },
+            {
+              "code": "usage-path-token",
+              "evidenceIds": [
+                "ev:react:usage:7a8479490adea58f4994"
+              ],
+              "message": "1 usage path match the query",
+              "score": 6
+            }
+          ],
+          "score": 90,
+          "sourcePath": "packages/ui/src/settings-section.tsx"
+        },
+        "text": "SettingsSection (packages/ui/src/settings-section.tsx)\nWhy: Component name matches: section, settings; Source path matches: section, settings; 1 usage path match the query\nEvidence: ev:react:export:018f8a20fe03ab4c5384, ev:react:usage:7a8479490adea58f4994, ev:shadcn:registry:bf4125c991332cf46071"
+      },
+      {
+        "recommendation": {
+          "componentId": "react:web:apps/web/app/settings/page.tsx#default",
+          "displayName": "SettingsPage",
+          "reasons": [
+            {
+              "code": "name-token",
+              "evidenceIds": [
+                "ev:react:export:5348a02e2360dc40648b"
+              ],
+              "message": "Component name matches: settings",
+              "score": 30
+            },
+            {
+              "code": "path-token",
+              "evidenceIds": [
+                "ev:react:export:5348a02e2360dc40648b"
+              ],
+              "message": "Source path matches: settings",
+              "score": 12
+            }
+          ],
+          "score": 42,
+          "sourcePath": "apps/web/app/settings/page.tsx"
+        },
+        "text": "SettingsPage (apps/web/app/settings/page.tsx)\nWhy: Component name matches: settings; Source path matches: settings\nEvidence: ev:react:export:5348a02e2360dc40648b"
+      },
+      {
+        "recommendation": {
+          "componentId": "react:@fixture/ui:packages/ui/src/button.tsx#default",
+          "displayName": "SettingsCard",
+          "reasons": [
+            {
+              "code": "name-token",
+              "evidenceIds": [
+                "ev:react:export:af0427de23f033fb46fa",
+                "ev:shadcn:registry:3f64bfd220c97daad38f"
+              ],
+              "message": "Component name matches: settings",
+              "score": 30
+            }
+          ],
+          "score": 30,
+          "sourcePath": "packages/ui/src/button.tsx"
+        },
+        "text": "SettingsCard (packages/ui/src/button.tsx)\nWhy: Component name matches: settings\nEvidence: ev:react:export:af0427de23f033fb46fa, ev:shadcn:registry:3f64bfd220c97daad38f"
+      }
+    ],
+    "omittedItems": 0,
+    "schemaVersion": 1,
+    "task": "Add a team settings section.",
+    "text": "SettingsSection (packages/ui/src/settings-section.tsx)\nWhy: Component name matches: section, settings; Source path matches: section, settings; 1 usage path match the query\nEvidence: ev:react:export:018f8a20fe03ab4c5384, ev:react:usage:7a8479490adea58f4994, ev:shadcn:registry:bf4125c991332cf46071\n\nSettingsPage (apps/web/app/settings/page.tsx)\nWhy: Component name matches: settings; Source path matches: settings\nEvidence: ev:react:export:5348a02e2360dc40648b\n\nSettingsCard (packages/ui/src/button.tsx)\nWhy: Component name matches: settings\nEvidence: ev:react:export:af0427de23f033fb46fa, ev:shadcn:registry:3f64bfd220c97daad38f",
+    "truncated": false
+  },
+  "schemaVersion": 1,
+  "truncated": false
+}

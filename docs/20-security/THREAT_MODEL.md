@@ -2,38 +2,55 @@
 
 ## Status
 
-Draft — replace the prompts below with this repository's real analysis as it grows. `persist doctor`
-flags these as warnings once the repository has real work (a feature, module, or accepted decision).
+Accepted Phase 1 threat model.
 
 ## Assets
 
-Describe what this repository must protect: user data, credentials, money, availability, or
-reputation.
+- Confidential application source and developer filesystem data.
+- Integrity of application source, LatticeOS configuration, generated indexes, and CLI output.
+- Developer trust in reuse recommendations and deterministic evidence.
+- Availability of local development and CI jobs.
 
 ## Entry Points
 
-Describe where untrusted input enters: HTTP endpoints, webhooks, file uploads, queues, CLI input, or
-third-party callbacks.
+- CLI arguments, working directory, repository root, queries, and output options.
+- Source files, tsconfig/package/workspace manifests, CSS, shadcn configuration, and Storybook
+  manifests in the analyzed repository.
+- Filesystem metadata, symlinks, path aliases, and workspace boundaries.
 
 ## Trust Boundaries
 
-Describe where trust changes: client to server, service to database, your code to third-party APIs.
+- Caller input to CLI path resolution.
+- Untrusted repository data to parsers and normalized core entities.
+- Normalized evidence to generated cache/report writes.
+- Packaged LatticeOS code to consumer repositories and CI environments.
+- The package builder's fixed compiled closure in the current LatticeOS checkout. It is trusted build
+  input, not a caller-selected repository; ADR-0019 records its narrower integrity boundary.
 
 ## Threats
 
-Describe the concrete threats that apply to this repository, by category:
+- **Tampering/path traversal:** a crafted root, alias, or symlink redirects reads or writes outside the
+  repository.
+- **Code execution:** a config or source file is imported while being analyzed.
+- **Information disclosure:** secret or unrelated filesystem data enters output or leaves the host.
+- **Denial of service:** enormous files, recursive links, or dependency/build trees exhaust resources.
+- **Evidence poisoning:** ambiguous or malicious syntax is presented as exact reusable truth.
+- **Supply-chain compromise:** a dependency or packaged artifact runs unexpected code.
 
-- Spoofing — how identities are faked or sessions stolen.
-- Tampering — how requests, data, or builds are altered (injection, mass assignment).
-- Repudiation — actions that must remain auditable.
-- Information disclosure — how sensitive data or secrets could leak.
-- Denial of service — how the system can be overwhelmed or abused.
-- Elevation of privilege — how a user could gain access they should not have.
+Spoofing, repudiation, and remote privilege elevation are not applicable in Phase 1 because no
+remote identity or service exists.
 
 ## Mitigations
 
-Describe the control in place or planned for each threat above.
+- Validate real paths, reject escaping symlinks, and write only to explicit LatticeOS-owned paths.
+- Parse repository configuration and source as data; never import or evaluate it.
+- Exclude secret paths, keep evidence local, avoid source dumps, and use repository-relative paths.
+- Exclude dependency/build trees, bound file size and context output, and diagnose malformed input.
+- Label evidence by source, prefer exact static facts, and expose uncertainty and unsupported syntax.
+- Minimize dependencies, pin the lockfile, and test the packed artifact in a clean fixture.
 
 ## Open Risks
 
-Describe accepted or unresolved risks and who owns them.
+- TypeScript and framework syntax evolve; unsupported syntax may reduce recall without a diagnostic.
+- Very large repositories can use substantial memory until incremental caching is proven.
+- Static Tailwind extraction cannot resolve arbitrary dynamic class construction.

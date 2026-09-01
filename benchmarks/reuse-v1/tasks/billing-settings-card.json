@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "billing-settings-card",
+  "fixture": {
+    "path": "fixtures/next-workspace",
+    "gitTree": "474f8c8841997b2105d1cfcaf9226f23b08a2e7a"
+  },
+  "task": "Add a billing settings card with a secondary button.",
+  "allowedSubmissionPaths": [
+    "apps/web/app/settings/billing/page.tsx"
+  ],
+  "expectedCanonicalComponents": [
+    {
+      "componentId": "react:@fixture/ui:packages/ui/src/button.tsx#default",
+      "displayName": "SettingsCard",
+      "sourcePath": "packages/ui/src/button.tsx",
+      "importSpecifier": "@fixture/ui"
+    },
+    {
+      "componentId": "react:@fixture/ui:packages/ui/src/button.tsx#SecondaryButton",
+      "displayName": "SecondaryButton",
+      "sourcePath": "packages/ui/src/button.tsx",
+      "importSpecifier": "@fixture/ui"
+    }
+  ],
+  "reviewRubric": "Count a listed component as appropriate only when its inspected use supports the stated page. Count it as inappropriate when it is imported or rendered in the allowed submission but does not support that task. Record a source location and a reason for every annotation."
+}

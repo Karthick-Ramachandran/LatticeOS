@@ -1,0 +1,163 @@
+---
+title: Local npm pre-release
+description: Create and evaluate one bundled LatticeOS CLI tarball without publishing it.
+---
+
+LatticeOS can create one local pre-release tarball for outside evaluation. It is not published to npm.
+The artifact is `@latticeos/cli@0.1.0-rc.0`, includes the compiled analyzer/runtime closure, and
+requires Node.js 22 or newer.
+
+This is a narrow distribution path, not a support claim for every repository. The local Reuse
+benchmark has recorded candidate evidence on the controlled fixture. AC-16 quality gates pass, but
+Phase 1 still needs qualified proof that treatment context reached the agent unchanged.
+
+## Create the artifact
+
+Run this in a checked-out LatticeOS repository after dependencies are installed:
+
+```bash title="Create one local pre-release tarball"
+pnpm release:pack
+```
+
+The command rebuilds the required packages, stages a fixed dependency closure in an OS temporary
+directory, and prints the tarball's absolute path. It does not call `npm publish`, read a token, or
+accept an output path. Keep the printed path while sharing the file; OS temporary-file cleanup can
+remove it later.
+
+## Install it for a local evaluation
+
+Install the tarball in a scratch directory, not in the repository you want to analyze. Use the
+absolute path printed by `pnpm release:pack`.
+
+```bash title="Install without registry access or lifecycle scripts"
+mkdir latticeos-eval
+cd latticeos-eval
+npm init --yes
+npm install --offline --ignore-scripts --no-audit --no-fund --no-save --package-lock=false /absolute/path/latticeos-cli-0.1.0-rc.0.tgz
+```
+
+Then analyze a repository by passing its absolute path. Analysis reads source statically and writes
+only `.lattice/cache/reuse-index.json` inside that repository.
+
+```bash title="Run the installed CLI"
+./node_modules/.bin/lattice --version
+./node_modules/.bin/lattice --root /absolute/path/to/ui-repository search Button --json
+```
+
+The package does not execute the analyzed repository's source or configuration. It does not rewrite
+application source. `lattice init --write` is the separate, explicit command that can create
+`.lattice/config.json`.
+
+## Verify the artifact inside LatticeOS
+
+```bash title="Run the package proof"
+pnpm test:package
+```
+
+The proof builds the packages, checks the staging filesystem boundary, runs `npm pack --dry-run
+--offline`, installs the single tarball with scripts disabled into a minimal external fixture, and
+checks version, help, JSON search, source preservation, and the generated cache. See [the full
+artifact proof](/docs/cli/packed-consumer) for the legacy workspace check that remains part of this
+gate.
+
+## Agent implementation prompt
+
+```text title="Agent implementation prompt"
+Maintain the local LatticeOS npm pre-release path without publishing it or expanding Phase 1 beyond
+Reuse.
+
+Read first:
+1. AGENTS.md
+2. docs/00-product/PRD.md
+3. docs/10-architecture/ARCHITECTURE.md
+4. docs/10-architecture/FILE_WRITE_POLICY.md
+5. docs/20-security/SECURITY_MODEL.md
+6. docs/20-security/THREAT_MODEL.md
+7. docs/50-quality/QUALITY_GATES.md
+8. docs/60-engineering/ENGINEERING_STANDARDS.md
+9. docs/60-engineering/CONVENTIONS.md
+10. docs/60-engineering/LESSONS.md
+11. docs/40-features/F-004-npm-cli-distribution/
+12. docs/30-modules/cli/
+13. ADR-0001, ADR-0009, ADR-0018, and ADR-0019 under docs/adrs/
+14. packages/cli/npm/package.json and packages/cli/scripts/npm-package.mjs
+15. this guide and packages/cli/scripts/test-npm-consumer.mjs
+
+Outcome:
+Keep one local, self-contained, offline-installable CLI artifact that an evaluator can use without a
+registry or a workspace link. Do not publish it or treat the artifact proof as Phase 1 benchmark
+evidence.
+
+Scope:
+- Maintain the fixed staging descriptor, compiled runtime closure, temporary filesystem boundary,
+  local tarball command, and minimal external consumer proof.
+- Document the exact scratch-directory install path and the cache write that analysis performs.
+- Keep the public product surface to the existing `lattice` commands.
+
+Ordered work:
+1. Read the listed product, security, feature, module, and ADR records.
+2. Build the existing dependency closure before staging the tarball.
+3. Validate the fixed descriptor and copy only expected regular compiled files into a fresh temporary
+   directory.
+4. Pack offline with isolated npm configuration, cache, and logs. Never publish.
+5. Install the one tarball offline with lifecycle scripts disabled into the minimal external fixture.
+6. Run the installed binary and reconcile code, tests, feature memory, module memory, and docs.
+
+Acceptance:
+- Meet ACD-01 through ACD-07 in F-004. The tarball must be a single, extracted, non-workspace
+  artifact with the fixed bundled dependency closure.
+- The external proof must run version, help, and `search Button --json`, validate the generated cache,
+  and prove fixture source is unchanged.
+- The implementation must reject symbolic links and unsafe cleanup paths. It must not publish or
+  introduce a registry or runtime network path.
+
+Current contract:
+- `pnpm release:pack` builds a single temporary `@latticeos/cli@0.1.0-rc.0` tarball. The source
+  workspace package remains private.
+- The staged artifact has a fixed descriptor and bundled compiled LatticeOS core, analyzer,
+  adapters, and TypeScript 6.0.3. It has no workspace dependency or external runtime download.
+- The external package test installs only that tarball with npm offline and lifecycle scripts
+  disabled. It then runs `lattice --version`, `lattice --help`, and `lattice search Button --json`
+  in a copied minimal fixture.
+- `lattice` stays local-only. Analysis does not execute consumer source/configuration and writes only
+  the generated Reuse cache. Explicit `lattice init --write` owns the separate config write.
+
+Rules:
+- Do not add `npm publish`, registry auth, tokens, provenance upload, release automation, telemetry,
+  network, cloud, MCP, AI API, or an application runtime dependency.
+- Keep the source CLI package private. Do not expose its workspace dependencies as a public install
+  contract.
+- Keep the staging package name, versions, dependency list, tarball path, and temporary root fixed in
+  code. Do not accept a caller-selected source, output directory, dependency, package name, or path.
+- Copy only regular expected files. Reject symbolic links and unsafe cleanup paths. Do not follow or
+  delete consumer-controlled paths. The fixed LatticeOS build checkout is trusted input under
+  ADR-0019; do not turn this staging helper into a copier for arbitrary repositories.
+- Install test artifacts with `--offline` and `--ignore-scripts`. Do not execute fixture source or
+  configuration. Do not say the pre-release is published.
+- Do not use this artifact proof as Phase 1 reuse-benchmark evidence.
+
+Tests:
+- Run `pnpm --filter @latticeos/cli test:npm-package`.
+- Run `pnpm --filter @latticeos/cli test:package`.
+- Run `pnpm release:pack` and inspect only the printed temporary tarball path.
+- Before completing a slice, run `pnpm test:run`, `pnpm typecheck`, `pnpm build`,
+  `pnpm test:package`, `pnpm docs:check`, and `persist doctor` in that order.
+- Assert a no-workspace staged descriptor, bundled internal closure, offline dry-run and installation,
+  extracted binary, version/help/search behavior, valid generated cache, and unchanged fixture source.
+
+Documentation:
+- Update this guide, the artifact-proof guide, README, llms.txt, CLI module memory, F-004 tasks,
+  review, completion evidence, and lessons when the package contract changes.
+- Keep prose direct and factual. State that the artifact is local and pre-release until a separate
+  human-approved release decision exists.
+
+Stop conditions:
+- Stop for a human decision if the change needs publishing, registry credentials, a new runtime
+  dependency, caller-selected paths, arbitrary package inputs, application source writes, consumer
+  code execution, a runtime network path, or a claim that the Reuse benchmark passed.
+
+Completion evidence:
+Report the exact tarball command, staged dependency list, dry-run and offline-install commands,
+binary behavior, source/cache assertions, tests, docs, risks, and confirmation that no package was
+published and the benchmark still blocks Phase 1 completion.
+```

@@ -1,0 +1,136 @@
+---
+title: Reuse index cache
+description: Safely read and atomically replace the generated Reuse index cache.
+---
+
+<Callout title="Implemented" type="info">
+  The analyzer can now save a validated Reuse index to the one generated path that ADR-0004 permits:
+  `.lattice/cache/reuse-index.json`. Public CLI refresh behavior is still separate work.
+</Callout>
+
+## Use it
+
+```ts title="Read or refresh generated state"
+import { analyzeProject, readReuseIndex, RepositoryRoot, writeReuseIndex } from "@latticeos/analyzer";
+
+const root = await RepositoryRoot.open("/workspace/product");
+const cached = await readReuseIndex(root);
+const index = cached.status === "hit"
+  ? cached.index
+  : (await analyzeProject(root, { generatorVersion: "0.0.0" })).index;
+
+if (cached.status !== "hit") await writeReuseIndex(root, index);
+```
+
+`readReuseIndex` returns one of three states:
+
+| Status | Meaning | Caller action |
+| --- | --- | --- |
+| `hit` | The JSON parses and satisfies the current core schema. | Use `index`. |
+| `missing` | No generated cache exists. | Analyze and save a new index. |
+| `invalid` | The file is malformed, oversized, or incompatible. | Analyze and replace it. |
+
+The cache is derived state, never accepted product knowledge. Invalid data is not returned to a
+caller as evidence. An unsafe cache path, such as a symlink or an escaping directory, is an error,
+not an ordinary `invalid` result.
+
+## Write boundary
+
+`writeReuseIndex` validates and deterministically serializes the core index before asking
+`RepositoryRoot` to replace the exact cache target. The root authority creates only `.lattice` and
+`.lattice/cache` regular directories, writes a unique sibling temporary file with owner-only mode,
+syncs it, and renames it over the generated cache file.
+
+The API has no output-path argument. It cannot write application source, reports, arbitrary files,
+or a path outside the selected repository. It rejects symlinked cache directories and final cache
+files. Cache reads are bounded to 16 MiB and reject symlinks, non-regular files, and paths outside
+the selected root.
+
+The regular `readText` API continues to exclude generated cache paths. Only the dedicated cache
+methods can access this one LatticeOS-owned file. A cache miss does not create `.lattice` directories;
+only a successful cache write creates the owned directory path.
+
+## Limits and residual risk
+
+An index larger than 16 MiB is rejected rather than partially written or read. A later scale change
+needs an ADR and a fixture before raising that ceiling.
+
+The final file open uses `O_NOFOLLOW` where the platform supports it. As with every local filesystem
+operation, a hostile concurrent replacement of an already checked ancestor directory is a residual
+race. Packed cross-platform tests remain required before release.
+
+## Test evidence
+
+Analyzer tests prove cache misses, valid hits, malformed and incompatible state, atomic replacement,
+application-source preservation, final-file symlinks, and symlinked `.lattice` directories. Run:
+
+```bash
+pnpm --filter @latticeos/analyzer test
+```
+
+## Agent implementation prompt
+
+Copy this prompt into an agent working on generated Reuse state.
+
+```text title="Agent implementation prompt"
+Extend LatticeOS generated Reuse index storage under ADR-0004. Do not add cache formats, arbitrary
+output paths, source rewriting, CLI commands, Figma, browser work, Converge, telemetry, cloud, or
+network behavior.
+
+Read first:
+1. AGENTS.md
+2. docs/00-product/PRD.md
+3. docs/10-architecture/ARCHITECTURE.md
+4. docs/10-architecture/FILE_WRITE_POLICY.md
+5. docs/20-security/SECURITY_MODEL.md
+6. docs/20-security/THREAT_MODEL.md
+7. docs/50-quality/QUALITY_GATES.md
+8. docs/60-engineering/ENGINEERING_STANDARDS.md
+9. docs/60-engineering/CONVENTIONS.md
+10. docs/60-engineering/LESSONS.md
+11. docs/40-features/F-001-phase-1-reuse/
+12. docs/30-modules/analyzer/
+13. ADR-0004 and ADR-0009 under docs/adrs/
+14. this guide, cache tests, and RepositoryRoot tests
+
+Current contract:
+- The only generated cache target is `.lattice/cache/reuse-index.json`. The API accepts no caller
+  path and must not write application source or arbitrary LatticeOS files.
+- `writeReuseIndex` serializes a validated core index, then replaces the target atomically through
+  `RepositoryRoot`. `readReuseIndex` accepts only a valid current-schema index.
+- Missing, malformed, oversized, or incompatible generated state is a cache miss or invalid result,
+  not source evidence. The caller rebuilds it from the repository.
+- The cache file is excluded from ordinary discovery and `readText`. Dedicated cache methods enforce
+  regular directories, root containment, symlink refusal, bounded reads, and owner-only temporary
+  files.
+
+Rules:
+- Reuse `RepositoryRoot`, `serializeReuseIndex`, `validateReuseIndex`, and the existing cache result
+  union. Do not invent a second root authority, path helper, serializer, cache file, or error shape.
+- Keep every write within the exact ADR-0004 target. Preserve temp-file cleanup and atomic rename.
+- Do not parse or return invalid cache contents. Diagnostics and errors must not dump cached source
+  data.
+- Do not change an accepted ADR. Stop for human confirmation if a new file, format, write location,
+  dependency, privilege, or network path is needed.
+
+Required tests:
+- Run `pnpm --filter @latticeos/analyzer test`.
+- Test missing, valid, malformed, incompatible, oversized, and replacement state.
+- Test symlinked final file and directory rejection, root containment, no application-source write,
+  cleanup after failure, and deterministic serialized bytes when behavior changes.
+- Run complete repository gates before claiming the slice complete.
+
+Documentation:
+- Update this guide, Reuse index reference, analyzer memory, feature tasks, review notes, completion
+  evidence, and lessons in the same change.
+- Keep prose factual and direct. Preserve code, commands, links, facts, and test evidence when
+  applying the Humanizer rules.
+
+Stop conditions:
+- Stop for a human decision if the implementation needs to write outside the exact cache target,
+  execute repository code, use a new persistence dependency, or weaken symlink and root controls.
+
+Completion evidence:
+Report cache target, read states, write behavior, limits, security tests, full-gate results,
+documentation updated, residual filesystem risks, and whether the public CLI is still pending.
+```

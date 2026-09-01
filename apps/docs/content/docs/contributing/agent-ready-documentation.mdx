@@ -1,0 +1,65 @@
+---
+title: Agent-ready documentation
+description: Ship each feature guide and implementation prompt with the code.
+---
+
+Every LatticeOS feature gets a public guide while it is built. The guide explains tested behavior and
+links back to accepted repository memory. It does not replace the PRD, ADRs, acceptance criteria, or
+tests.
+
+## Required guide sections
+
+Describe the outcome, prerequisites, workflow, evidence or data contract, commands, examples, output,
+limits, errors, security, test evidence, and current status. Include one copy-ready Agent
+implementation prompt using the shared template.
+
+## Agent implementation prompt
+
+```text title="Agent implementation prompt"
+Implement and maintain F-002 Agent Ready Documentation for LatticeOS.
+
+Read first:
+- AGENTS.md and all required repository memory it names.
+- docs/40-features/F-002-agent-ready-documentation/.
+- docs/30-modules/documentation/.
+- ADR-0010 and the Fumadocs official docs linked from it.
+
+Outcome:
+Ship a Fumadocs site that documents each feature during implementation and gives an agent one copy-ready prompt with enough context to do the work without chat history.
+
+Scope:
+- Maintain apps/docs with Next.js 16, React 19, Tailwind CSS 4, Fumadocs Core/UI, and Fumadocs MDX.
+- Provide search, copy-enabled code blocks, llms.txt, llms-full.txt, and per-page Markdown.
+- Require a guide and Agent prompt for every feature, with examples tied to tests.
+- Keep the docs app separate from the lattice CLI runtime.
+
+Ordered work:
+1. Keep F-002 and documentation module memory current.
+2. Build and test the docs app, routes, navigation, content contract, and feature coverage check.
+3. Add or revise the relevant guide in the same change as each feature behavior.
+4. Validate links, prompts, examples, type checking, and the production build.
+5. Humanize explanatory prose without changing facts or literal technical content.
+
+Acceptance:
+- Satisfy DOC-01 through DOC-10 in F-002 ACCEPTANCE.md.
+- A completed feature without a guide or full Agent prompt must fail the docs gate.
+- Agent-readable routes must not call a model or require a secret.
+
+Tests:
+- Run content contract tests, link checks, route tests, type checking, production build, the repository quality gates, and persist doctor.
+
+Documentation:
+- Keep navigation, feature guides, prompt template, source links, and README commands accurate.
+
+Stop conditions:
+- Stop if public prose conflicts with accepted memory, an example is not backed by tests, or a dependency/network change lacks review.
+
+Completion evidence:
+Report pages and code changed, content and route checks, type/build results, skipped checks, sources updated, remaining risks, and release readiness.
+```
+
+## Prose review
+
+Use the repository Humanizer rules on explanations. Keep the tone plain and specific. Do not edit code,
+commands, JSON, frontmatter, links, factual claims, requirements, or evidence to make the prose sound
+smoother.

@@ -2,30 +2,69 @@
 
 ## Status
 
-Draft — fill the prompted sections below with this repository's real model as it grows. `persist doctor`
-flags these as warnings once the repository has real work (a feature, module, or accepted decision).
+Accepted baseline for Phase 1 Reuse.
+
+## Security Boundary
+
+LatticeOS is a local CLI that analyzes a caller-selected repository. Repository files, paths,
+manifests, configuration, source text, symlinks, and generated-tool outputs are untrusted input.
+Phase 1 has no server, account, cloud service, telemetry, MCP runtime, or AI API.
 
 ## Baseline Rules
 
 - Never commit secrets or credentials, and never read or copy `.env` files into docs.
 - Validate and authorize untrusted input at every trust boundary.
 - Do not add network, telemetry, cloud, MCP runtime, or AI API behavior without explicit review.
+- Never execute analyzed repository source or JavaScript/TypeScript configuration.
+- Resolve every read and write against the selected repository root and reject escaping symlinks.
+- Exclude dependency, VCS, generated build, coverage, secret, and LatticeOS cache paths by default.
+- Exclude generated Storybook static output from normal discovery. A separate bounded read may access
+  only `storybook-static/manifests/components.json` after Storybook detection.
 
 ## Authentication And Authorization
 
-Describe how this repository authenticates users or clients and how it authorizes actions, including
-where those checks live.
+Phase 1 has no remote identity boundary. Authorization is the operating-system access of the local
+user invoking `lattice`. Supplying a repository path authorizes analysis inside that validated root
+only; it does not authorize writes outside LatticeOS-owned paths.
 
 ## Secrets And Configuration
 
-Describe where secrets live, how they are injected, and how configuration is kept out of version
-control.
+LatticeOS configuration contains analysis roots, excludes, thresholds, and output limits only.
+Secrets are unsupported. Configuration and generated indexes must never contain environment values.
+Diagnostics use repository-relative paths and do not dump arbitrary source contents.
 
 ## Sensitive Data
 
-Describe the sensitive or personal data this repository handles, and how it is protected at rest and
-in transit.
+Application source may be confidential. Analysis is local-only. The generated Reuse index stores the
+minimum derived evidence needed for discovery and is reconstructable. No evidence leaves the machine
+in Phase 1.
+
+## File Writes
+
+- `lattice init` owns only `.lattice/config.json` and supports a dry-run plan. `--write` is required
+  to create it.
+- Existing config is skipped by default and replaced only with `--write --force`.
+- Cache/report writes stay under `.lattice/cache/` and `.lattice/reports/`, use temporary files plus
+  atomic rename, and reject symlink or root escapes.
+- Application source is always read-only.
 
 ## Dependencies And Supply Chain
 
-Describe how third-party dependencies are vetted, pinned, and updated.
+Runtime dependencies are minimized. Resolutions are exact in the lockfile. New runtime dependencies
+require review for maintenance, license, install scripts, network behavior, and transitive risk.
+Analyzer fixtures prove behavior against the pinned TypeScript compiler version.
+
+The developer-only bundled CLI builder reads only its fixed compiled closure in the current LatticeOS
+checkout after a local build. It does not accept a consumer source path. Static links are rejected, but
+a concurrent same-user mutation of that checkout is outside this pre-release builder's integrity
+boundary; see ADR-0019. This does not relax `lattice` handling of an analyzed repository.
+
+## Security Verification
+
+Tests cover traversal, symlink escape, excluded secret/generated paths, malformed input,
+non-execution of repository config, safe overwrite behavior, and deterministic local output.
+
+## Accepted Decision
+
+- [ADR-0009: Local-only privacy and network boundary](../adrs/ADR-0009-local-only-privacy-and-network-boundary.md)
+- [ADR-0019: Trusted build checkout package input](../adrs/ADR-0019-trusted-build-checkout-package-input.md)

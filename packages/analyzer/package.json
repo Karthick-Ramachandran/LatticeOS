@@ -1,0 +1,36 @@
+{
+  "name": "@latticeos/analyzer",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "prebuild": "pnpm --filter @latticeos/adapter-shadcn --filter @latticeos/adapter-storybook build",
+    "build": "tsc -p tsconfig.build.json",
+    "pretypecheck": "pnpm --filter @latticeos/adapter-shadcn --filter @latticeos/adapter-storybook build",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test:compile": "tsc -p tsconfig.test.json",
+    "pretest": "pnpm --filter @latticeos/adapter-shadcn --filter @latticeos/adapter-storybook build",
+    "test": "pnpm test:compile && node --test .test-dist/*.test.js",
+    "golden:update": "pnpm build && node scripts/update-discovery-golden.mjs && node scripts/update-react-project-golden.mjs && node scripts/update-tailwind-project-golden.mjs && node scripts/update-reuse-index-golden.mjs"
+  },
+  "dependencies": {
+    "@latticeos/core": "workspace:*",
+    "@latticeos/adapter-react": "workspace:*",
+    "@latticeos/adapter-shadcn": "workspace:*",
+    "@latticeos/adapter-storybook": "workspace:*",
+    "@latticeos/adapter-tailwind": "workspace:*",
+    "typescript": "6.0.3"
+  }
+}

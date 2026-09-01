@@ -1,0 +1,4 @@
+{
+  "title": "CLI",
+  "pages": ["index", "init", "packed-consumer", "npm-pre-release"]
+}

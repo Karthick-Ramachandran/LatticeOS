@@ -1,0 +1,136 @@
+---
+title: Safe initialization
+description: Plan or create the small committed LatticeOS configuration file.
+---
+
+`lattice init` sets up the configuration location without touching application source. It owns one
+committed file: `.lattice/config.json`.
+
+```json title=".lattice/config.json"
+{
+  "schemaVersion": 1
+}
+```
+
+The file is intentionally small. It reserves a stable configuration location and schema version; it
+does not yet change analysis behavior. A later setting for roots, exclusions, thresholds, or output
+limits needs its own schema decision and validation before LatticeOS reads it.
+
+## Commands
+
+```bash title="Plan the first write"
+lattice init
+# Would create .lattice/config.json. Run lattice init --write to create it.
+```
+
+Planning is the default. It does not create `.lattice`, the config file, a cache, or an application
+file.
+
+```bash title="Create the missing config"
+lattice init --write
+# Created .lattice/config.json.
+```
+
+If the config already exists, LatticeOS leaves it unchanged.
+
+```bash title="Replace an existing config explicitly"
+lattice init --write --force
+```
+
+`--force` without `--write` is a usage error. `--dry-run` is an explicit spelling of the default and
+cannot be combined with `--write`.
+
+Every form accepts `--root <path>` and `--json`. JSON uses the normal schema-versioned CLI envelope.
+For example, a first-run plan has this result payload:
+
+```json title="lattice --json init"
+{
+  "action": "create",
+  "mode": "dry-run",
+  "path": ".lattice/config.json"
+}
+```
+
+## Safety boundary
+
+ADR-0014 assigns configuration inspection and writes to `RepositoryRoot`. The CLI never accepts a
+destination path. The repository authority checks `.lattice` and `config.json` for regular,
+in-root paths, rejects symlinks, creates the directory only during a real write, and uses a temporary
+sibling. The normal no-force creation uses an exclusive link so a concurrently created file is
+skipped instead of overwritten; explicit force uses atomic rename.
+
+No init path reads or executes consumer source, configuration, environment files, or a network
+service. The config file cannot contain secrets under the Phase 1 security model.
+
+## Test evidence
+
+Focused analyzer tests cover missing, created, existing, forced, and symlinked configuration paths.
+CLI tests cover human and JSON plans, opt-in writes, skip-existing, force, source preservation, and
+invalid force usage.
+
+```bash
+pnpm --filter @latticeos/analyzer test
+pnpm --filter @latticeos/cli test
+```
+
+## Agent implementation prompt
+
+```text title="Agent implementation prompt"
+Extend LatticeOS initialization only within ADR-0014. Do not add arbitrary file output, source
+rewrites, settings with no validated behavior, Figma, browser work, Converge, telemetry, cloud, or
+network behavior.
+
+Read first:
+1. AGENTS.md
+2. docs/00-product/PRD.md
+3. docs/10-architecture/ARCHITECTURE.md
+4. docs/10-architecture/FILE_WRITE_POLICY.md
+5. docs/20-security/SECURITY_MODEL.md
+6. docs/20-security/THREAT_MODEL.md
+7. docs/50-quality/QUALITY_GATES.md
+8. docs/60-engineering/ENGINEERING_STANDARDS.md
+9. docs/60-engineering/CONVENTIONS.md
+10. docs/60-engineering/LESSONS.md
+11. docs/40-features/F-001-phase-1-reuse/
+12. docs/30-modules/analyzer/ and docs/30-modules/cli/
+13. ADR-0004, ADR-0009, and ADR-0014 under docs/adrs/
+14. this guide plus RepositoryRoot and CLI tests
+
+Current contract:
+- The only init target is `.lattice/config.json` with the schema-version-1 floor shown in this guide.
+- `lattice init` is a no-write plan. `--write` creates a missing file; existing regular files skip;
+  only `--write --force` replaces an existing config. `--force` alone is a usage error.
+- `RepositoryRoot` is the only authority for config inspection and writes. The CLI must not accept a
+  destination path or create a general file-write helper.
+- Human and JSON output describe the same action. Success is exit code 0, usage errors are 2, and
+  failed root or file safety checks are 1.
+
+Rules:
+- Reuse `RepositoryRoot`, `LATTICE_CONFIG_PATH`, and `INITIAL_LATTICE_CONFIG_CONTENT`. Do not create
+  a parallel path helper, serializer, config location, or writer.
+- Preserve root containment, regular-file checks, symlink refusal, exclusive normal creation,
+  temporary-file cleanup, and explicit force behavior.
+- Do not read or execute consumer source, config, environment files, or remote services.
+- Do not make unimplemented config fields appear active. A behavioral config schema needs a new ADR,
+  validation, fixtures, and a security review.
+
+Required tests:
+- Run `pnpm --filter @latticeos/analyzer test` and `pnpm --filter @latticeos/cli test`.
+- Cover dry run, write, existing-file skip, forced replacement, symlink rejection, root confinement,
+  source preservation, JSON and human output, and usage errors.
+- Run complete repository gates before claiming the slice complete.
+
+Documentation:
+- Update this guide, CLI and analyzer module memory, feature tasks, review notes, completion
+  evidence, architecture and security memory when the contract changes.
+- Keep prose factual and direct. Keep examples synchronized with tests.
+
+Stop conditions:
+- Stop for a human decision if a change adds an output path, overwrites by default, reads secrets,
+  executes consumer code, adds a dependency, or introduces a network, telemetry, cloud, AI API, or
+  MCP runtime path.
+
+Completion evidence:
+Report the exact config file, plan/write/force behavior, safety controls, tests, docs changed,
+residual filesystem risk, and whether Phase 1 remains incomplete.
+```

@@ -1,0 +1,1492 @@
+{
+  "index": {
+    "components": [
+      {
+        "composedComponentIds": [],
+        "displayName": "Button",
+        "evidenceIds": [
+          "ev:react:export:5d164be9fb1eae89b199",
+          "ev:shadcn:registry:70a705c0afb3ff74e332",
+          "ev:storybook:story:2ced11150ed0ead9ead1"
+        ],
+        "exportKey": "Button",
+        "id": "react:@fixture/ui:packages/ui/src/button.tsx#Button",
+        "packageKey": "@fixture/ui",
+        "props": [
+          {
+            "defaulted": false,
+            "evidenceIds": [
+              "ev:react:prop:53d378daa03a3d59ddae"
+            ],
+            "name": "count",
+            "required": false,
+            "type": "number | undefined",
+            "variants": []
+          },
+          {
+            "defaulted": false,
+            "evidenceIds": [
+              "ev:react:prop:b17749171077eaf04a70"
+            ],
+            "name": "id",
+            "required": false,
+            "type": "string | undefined",
+            "variants": []
+          },
+          {
+            "defaulted": false,
+            "evidenceIds": [
+              "ev:react:prop:081c19f9f4cf77776a15"
+            ],
+            "name": "label",
+            "required": true,
+            "type": "string",
+            "variants": []
+          },
+          {
+            "defaulted": true,
+            "evidenceIds": [
+              "ev:react:prop:6cd1487b93c5c375691b"
+            ],
+            "name": "variant",
+            "required": false,
+            "type": "\"primary\" | \"secondary\" | undefined",
+            "variants": [
+              "primary",
+              "secondary"
+            ]
+          }
+        ],
+        "sourcePath": "packages/ui/src/button.tsx",
+        "usageIds": [
+          "usage:0d83647fa54fcef791f5",
+          "usage:5327eb227b7a4516e27b",
+          "usage:c303750e2bc581a89e40"
+        ],
+        "visibility": "public"
+      },
+      {
+        "composedComponentIds": [],
+        "displayName": "ForwardedButton",
+        "evidenceIds": [
+          "ev:react:export:05522e9d3e2076165395",
+          "ev:shadcn:registry:2993bd41f9fa296ec027"
+        ],
+        "exportKey": "ForwardedButton",
+        "id": "react:@fixture/ui:packages/ui/src/button.tsx#ForwardedButton",
+        "packageKey": "@fixture/ui",
+        "props": [
+          {
+            "defaulted": false,
+            "evidenceIds": [
+              "ev:react:prop:261d37e479fef63ae7e1"
+            ],
+            "name": "label",
+            "required": true,
+            "type": "string",
+            "variants": []
+          }
+        ],
+        "sourcePath": "packages/ui/src/button.tsx",
+        "usageIds": [],
+        "visibility": "public"
+      },
+      {
+        "composedComponentIds": [],
+        "displayName": "MemoButton",
+        "evidenceIds": [
+          "ev:react:export:5d7521abe250f7929795",
+          "ev:shadcn:registry:8cc1d4e1fdc3563b882f"
+        ],
+        "exportKey": "MemoButton",
+        "id": "react:@fixture/ui:packages/ui/src/button.tsx#MemoButton",
+        "packageKey": "@fixture/ui",
+        "props": [
+          {
+            "defaulted": false,
+            "evidenceIds": [
+              "ev:react:prop:0192cb7398cd5e5d6203"
+            ],
+            "name": "label",
+            "required": true,
+            "type": "string",
+            "variants": []
+          }
+        ],
+        "sourcePath": "packages/ui/src/button.tsx",
+        "usageIds": [],
+        "visibility": "public"
+      },
+      {
+        "composedComponentIds": [],
+        "displayName": "SecondaryButton",
+        "evidenceIds": [
+          "ev:react:export:c34170c25da01341662a",
+          "ev:shadcn:registry:106a5c68a704350b4a25"
+        ],
+        "exportKey": "SecondaryButton",
+        "id": "react:@fixture/ui:packages/ui/src/button.tsx#SecondaryButton",
+        "packageKey": "@fixture/ui",
+        "props": [
+          {
+            "defaulted": false,
+            "evidenceIds": [
+              "ev:react:prop:03b9ae2c0552ce69d6ed"
+            ],
+            "name": "label",
+            "required": true,
+            "type": "string",
+            "variants": []
+          },
+          {
+            "defaulted": true,
+            "evidenceIds": [
+              "ev:react:prop:df4fb14729bc9de82e73"
+            ],
+            "name": "variant",
+            "required": false,
+            "type": "\"secondary\" | undefined",
+            "variants": [
+              "secondary"
+            ]
+          }
+        ],
+        "sourcePath": "packages/ui/src/button.tsx",
+        "usageIds": [],
+        "visibility": "public"
+      },
+      {
+        "composedComponentIds": [],
+        "displayName": "SettingsCard",
+        "evidenceIds": [
+          "ev:react:export:af0427de23f033fb46fa",
+          "ev:shadcn:registry:3f64bfd220c97daad38f"
+        ],
+        "exportKey": "default",
+        "id": "react:@fixture/ui:packages/ui/src/button.tsx#default",
+        "packageKey": "@fixture/ui",
+        "props": [
+          {
+            "defaulted": false,
+            "evidenceIds": [
+              "ev:react:prop:33ed4495c6c427cbd078"
+            ],
+            "name": "title",
+            "required": true,
+            "type": "string",
+            "variants": []
+          }
+        ],
+        "sourcePath": "packages/ui/src/button.tsx",
+        "usageIds": [
+          "usage:ed513b634eb6bdf5025d"
+        ],
+        "visibility": "public"
+      },
+      {
+        "composedComponentIds": [],
+        "displayName": "SettingsSection",
+        "evidenceIds": [
+          "ev:react:export:018f8a20fe03ab4c5384",
+          "ev:shadcn:registry:bf4125c991332cf46071"
+        ],
+        "exportKey": "SettingsSection",
+        "id": "react:@fixture/ui:packages/ui/src/settings-section.tsx#SettingsSection",
+        "packageKey": "@fixture/ui",
+        "props": [
+          {
+            "defaulted": false,
+            "evidenceIds": [
+              "ev:react:prop:7b50641e1b7abad5fbad"
+            ],
+            "name": "title",
+            "required": true,
+            "type": "string",
+            "variants": []
+          }
+        ],
+        "sourcePath": "packages/ui/src/settings-section.tsx",
+        "usageIds": [
+          "usage:2b4165c8dfc6a5ed4ed0",
+          "usage:2cf905fd2bfd74bfcd5d"
+        ],
+        "visibility": "public"
+      },
+      {
+        "composedComponentIds": [
+          "react:@fixture/ui:packages/ui/src/button.tsx#Button",
+          "react:@fixture/ui:packages/ui/src/button.tsx#default",
+          "react:@fixture/ui:packages/ui/src/settings-section.tsx#SettingsSection"
+        ],
+        "displayName": "Page",
+        "evidenceIds": [
+          "ev:react:export:e100d33addce20fc1ada"
+        ],
+        "exportKey": "default",
+        "id": "react:web:apps/web/app/page.tsx#default",
+        "packageKey": "web",
+        "props": [],
+        "sourcePath": "apps/web/app/page.tsx",
+        "usageIds": [],
+        "visibility": "public"
+      },
+      {
+        "composedComponentIds": [
+          "react:@fixture/ui:packages/ui/src/settings-section.tsx#SettingsSection"
+        ],
+        "displayName": "SettingsPage",
+        "evidenceIds": [
+          "ev:react:export:5348a02e2360dc40648b"
+        ],
+        "exportKey": "default",
+        "id": "react:web:apps/web/app/settings/page.tsx#default",
+        "packageKey": "web",
+        "props": [],
+        "sourcePath": "apps/web/app/settings/page.tsx",
+        "usageIds": [],
+        "visibility": "public"
+      }
+    ],
+    "diagnostics": [],
+    "evidence": [
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:b8e64eb8a40bd5c6363f3f7a64129bf7e25e14ec8360d3cd7a6a6a3c7130f8c9",
+        "id": "ev:package:manifest:a037030f229f3773",
+        "kind": "package",
+        "limitations": [],
+        "location": {
+          "column": 1,
+          "line": 1,
+          "path": "package.json"
+        },
+        "method": "manifest"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:1c33d0894afb86c9fa7f70ea921dac9a9f0ad72d6db9a510f271cc324a578078",
+        "id": "ev:package:manifest:a2a2a469b3fdd335",
+        "kind": "package",
+        "limitations": [],
+        "location": {
+          "column": 1,
+          "line": 1,
+          "path": "packages/ui/package.json"
+        },
+        "method": "manifest"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:82c6ea6cf1b1ea07e3092bf6561e42f7a0de800e84c02d012d97fbcb884d82b0",
+        "id": "ev:package:manifest:d772feb7f04d0aac",
+        "kind": "package",
+        "limitations": [],
+        "location": {
+          "column": 1,
+          "line": 1,
+          "path": "apps/web/package.json"
+        },
+        "method": "manifest"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:82c6ea6cf1b1ea07e3092bf6561e42f7a0de800e84c02d012d97fbcb884d82b0",
+        "id": "ev:project:nextjs:6b37e700e92a0cdd",
+        "kind": "project",
+        "limitations": [],
+        "location": {
+          "column": 1,
+          "line": 1,
+          "path": "apps/web/package.json"
+        },
+        "method": "manifest"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:82c6ea6cf1b1ea07e3092bf6561e42f7a0de800e84c02d012d97fbcb884d82b0",
+        "id": "ev:project:react:890df29b7abe3f7d",
+        "kind": "project",
+        "limitations": [],
+        "location": {
+          "column": 1,
+          "line": 1,
+          "path": "apps/web/package.json"
+        },
+        "method": "manifest"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:16123bf9e7a7fd2fe84f38316559af764c5a9fb80e4948b929bbe236c5f887cb",
+        "id": "ev:project:shadcn:4c759b2aa4b7fca9",
+        "kind": "project",
+        "limitations": [],
+        "location": {
+          "column": 1,
+          "line": 1,
+          "path": "components.json"
+        },
+        "method": "static-config"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:2c8bda8a608c3b89839175a39ea77c70da6ec4e9ba34317be106a6a2f515af56",
+        "id": "ev:project:storybook:56dead1e73c86065",
+        "kind": "project",
+        "limitations": [],
+        "location": {
+          "column": 1,
+          "line": 1,
+          "path": ".storybook/main.ts"
+        },
+        "method": "static-config"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:b8e64eb8a40bd5c6363f3f7a64129bf7e25e14ec8360d3cd7a6a6a3c7130f8c9",
+        "id": "ev:project:tailwind:5ab265f4079fe8f3",
+        "kind": "project",
+        "limitations": [],
+        "location": {
+          "column": 1,
+          "line": 1,
+          "path": "package.json"
+        },
+        "method": "manifest"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:b8e64eb8a40bd5c6363f3f7a64129bf7e25e14ec8360d3cd7a6a6a3c7130f8c9",
+        "id": "ev:project:typescript:650064dced15988e",
+        "kind": "project",
+        "limitations": [],
+        "location": {
+          "column": 1,
+          "line": 1,
+          "path": "package.json"
+        },
+        "method": "manifest"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:13cd7f3ef9b2ef8e5277096910373e575c205a46fc6dd4f87b2c9b5ae14b224e",
+        "id": "ev:react:export:018f8a20fe03ab4c5384",
+        "kind": "export",
+        "limitations": [],
+        "location": {
+          "column": 1,
+          "endColumn": 2,
+          "endLine": 11,
+          "line": 5,
+          "path": "packages/ui/src/settings-section.tsx"
+        },
+        "method": "ast"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:d2091af58235e1235517286981b17404b543bfd49e4493cf05d43aa35e05ab07",
+        "id": "ev:react:export:05522e9d3e2076165395",
+        "kind": "export",
+        "limitations": [],
+        "location": {
+          "column": 14,
+          "endColumn": 3,
+          "endLine": 25,
+          "line": 23,
+          "path": "packages/ui/src/button.tsx"
+        },
+        "method": "ast"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:7266b54fb3923a0a2a0a1da9da2f9700cc9a320bfdaaa6b0ade05c5af228a1ac",
+        "id": "ev:react:export:5348a02e2360dc40648b",
+        "kind": "export",
+        "limitations": [],
+        "location": {
+          "column": 1,
+          "endColumn": 2,
+          "endLine": 5,
+          "line": 3,
+          "path": "apps/web/app/settings/page.tsx"
+        },
+        "method": "ast"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:d2091af58235e1235517286981b17404b543bfd49e4493cf05d43aa35e05ab07",
+        "id": "ev:react:export:5d164be9fb1eae89b199",
+        "kind": "export",
+        "limitations": [],
+        "location": {
+          "column": 1,
+          "endColumn": 2,
+          "endLine": 15,
+          "line": 13,
+          "path": "packages/ui/src/button.tsx"
+        },
+        "method": "ast"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:d2091af58235e1235517286981b17404b543bfd49e4493cf05d43aa35e05ab07",
+        "id": "ev:react:export:5d7521abe250f7929795",
+        "kind": "export",
+        "limitations": [],
+        "location": {
+          "column": 14,
+          "endColumn": 91,
+          "endLine": 21,
+          "line": 21,
+          "path": "packages/ui/src/button.tsx"
+        },
+        "method": "ast"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:d2091af58235e1235517286981b17404b543bfd49e4493cf05d43aa35e05ab07",
+        "id": "ev:react:export:af0427de23f033fb46fa",
+        "kind": "export",
+        "limitations": [],
+        "location": {
+          "column": 1,
+          "endColumn": 2,
+          "endLine": 29,
+          "line": 27,
+          "path": "packages/ui/src/button.tsx"
+        },
+        "method": "ast"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:d2091af58235e1235517286981b17404b543bfd49e4493cf05d43aa35e05ab07",
+        "id": "ev:react:export:c34170c25da01341662a",
+        "kind": "export",
+        "limitations": [],
+        "location": {
+          "column": 14,
+          "endColumn": 2,
+          "endLine": 19,
+          "line": 17,
+          "path": "packages/ui/src/button.tsx"
+        },
+        "method": "ast"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:42aa97d038709c104cbe95c0c55a41e1725e094424880a5c0a630155755a3b6e",
+        "id": "ev:react:export:e100d33addce20fc1ada",
+        "kind": "export",
+        "limitations": [],
+        "location": {
+          "column": 1,
+          "endColumn": 2,
+          "endLine": 15,
+          "line": 5,
+          "path": "apps/web/app/page.tsx"
+        },
+        "method": "ast"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:7266b54fb3923a0a2a0a1da9da2f9700cc9a320bfdaaa6b0ade05c5af228a1ac",
+        "id": "ev:react:import:27cac2cbf7da57a1cfb8",
+        "kind": "import",
+        "limitations": [],
+        "location": {
+          "column": 10,
+          "endColumn": 25,
+          "endLine": 1,
+          "line": 1,
+          "path": "apps/web/app/settings/page.tsx"
+        },
+        "method": "ast"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:d2091af58235e1235517286981b17404b543bfd49e4493cf05d43aa35e05ab07",
+        "id": "ev:react:import:454b2b6d19cc616bc50f",
+        "kind": "import",
+        "limitations": [],
+        "location": {
+          "column": 22,
+          "endColumn": 26,
+          "endLine": 1,
+          "line": 1,
+          "path": "packages/ui/src/button.tsx"
+        },
+        "method": "ast"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:42aa97d038709c104cbe95c0c55a41e1725e094424880a5c0a630155755a3b6e",
+        "id": "ev:react:import:46311f58b37383593901",
+        "kind": "import",
+        "limitations": [],
+        "location": {
+          "column": 49,
+          "endColumn": 64,
+          "endLine": 1,
+          "line": 1,
+          "path": "apps/web/app/page.tsx"
+        },
+        "method": "ast"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:aae61d37db77719e4f73b821bf6081f9a16e21998cd4d8a0ed30f22c0ca0877f",
+        "id": "ev:react:import:590ab38df0def372e8da",
+        "kind": "import",
+        "limitations": [],
+        "location": {
+          "column": 10,
+          "endColumn": 16,
+          "endLine": 1,
+          "line": 1,
+          "path": "packages/ui/src/button.stories.tsx"
+        },
+        "method": "ast"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:d2091af58235e1235517286981b17404b543bfd49e4493cf05d43aa35e05ab07",
+        "id": "ev:react:import:b120a09ff4ee613109db",
+        "kind": "import",
+        "limitations": [],
+        "location": {
+          "column": 10,
+          "endColumn": 20,
+          "endLine": 1,
+          "line": 1,
+          "path": "packages/ui/src/button.tsx"
+        },
+        "method": "ast"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:42aa97d038709c104cbe95c0c55a41e1725e094424880a5c0a630155755a3b6e",
+        "id": "ev:react:import:c138d06925e6d959218c",
+        "kind": "import",
+        "limitations": [],
+        "location": {
+          "column": 35,
+          "endColumn": 47,
+          "endLine": 1,
+          "line": 1,
+          "path": "apps/web/app/page.tsx"
+        },
+        "method": "ast"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:42aa97d038709c104cbe95c0c55a41e1725e094424880a5c0a630155755a3b6e",
+        "id": "ev:react:import:e6ca05de2c7838541329",
+        "kind": "import",
+        "limitations": [],
+        "location": {
+          "column": 10,
+          "endColumn": 33,
+          "endLine": 1,
+          "line": 1,
+          "path": "apps/web/app/page.tsx"
+        },
+        "method": "ast"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:d2091af58235e1235517286981b17404b543bfd49e4493cf05d43aa35e05ab07",
+        "id": "ev:react:prop:0192cb7398cd5e5d6203",
+        "kind": "prop",
+        "limitations": [],
+        "location": {
+          "column": 46,
+          "endColumn": 59,
+          "endLine": 21,
+          "line": 21,
+          "path": "packages/ui/src/button.tsx"
+        },
+        "method": "type-checker"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:d2091af58235e1235517286981b17404b543bfd49e4493cf05d43aa35e05ab07",
+        "id": "ev:react:prop:03b9ae2c0552ce69d6ed",
+        "kind": "prop",
+        "limitations": [],
+        "location": {
+          "column": 69,
+          "endColumn": 83,
+          "endLine": 17,
+          "line": 17,
+          "path": "packages/ui/src/button.tsx"
+        },
+        "method": "type-checker"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:d2091af58235e1235517286981b17404b543bfd49e4493cf05d43aa35e05ab07",
+        "id": "ev:react:prop:081c19f9f4cf77776a15",
+        "kind": "prop",
+        "limitations": [],
+        "location": {
+          "column": 3,
+          "endColumn": 17,
+          "endLine": 8,
+          "line": 8,
+          "path": "packages/ui/src/button.tsx"
+        },
+        "method": "type-checker"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:d2091af58235e1235517286981b17404b543bfd49e4493cf05d43aa35e05ab07",
+        "id": "ev:react:prop:261d37e479fef63ae7e1",
+        "kind": "prop",
+        "limitations": [],
+        "location": {
+          "column": 57,
+          "endColumn": 70,
+          "endLine": 23,
+          "line": 23,
+          "path": "packages/ui/src/button.tsx"
+        },
+        "method": "type-checker"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:d2091af58235e1235517286981b17404b543bfd49e4493cf05d43aa35e05ab07",
+        "id": "ev:react:prop:33ed4495c6c427cbd078",
+        "kind": "prop",
+        "limitations": [],
+        "location": {
+          "column": 51,
+          "endColumn": 64,
+          "endLine": 27,
+          "line": 27,
+          "path": "packages/ui/src/button.tsx"
+        },
+        "method": "type-checker"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:d2091af58235e1235517286981b17404b543bfd49e4493cf05d43aa35e05ab07",
+        "id": "ev:react:prop:53d378daa03a3d59ddae",
+        "kind": "prop",
+        "limitations": [],
+        "location": {
+          "column": 3,
+          "endColumn": 18,
+          "endLine": 10,
+          "line": 10,
+          "path": "packages/ui/src/button.tsx"
+        },
+        "method": "type-checker"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:d2091af58235e1235517286981b17404b543bfd49e4493cf05d43aa35e05ab07",
+        "id": "ev:react:prop:6cd1487b93c5c375691b",
+        "kind": "prop",
+        "limitations": [],
+        "location": {
+          "column": 3,
+          "endColumn": 37,
+          "endLine": 9,
+          "line": 9,
+          "path": "packages/ui/src/button.tsx"
+        },
+        "method": "type-checker"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:13cd7f3ef9b2ef8e5277096910373e575c205a46fc6dd4f87b2c9b5ae14b224e",
+        "id": "ev:react:prop:7b50641e1b7abad5fbad",
+        "kind": "prop",
+        "limitations": [],
+        "location": {
+          "column": 3,
+          "endColumn": 17,
+          "endLine": 2,
+          "line": 2,
+          "path": "packages/ui/src/settings-section.tsx"
+        },
+        "method": "type-checker"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:d2091af58235e1235517286981b17404b543bfd49e4493cf05d43aa35e05ab07",
+        "id": "ev:react:prop:b17749171077eaf04a70",
+        "kind": "prop",
+        "limitations": [],
+        "location": {
+          "column": 3,
+          "endColumn": 15,
+          "endLine": 4,
+          "line": 4,
+          "path": "packages/ui/src/button.tsx"
+        },
+        "method": "type-checker"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:d2091af58235e1235517286981b17404b543bfd49e4493cf05d43aa35e05ab07",
+        "id": "ev:react:prop:df4fb14729bc9de82e73",
+        "kind": "prop",
+        "limitations": [],
+        "location": {
+          "column": 84,
+          "endColumn": 105,
+          "endLine": 17,
+          "line": 17,
+          "path": "packages/ui/src/button.tsx"
+        },
+        "method": "type-checker"
+      },
+      {
+        "classification": "corroborating",
+        "fingerprint": "sha256:42aa97d038709c104cbe95c0c55a41e1725e094424880a5c0a630155755a3b6e",
+        "id": "ev:react:usage:1b83fbbb5245c18b5814",
+        "kind": "usage",
+        "limitations": [],
+        "location": {
+          "column": 7,
+          "endColumn": 39,
+          "endLine": 11,
+          "line": 11,
+          "path": "apps/web/app/page.tsx"
+        },
+        "method": "ast"
+      },
+      {
+        "classification": "corroborating",
+        "fingerprint": "sha256:42aa97d038709c104cbe95c0c55a41e1725e094424880a5c0a630155755a3b6e",
+        "id": "ev:react:usage:5f38110e11e0bccccb96",
+        "kind": "usage",
+        "limitations": [],
+        "location": {
+          "column": 7,
+          "endColumn": 57,
+          "endLine": 12,
+          "line": 12,
+          "path": "apps/web/app/page.tsx"
+        },
+        "method": "ast"
+      },
+      {
+        "classification": "corroborating",
+        "fingerprint": "sha256:7266b54fb3923a0a2a0a1da9da2f9700cc9a320bfdaaa6b0ade05c5af228a1ac",
+        "id": "ev:react:usage:7a8479490adea58f4994",
+        "kind": "usage",
+        "limitations": [],
+        "location": {
+          "column": 10,
+          "endColumn": 51,
+          "endLine": 4,
+          "line": 4,
+          "path": "apps/web/app/settings/page.tsx"
+        },
+        "method": "ast"
+      },
+      {
+        "classification": "corroborating",
+        "fingerprint": "sha256:42aa97d038709c104cbe95c0c55a41e1725e094424880a5c0a630155755a3b6e",
+        "id": "ev:react:usage:d6cf6b224b3564442859",
+        "kind": "usage",
+        "limitations": [],
+        "location": {
+          "column": 17,
+          "endColumn": 52,
+          "endLine": 3,
+          "line": 3,
+          "path": "apps/web/app/page.tsx"
+        },
+        "method": "ast"
+      },
+      {
+        "classification": "corroborating",
+        "fingerprint": "sha256:42aa97d038709c104cbe95c0c55a41e1725e094424880a5c0a630155755a3b6e",
+        "id": "ev:react:usage:e2179c59152bbb3af558",
+        "kind": "usage",
+        "limitations": [],
+        "location": {
+          "column": 7,
+          "endColumn": 53,
+          "endLine": 10,
+          "line": 10,
+          "path": "apps/web/app/page.tsx"
+        },
+        "method": "ast"
+      },
+      {
+        "classification": "corroborating",
+        "fingerprint": "sha256:aae61d37db77719e4f73b821bf6081f9a16e21998cd4d8a0ed30f22c0ca0877f",
+        "id": "ev:react:usage:f4f68d46a0f0ad20ec0b",
+        "kind": "usage",
+        "limitations": [],
+        "location": {
+          "column": 33,
+          "endColumn": 74,
+          "endLine": 3,
+          "line": 3,
+          "path": "packages/ui/src/button.stories.tsx"
+        },
+        "method": "ast"
+      },
+      {
+        "classification": "corroborating",
+        "fingerprint": "sha256:16123bf9e7a7fd2fe84f38316559af764c5a9fb80e4948b929bbe236c5f887cb",
+        "id": "ev:shadcn:registry:106a5c68a704350b4a25",
+        "kind": "registry",
+        "limitations": [
+          "The configured UI source tree does not prove this component came from a particular registry.",
+          "This evidence does not establish product intent or universal reuse suitability."
+        ],
+        "location": {
+          "column": 5,
+          "endColumn": 10,
+          "endLine": 8,
+          "line": 8,
+          "path": "components.json"
+        },
+        "method": "static-config"
+      },
+      {
+        "classification": "corroborating",
+        "fingerprint": "sha256:16123bf9e7a7fd2fe84f38316559af764c5a9fb80e4948b929bbe236c5f887cb",
+        "id": "ev:shadcn:registry:2993bd41f9fa296ec027",
+        "kind": "registry",
+        "limitations": [
+          "The configured UI source tree does not prove this component came from a particular registry.",
+          "This evidence does not establish product intent or universal reuse suitability."
+        ],
+        "location": {
+          "column": 5,
+          "endColumn": 10,
+          "endLine": 8,
+          "line": 8,
+          "path": "components.json"
+        },
+        "method": "static-config"
+      },
+      {
+        "classification": "corroborating",
+        "fingerprint": "sha256:16123bf9e7a7fd2fe84f38316559af764c5a9fb80e4948b929bbe236c5f887cb",
+        "id": "ev:shadcn:registry:3f64bfd220c97daad38f",
+        "kind": "registry",
+        "limitations": [
+          "The configured UI source tree does not prove this component came from a particular registry.",
+          "This evidence does not establish product intent or universal reuse suitability."
+        ],
+        "location": {
+          "column": 5,
+          "endColumn": 10,
+          "endLine": 8,
+          "line": 8,
+          "path": "components.json"
+        },
+        "method": "static-config"
+      },
+      {
+        "classification": "corroborating",
+        "fingerprint": "sha256:16123bf9e7a7fd2fe84f38316559af764c5a9fb80e4948b929bbe236c5f887cb",
+        "id": "ev:shadcn:registry:70a705c0afb3ff74e332",
+        "kind": "registry",
+        "limitations": [
+          "The configured UI source tree does not prove this component came from a particular registry.",
+          "This evidence does not establish product intent or universal reuse suitability."
+        ],
+        "location": {
+          "column": 5,
+          "endColumn": 10,
+          "endLine": 8,
+          "line": 8,
+          "path": "components.json"
+        },
+        "method": "static-config"
+      },
+      {
+        "classification": "corroborating",
+        "fingerprint": "sha256:16123bf9e7a7fd2fe84f38316559af764c5a9fb80e4948b929bbe236c5f887cb",
+        "id": "ev:shadcn:registry:8cc1d4e1fdc3563b882f",
+        "kind": "registry",
+        "limitations": [
+          "The configured UI source tree does not prove this component came from a particular registry.",
+          "This evidence does not establish product intent or universal reuse suitability."
+        ],
+        "location": {
+          "column": 5,
+          "endColumn": 10,
+          "endLine": 8,
+          "line": 8,
+          "path": "components.json"
+        },
+        "method": "static-config"
+      },
+      {
+        "classification": "corroborating",
+        "fingerprint": "sha256:16123bf9e7a7fd2fe84f38316559af764c5a9fb80e4948b929bbe236c5f887cb",
+        "id": "ev:shadcn:registry:bf4125c991332cf46071",
+        "kind": "registry",
+        "limitations": [
+          "The configured UI source tree does not prove this component came from a particular registry.",
+          "This evidence does not establish product intent or universal reuse suitability."
+        ],
+        "location": {
+          "column": 5,
+          "endColumn": 10,
+          "endLine": 8,
+          "line": 8,
+          "path": "components.json"
+        },
+        "method": "static-config"
+      },
+      {
+        "classification": "corroborating",
+        "fingerprint": "sha256:db9ce91bc35152d1291d226c0c9c3d2129d49bc7351ba2fc0a00711a87fd8966",
+        "id": "ev:storybook:story:2ced11150ed0ead9ead1",
+        "kind": "story",
+        "limitations": [
+          "The generated manifest corroborates that this component has a named Storybook example.",
+          "The manifest does not prove rendered output, runtime behavior, semantic intent, or reuse suitability."
+        ],
+        "location": {
+          "column": 1,
+          "line": 1,
+          "path": "storybook-static/manifests/components.json"
+        },
+        "method": "manifest"
+      },
+      {
+        "classification": "heuristic",
+        "fingerprint": "sha256:42aa97d038709c104cbe95c0c55a41e1725e094424880a5c0a630155755a3b6e",
+        "id": "ev:tailwind:class-bundle:5a1f23d4dcddcdd0b2b4",
+        "kind": "class-bundle",
+        "limitations": [
+          "The known merge-helper name was matched statically; its import was not resolved."
+        ],
+        "location": {
+          "column": 29,
+          "endColumn": 57,
+          "endLine": 9,
+          "line": 9,
+          "path": "apps/web/app/page.tsx"
+        },
+        "method": "static-source"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:13cd7f3ef9b2ef8e5277096910373e575c205a46fc6dd4f87b2c9b5ae14b224e",
+        "id": "ev:tailwind:class-bundle:6a214a52f2cfd1713fac",
+        "kind": "class-bundle",
+        "limitations": [],
+        "location": {
+          "column": 24,
+          "endColumn": 47,
+          "endLine": 7,
+          "line": 7,
+          "path": "packages/ui/src/settings-section.tsx"
+        },
+        "method": "static-source"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:d2091af58235e1235517286981b17404b543bfd49e4493cf05d43aa35e05ab07",
+        "id": "ev:tailwind:class-bundle:704abbd193953a8daf3c",
+        "kind": "class-bundle",
+        "limitations": [],
+        "location": {
+          "column": 28,
+          "endColumn": 81,
+          "endLine": 14,
+          "line": 14,
+          "path": "packages/ui/src/button.tsx"
+        },
+        "method": "static-source"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:d2091af58235e1235517286981b17404b543bfd49e4493cf05d43aa35e05ab07",
+        "id": "ev:tailwind:class-bundle:978d8551cd47a0c36ea9",
+        "kind": "class-bundle",
+        "limitations": [],
+        "location": {
+          "column": 21,
+          "endColumn": 74,
+          "endLine": 18,
+          "line": 18,
+          "path": "packages/ui/src/button.tsx"
+        },
+        "method": "static-source"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:66407a023c5d1b0379f312361441d1c41084194286d2b198fa09fb8cb5b0b001",
+        "id": "ev:tailwind:token:2df75777fa97b6fb406b",
+        "kind": "token",
+        "limitations": [],
+        "location": {
+          "column": 9,
+          "endColumn": 15,
+          "endLine": 7,
+          "line": 7,
+          "path": "tailwind.config.ts"
+        },
+        "method": "static-config"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:66407a023c5d1b0379f312361441d1c41084194286d2b198fa09fb8cb5b0b001",
+        "id": "ev:tailwind:token:62a6e48ff4d1cb7cafeb",
+        "kind": "token",
+        "limitations": [],
+        "location": {
+          "column": 9,
+          "endColumn": 13,
+          "endLine": 10,
+          "line": 10,
+          "path": "tailwind.config.ts"
+        },
+        "method": "static-config"
+      },
+      {
+        "classification": "exact",
+        "fingerprint": "sha256:ef47b78c35dada1aa5a1f92c8d5ccdd86ef276f33cee4aa3d07f15cb4ea4c2cc",
+        "id": "ev:tailwind:token:f94f031f3c50e35624b9",
+        "kind": "token",
+        "limitations": [],
+        "location": {
+          "column": 3,
+          "endColumn": 16,
+          "endLine": 4,
+          "line": 4,
+          "path": "apps/web/app/globals.css"
+        },
+        "method": "css"
+      }
+    ],
+    "generator": {
+      "name": "lattice",
+      "version": "0.0.0-test"
+    },
+    "imports": [
+      {
+        "evidenceIds": [
+          "ev:react:import:b120a09ff4ee613109db"
+        ],
+        "id": "import:17918dc5aba8de0f993f",
+        "importedName": "forwardRef",
+        "importerPath": "packages/ui/src/button.tsx",
+        "localName": "forwardRef",
+        "location": {
+          "column": 10,
+          "endColumn": 20,
+          "endLine": 1,
+          "line": 1,
+          "path": "packages/ui/src/button.tsx"
+        },
+        "source": "react",
+        "typeOnly": false
+      },
+      {
+        "evidenceIds": [
+          "ev:react:import:590ab38df0def372e8da"
+        ],
+        "id": "import:6ca2e7a03f16c5dc6902",
+        "importedName": "Button",
+        "importerPath": "packages/ui/src/button.stories.tsx",
+        "localName": "Button",
+        "location": {
+          "column": 10,
+          "endColumn": 16,
+          "endLine": 1,
+          "line": 1,
+          "path": "packages/ui/src/button.stories.tsx"
+        },
+        "resolvedComponentId": "react:@fixture/ui:packages/ui/src/button.tsx#Button",
+        "source": "./button",
+        "typeOnly": false
+      },
+      {
+        "evidenceIds": [
+          "ev:react:import:27cac2cbf7da57a1cfb8"
+        ],
+        "id": "import:772b6aba06388877ae5d",
+        "importedName": "SettingsSection",
+        "importerPath": "apps/web/app/settings/page.tsx",
+        "localName": "SettingsSection",
+        "location": {
+          "column": 10,
+          "endColumn": 25,
+          "endLine": 1,
+          "line": 1,
+          "path": "apps/web/app/settings/page.tsx"
+        },
+        "resolvedComponentId": "react:@fixture/ui:packages/ui/src/settings-section.tsx#SettingsSection",
+        "source": "@fixture/ui",
+        "typeOnly": false
+      },
+      {
+        "evidenceIds": [
+          "ev:react:import:46311f58b37383593901"
+        ],
+        "id": "import:a78b330cb43f7011529b",
+        "importedName": "SettingsSection",
+        "importerPath": "apps/web/app/page.tsx",
+        "localName": "SettingsSection",
+        "location": {
+          "column": 49,
+          "endColumn": 64,
+          "endLine": 1,
+          "line": 1,
+          "path": "apps/web/app/page.tsx"
+        },
+        "resolvedComponentId": "react:@fixture/ui:packages/ui/src/settings-section.tsx#SettingsSection",
+        "source": "@fixture/ui",
+        "typeOnly": false
+      },
+      {
+        "evidenceIds": [
+          "ev:react:import:e6ca05de2c7838541329"
+        ],
+        "id": "import:dbc15671227351b5cf37",
+        "importedName": "Button",
+        "importerPath": "apps/web/app/page.tsx",
+        "localName": "PrimaryButton",
+        "location": {
+          "column": 10,
+          "endColumn": 33,
+          "endLine": 1,
+          "line": 1,
+          "path": "apps/web/app/page.tsx"
+        },
+        "resolvedComponentId": "react:@fixture/ui:packages/ui/src/button.tsx#Button",
+        "source": "@fixture/ui",
+        "typeOnly": false
+      },
+      {
+        "evidenceIds": [
+          "ev:react:import:c138d06925e6d959218c"
+        ],
+        "id": "import:e3b5c4e3177f762b2d25",
+        "importedName": "SettingsCard",
+        "importerPath": "apps/web/app/page.tsx",
+        "localName": "SettingsCard",
+        "location": {
+          "column": 35,
+          "endColumn": 47,
+          "endLine": 1,
+          "line": 1,
+          "path": "apps/web/app/page.tsx"
+        },
+        "resolvedComponentId": "react:@fixture/ui:packages/ui/src/button.tsx#default",
+        "source": "@fixture/ui",
+        "typeOnly": false
+      },
+      {
+        "evidenceIds": [
+          "ev:react:import:454b2b6d19cc616bc50f"
+        ],
+        "id": "import:ff15171b84b04ea948e3",
+        "importedName": "memo",
+        "importerPath": "packages/ui/src/button.tsx",
+        "localName": "memo",
+        "location": {
+          "column": 22,
+          "endColumn": 26,
+          "endLine": 1,
+          "line": 1,
+          "path": "packages/ui/src/button.tsx"
+        },
+        "source": "react",
+        "typeOnly": false
+      }
+    ],
+    "packages": [
+      {
+        "evidenceIds": [
+          "ev:package:manifest:a2a2a469b3fdd335"
+        ],
+        "key": "@fixture/ui",
+        "manifestPath": "packages/ui/package.json",
+        "name": "@fixture/ui",
+        "rootPath": "packages/ui"
+      },
+      {
+        "evidenceIds": [
+          "ev:package:manifest:a037030f229f3773"
+        ],
+        "key": "root",
+        "manifestPath": "package.json",
+        "name": "lattice-next-workspace-fixture",
+        "rootPath": "."
+      },
+      {
+        "evidenceIds": [
+          "ev:package:manifest:d772feb7f04d0aac"
+        ],
+        "key": "web",
+        "manifestPath": "apps/web/package.json",
+        "name": "web",
+        "rootPath": "apps/web"
+      }
+    ],
+    "project": {
+      "packageManager": "pnpm",
+      "rootPath": ".",
+      "tools": {
+        "nextjs": {
+          "evidenceIds": [
+            "ev:project:nextjs:6b37e700e92a0cdd"
+          ],
+          "status": "present"
+        },
+        "react": {
+          "evidenceIds": [
+            "ev:project:react:890df29b7abe3f7d"
+          ],
+          "status": "present"
+        },
+        "shadcn": {
+          "evidenceIds": [
+            "ev:project:shadcn:4c759b2aa4b7fca9"
+          ],
+          "status": "present"
+        },
+        "storybook": {
+          "evidenceIds": [
+            "ev:project:storybook:56dead1e73c86065"
+          ],
+          "status": "present"
+        },
+        "tailwind": {
+          "evidenceIds": [
+            "ev:project:tailwind:5ab265f4079fe8f3"
+          ],
+          "status": "present"
+        },
+        "typescript": {
+          "evidenceIds": [
+            "ev:project:typescript:650064dced15988e"
+          ],
+          "status": "present"
+        }
+      }
+    },
+    "schemaVersion": 1,
+    "tailwind": {
+      "repeatedClassBundles": [
+        {
+          "classes": [
+            "border",
+            "p-4",
+            "rounded-lg"
+          ],
+          "count": 2,
+          "evidenceIds": [
+            "ev:tailwind:class-bundle:5a1f23d4dcddcdd0b2b4",
+            "ev:tailwind:class-bundle:6a214a52f2cfd1713fac"
+          ],
+          "locations": [
+            {
+              "column": 29,
+              "endColumn": 57,
+              "endLine": 9,
+              "line": 9,
+              "path": "apps/web/app/page.tsx"
+            },
+            {
+              "column": 24,
+              "endColumn": 47,
+              "endLine": 7,
+              "line": 7,
+              "path": "packages/ui/src/settings-section.tsx"
+            }
+          ],
+          "originals": [
+            "border p-4 rounded-lg",
+            "rounded-lg border p-4"
+          ]
+        },
+        {
+          "classes": [
+            "gap-2",
+            "inline-flex",
+            "items-center",
+            "px-4",
+            "py-2",
+            "rounded-md"
+          ],
+          "count": 2,
+          "evidenceIds": [
+            "ev:tailwind:class-bundle:704abbd193953a8daf3c",
+            "ev:tailwind:class-bundle:978d8551cd47a0c36ea9"
+          ],
+          "locations": [
+            {
+              "column": 28,
+              "endColumn": 81,
+              "endLine": 14,
+              "line": 14,
+              "path": "packages/ui/src/button.tsx"
+            },
+            {
+              "column": 21,
+              "endColumn": 74,
+              "endLine": 18,
+              "line": 18,
+              "path": "packages/ui/src/button.tsx"
+            }
+          ],
+          "originals": [
+            "inline-flex items-center gap-2 rounded-md px-4 py-2",
+            "py-2 px-4 rounded-md gap-2 items-center inline-flex"
+          ]
+        }
+      ],
+      "tokens": [
+        {
+          "evidenceIds": [
+            "ev:tailwind:token:f94f031f3c50e35624b9"
+          ],
+          "name": "--color-brand",
+          "sourcePath": "apps/web/app/globals.css",
+          "value": "oklch(0.62 0.18 255)"
+        },
+        {
+          "evidenceIds": [
+            "ev:tailwind:token:2df75777fa97b6fb406b"
+          ],
+          "name": "colors.accent",
+          "sourcePath": "tailwind.config.ts",
+          "value": "#7c3aed"
+        },
+        {
+          "evidenceIds": [
+            "ev:tailwind:token:62a6e48ff4d1cb7cafeb"
+          ],
+          "name": "spacing.card",
+          "sourcePath": "tailwind.config.ts",
+          "value": "1.25rem"
+        }
+      ]
+    },
+    "usages": [
+      {
+        "componentId": "react:@fixture/ui:packages/ui/src/button.tsx#Button",
+        "evidenceIds": [
+          "ev:react:usage:d6cf6b224b3564442859"
+        ],
+        "id": "usage:0d83647fa54fcef791f5",
+        "kind": "call",
+        "location": {
+          "column": 17,
+          "endColumn": 52,
+          "endLine": 3,
+          "line": 3,
+          "path": "apps/web/app/page.tsx"
+        },
+        "propNames": [
+          "label"
+        ],
+        "sourcePath": "apps/web/app/page.tsx"
+      },
+      {
+        "componentId": "react:@fixture/ui:packages/ui/src/settings-section.tsx#SettingsSection",
+        "evidenceIds": [
+          "ev:react:usage:e2179c59152bbb3af558"
+        ],
+        "id": "usage:2b4165c8dfc6a5ed4ed0",
+        "kind": "composition",
+        "location": {
+          "column": 7,
+          "endColumn": 53,
+          "endLine": 10,
+          "line": 10,
+          "path": "apps/web/app/page.tsx"
+        },
+        "propNames": [
+          "title"
+        ],
+        "sourcePath": "apps/web/app/page.tsx"
+      },
+      {
+        "componentId": "react:@fixture/ui:packages/ui/src/settings-section.tsx#SettingsSection",
+        "evidenceIds": [
+          "ev:react:usage:7a8479490adea58f4994"
+        ],
+        "id": "usage:2cf905fd2bfd74bfcd5d",
+        "kind": "composition",
+        "location": {
+          "column": 10,
+          "endColumn": 51,
+          "endLine": 4,
+          "line": 4,
+          "path": "apps/web/app/settings/page.tsx"
+        },
+        "propNames": [
+          "title"
+        ],
+        "sourcePath": "apps/web/app/settings/page.tsx"
+      },
+      {
+        "componentId": "react:@fixture/ui:packages/ui/src/button.tsx#Button",
+        "evidenceIds": [
+          "ev:react:usage:5f38110e11e0bccccb96"
+        ],
+        "id": "usage:5327eb227b7a4516e27b",
+        "kind": "composition",
+        "location": {
+          "column": 7,
+          "endColumn": 57,
+          "endLine": 12,
+          "line": 12,
+          "path": "apps/web/app/page.tsx"
+        },
+        "propNames": [
+          "label",
+          "variant"
+        ],
+        "sourcePath": "apps/web/app/page.tsx"
+      },
+      {
+        "componentId": "react:@fixture/ui:packages/ui/src/button.tsx#Button",
+        "evidenceIds": [
+          "ev:react:usage:f4f68d46a0f0ad20ec0b"
+        ],
+        "id": "usage:c303750e2bc581a89e40",
+        "kind": "jsx",
+        "location": {
+          "column": 33,
+          "endColumn": 74,
+          "endLine": 3,
+          "line": 3,
+          "path": "packages/ui/src/button.stories.tsx"
+        },
+        "propNames": [
+          "label",
+          "variant"
+        ],
+        "sourcePath": "packages/ui/src/button.stories.tsx"
+      },
+      {
+        "componentId": "react:@fixture/ui:packages/ui/src/button.tsx#default",
+        "evidenceIds": [
+          "ev:react:usage:1b83fbbb5245c18b5814"
+        ],
+        "id": "usage:ed513b634eb6bdf5025d",
+        "kind": "composition",
+        "location": {
+          "column": 7,
+          "endColumn": 39,
+          "endLine": 11,
+          "line": 11,
+          "path": "apps/web/app/page.tsx"
+        },
+        "propNames": [
+          "title"
+        ],
+        "sourcePath": "apps/web/app/page.tsx"
+      }
+    ]
+  },
+  "truncated": false
+}

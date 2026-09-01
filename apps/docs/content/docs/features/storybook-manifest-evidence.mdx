@@ -1,0 +1,145 @@
+---
+title: Storybook manifest evidence
+description: Attach a local Storybook example only when its generated manifest and React import agree.
+---
+
+<Callout title="Implemented" type="info">
+  LatticeOS reads one bounded, locally built Storybook components manifest. It never starts
+  Storybook, opens a development server, or executes `.storybook` configuration.
+</Callout>
+
+Storybook is optional. Without a manifest, LatticeOS keeps the normal React, Tailwind, and shadcn
+result. It reads the fixed path `storybook-static/manifests/components.json` only after project
+detection finds Storybook. The generated directory is excluded from normal repository discovery, so
+its bundles never enter React or Tailwind analysis.
+
+## What it records
+
+The adapter accepts the current React components-manifest subset produced by Storybook: a top-level
+`components` object with an entry name, a repository-relative `*.stories.*` path, and named stories.
+It does not use descriptions, prop documentation, snippets, imports, or absolute paths from the
+manifest.
+
+LatticeOS attaches a `story` record to a React component only when all of these are true:
+
+- the manifest's story path is an admitted React source file;
+- the story file has a non-type-only import that React analysis resolved to a component; and
+- that component's display name matches the manifest component name.
+
+The result is `corroborating` `manifest` evidence. It confirms that the local generated manifest
+lists a named Storybook example for a component. It does not prove a rendered result, runtime
+behavior, product meaning, or that the component fits every task.
+
+```ts title="Direct static adapter input"
+import { analyzeStorybook } from "@latticeos/adapter-storybook";
+
+const result = analyzeStorybook({
+  manifests: [{ path: "storybook-static/manifests/components.json", content: manifestText }],
+  components: reactAnalysis.components,
+  imports: reactAnalysis.imports,
+});
+```
+
+`analyzeProject` runs this bridge after React and shadcn analysis. The attached evidence is available
+to CLI search, inspect, and context output through the normal Reuse index.
+
+## Bounds and unsupported forms
+
+The bridge reads one fixed local file, up to 1 MiB by default. It accepts at most 1,000 component
+entries and 100 stories per component. All limits have hard caps. A missing manifest is ordinary
+optional-tool absence. An oversized, unreadable, malformed, changed, or unmappable manifest returns
+bounded diagnostics and leaves existing component evidence usable. The dedicated reader rejects a
+symlink at every segment of the fixed manifest path.
+
+Storybook documents the rich [components manifest](https://storybook.js.org/docs/ai/manifests) as a
+preview API. LatticeOS supports only the named fixture shape at the conventional built path. Custom
+output directories, dev-server URLs, ref-based manifests, package-local or external story paths,
+name-only mapping, and arbitrary manifest paths are not supported. The adapter makes no network,
+MCP, registry, package-install, telemetry, or source-execution call.
+
+The `fixtures/next-workspace` manifest maps its `Button` entry through the real
+`button.stories.tsx` import. Direct and analyzer tests cover deterministic output, malformed data,
+unmapped entries, type-only imports, missing manifests, byte bounds, static-directory exclusion, and
+a valid Reuse index after optional evidence fails.
+
+```bash
+pnpm --filter @latticeos/adapter-storybook test
+pnpm --filter @latticeos/analyzer test
+```
+
+## Agent implementation prompt
+
+```text title="Agent implementation prompt"
+Extend LatticeOS Storybook evidence only within ADR-0016. Do not add a Storybook server, dev-server
+request, MCP runtime, package installer, registry client, network request, telemetry, cloud, AI API,
+Figma, browser work, Converge behavior, source rewrite, semantic claim, or consumer configuration
+execution.
+
+Read first:
+1. AGENTS.md
+2. docs/00-product/PRD.md
+3. docs/10-architecture/ARCHITECTURE.md
+4. docs/10-architecture/FILE_WRITE_POLICY.md
+5. docs/20-security/SECURITY_MODEL.md
+6. docs/50-quality/QUALITY_GATES.md
+7. docs/60-engineering/ENGINEERING_STANDARDS.md
+8. docs/60-engineering/CONVENTIONS.md
+9. docs/60-engineering/LESSONS.md
+10. docs/40-features/F-001-phase-1-reuse/
+11. docs/30-modules/adapters/ and docs/30-modules/analyzer/
+12. ADR-0003, ADR-0008, ADR-0009, ADR-0011, ADR-0012, ADR-0015, and ADR-0016 under docs/adrs/
+13. this guide, Storybook adapter tests, Storybook bridge tests, and named goldens
+
+Outcome:
+Attach source-backed Storybook example evidence to an existing React component only when a local
+generated manifest and a resolved import from its CSF story source prove the association.
+
+Scope:
+- Read only `storybook-static/manifests/components.json` through the dedicated fixed-path
+  RepositoryRoot method. Keep `storybook-static` excluded from ordinary repository discovery.
+- Parse JSON data only. Support a top-level components object with a bounded component name,
+  repository-relative `*.stories.*` path, and bounded named story entries.
+- Use existing normalized React components and non-type-only resolved React imports. Require the
+  manifest component name to equal the resolved component display name.
+- Attach deterministic corroborating `story` evidence at the manifest path. Preserve existing React
+  and shadcn evidence. Do not copy descriptions, prop documentation, snippets, imports, or absolute
+  paths from the manifest into the Reuse index.
+- Missing optional manifests stay quiet. Malformed, unreadable, oversized, unsupported, or unmapped
+  data returns bounded diagnostics and leaves usable React output.
+
+Rules:
+- Reuse `analyzeStorybook`, `analyzeStorybookProjectFromDiscovery`, `RepositoryRoot`,
+  `STORYBOOK_COMPONENTS_MANIFEST_PATH`, React normalized outputs, and core evidence contracts.
+  Do not create parallel component records, arbitrary generated-file readers, source parsers, or
+  output shapes.
+- Never execute `.storybook`, CSF, application source, or manifest snippets. Never start Storybook,
+  request its dev server, read an external URL, or send repository data off machine.
+- Treat the upstream manifest schema as preview-only. Do not infer a component by name alone. Keep
+  fixture-backed limits and corroborating classification with explicit limitations.
+- Require a new ADR, fixture, tests, docs, and security review before adding custom output paths,
+  remote or development-server access, ref-based formats, arbitrary manifest locations, extra
+  manifest fields, source parsing, or semantic guidance.
+
+Required tests:
+- Run `pnpm --filter @latticeos/adapter-storybook test` and `pnpm --filter @latticeos/analyzer test`.
+- Cover current manifest mapping, deterministic evidence IDs, missing and malformed input, unmapped
+  entries, type-only imports, byte bounds, fixed-path-only reading, generated-directory exclusion,
+  no manifest-content leak, valid partial Reuse output, and retained React/shadcn evidence.
+- Keep a named adapter golden and the end-to-end Reuse index golden. Run complete repository gates
+  before claiming the slice complete.
+
+Documentation:
+- Update this guide, adapter and analyzer module memory, feature tasks, accepted-decision links,
+  review notes, completion evidence, README, llms.txt, and fixture examples in the same change.
+- Keep prose factual and direct. Keep examples synchronized with tests.
+
+Stop conditions:
+- Stop for a human decision if a change needs configuration execution, a user-controlled manifest
+  path, a Storybook server or remote service, a new dependency, filesystem access outside
+  RepositoryRoot, a source write, name-only component mapping, or a semantic claim.
+
+Completion evidence:
+Report the supported manifest path and subset, component-link proof, evidence classification and
+limits, tests and goldens, security controls, docs changed, upstream preview risk, and whether the
+Reuse benchmark remains incomplete.
+```

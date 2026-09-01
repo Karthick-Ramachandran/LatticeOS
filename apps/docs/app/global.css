@@ -1,0 +1,19 @@
+@import "tailwindcss";
+@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/preset.css";
+
+:root {
+  --lattice-accent: #2563eb;
+  --lattice-accent-soft: #dbeafe;
+}
+
+body {
+  background-image:
+    radial-gradient(circle at 20% 0%, color-mix(in srgb, var(--lattice-accent) 8%, transparent), transparent 32rem),
+    linear-gradient(to bottom, transparent, color-mix(in srgb, var(--lattice-accent-soft) 16%, transparent));
+  background-attachment: fixed;
+}
+
+code {
+  font-variant-ligatures: none;
+}

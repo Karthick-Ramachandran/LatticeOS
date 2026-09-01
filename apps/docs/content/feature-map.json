@@ -1,0 +1,6 @@
+{
+  "F-001-phase-1-reuse": "features/phase-1-reuse.mdx",
+  "F-002-agent-ready-documentation": "contributing/agent-ready-documentation.mdx",
+  "F-003-phase-1-reuse-benchmark": "features/reuse-benchmark.mdx",
+  "F-004-npm-cli-distribution": "cli/npm-pre-release.mdx"
+}

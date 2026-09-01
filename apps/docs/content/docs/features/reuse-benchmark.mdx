@@ -1,0 +1,230 @@
+---
+title: Reuse benchmark protocol
+description: Measure whether LatticeOS context changes canonical UI reuse on controlled agent tasks.
+---
+
+<Callout title="Status" type="warning">
+  Nine candidate pairs are archived. Their historical score is 15 versus 14, from one
+  `SecondaryButton` choice. Control already reused the tidy fixture UI in 8 of 9 pairs. The checker
+  rejects the archive because raw `deliveredPrompt` artifacts are missing. AC-15 remains open. Do
+  not start Figma or Phase 2 from this result. AC-16 quality gates passed on 2026-09-01.
+</Callout>
+
+The benchmark asks one narrow question: when an agent has LatticeOS Reuse context, does it use more
+of the canonical UI already in the repository without choosing those components in the wrong place?
+It does not measure Figma fidelity, browser output, semantic product judgment, or later phases.
+
+## Matched conditions
+
+Every task runs as a pair in fresh copies of the same controlled Next.js fixture.
+
+| Condition | Agent receives |
+| --- | --- |
+| Control | The pre-registered task, fixture instructions, and permitted submission path. No LatticeOS command or output. |
+| Treatment | The same material plus the exact saved JSON from `lattice context <task> --json`. |
+
+The pair uses the same declared agent build and configuration. Its condition order is randomized and
+recorded. Each condition stays inside its permitted source path.
+
+## What a qualified result records
+
+A result includes the task ID, fixture revision/hash, agent/config label, prompts, a raw
+`deliveredPrompt` whose bytes equal the saved prompt, treatment context, source diff or file hashes,
+test outcome, correction turns, duplicate components, raw Tailwind added, and reviewer annotations.
+
+An annotation is required before reuse counts toward the result. It names an expected canonical
+component, its location in the submission, whether that use is appropriate or inappropriate, and the
+reviewer's reason. LatticeOS does not use its ranking score to make that judgment.
+
+## Gate
+
+`reuse-v1` requires at least three qualified pairs for each pre-registered task. Treatment must have
+more appropriate canonical reuse in total and no more inappropriate canonical reuse in total. Missing,
+failed, out-of-scope, or unreviewed runs are reported but cannot make the gate pass.
+
+The protocol is local and developer-only. The harness reads static records and submission text. It
+does not execute application code or configuration, call a network service, collect personal data,
+or publish a package.
+
+## Run the verifier
+
+```bash title="Verify protocol and synthetic cases"
+pnpm test:benchmark
+```
+
+The test suite validates the three committed task manifests, a synthetic verifier record, insufficient
+paired evidence, the positive metric rule, an inappropriate-reuse regression, changed context, control
+leakage, symlinks, annotation locations, and deterministic output. Synthetic records can never satisfy
+the release gate.
+
+```bash title="Evaluate recorded trials"
+pnpm benchmark:check
+```
+
+`benchmarks/reuse-v1/results/results.json` contains nine candidate `agent-trials` pairs. The checker
+now rejects them because they lack raw `deliveredPrompt` artifacts. The historical score remains in
+the archive, but those records are not AC-15 evidence. Do not replace them with synthetic verifier
+data.
+
+## Deliver a qualifying trial
+
+Run each condition in a direct agent session. Send the saved `AGENT_PROMPT.txt` contents as one
+verbatim message. Do not let a wrapper summarize, abbreviate, or replace the treatment JSON. Keep a
+raw message transcript that becomes the `deliveredPrompt` artifact. The reviewer must compare it with
+the saved prompt. A prompt file that was never delivered unchanged is not a qualified trial.
+
+For each result run, store only that raw message under the result artifact root and reference it from
+the run record. The validator reads the file as text and checks that its bytes equal `prompt`.
+
+```json title="Delivery evidence in one result run"
+{
+  "deliveredPrompt": {
+    "path": "artifacts/delivery/notification-pair-1-treatment.txt",
+    "sha256": "<sha256-of-the-raw-message-file>"
+  }
+}
+```
+
+Do not add the agent's reply, personal data, or extra conversation to this file. A missing or changed
+artifact makes `pnpm benchmark:check` fail.
+
+The current candidate set cannot be repaired after the fact. Re-run all nine matched pairs, then
+record the reviewed submissions and delivery evidence. The benchmark measures one controlled fixture
+and one declared agent configuration. It does not establish behavior on other repositories.
+
+## A later harder fixture
+
+The current `reuse-v1` tasks are frozen. A later benchmark can use a harder source organization, but
+it must be a separate versioned fixture with a new feature PRD, acceptance criteria, and review. It
+cannot change these tasks or bypass the current Phase 1 exit gate. See
+[ADR-0021](https://github.com/Karthick-Ramachandran/LatticeOS/blob/main/docs/adrs/ADR-0021-keep-a-messier-reuse-benchmark-separate-from-reuse-v1.md).
+
+## Prepare a real pair
+
+```bash title="Prepare a randomized pair"
+pnpm benchmark:prepare \
+  --task notification-settings \
+  --pair notification-pair-1 \
+  --agent-label <agent-label> \
+  --agent-version <agent-version> \
+  --agent-config-hash <sha256-of-the-agent-configuration>
+```
+
+The preparer makes two fresh fixture copies in an OS temporary directory, randomly assigns control or
+treatment to first or second, and prints the two prompt paths. It uses the real local CLI to save the
+treatment JSON, then removes its generated `.lattice` cache from the workspace. Control gets the same
+prompt without that JSON. The command does not start an agent, run a submission, or write a result.
+
+Use the first prompt before the second. Give an agent only its own workspace and prompt. After both
+runs, an independent reviewer must inspect the allowed source file and create the result record. A
+prepared pair is not a qualified trial.
+
+See [ADR-0017](https://github.com/Karthick-Ramachandran/LatticeOS/blob/main/docs/adrs/ADR-0017-reproducible-phase-1-reuse-benchmark-protocol.md)
+and [F-003 delivery memory](https://github.com/Karthick-Ramachandran/LatticeOS/tree/main/docs/40-features/F-003-phase-1-reuse-benchmark)
+for the full contract.
+
+## Agent implementation prompt
+
+```text title="Agent implementation prompt"
+Implement or maintain the LatticeOS `reuse-v1` benchmark under ADR-0017. A harness is not a benchmark
+result. Do not claim F-001 AC-15 passes until qualified matched agent trials satisfy the recorded gate.
+
+Read first:
+1. AGENTS.md
+2. docs/00-product/PRD.md
+3. docs/10-architecture/ARCHITECTURE.md
+4. docs/10-architecture/FILE_WRITE_POLICY.md
+5. docs/20-security/SECURITY_MODEL.md
+6. docs/20-security/THREAT_MODEL.md
+7. docs/50-quality/QUALITY_GATES.md
+8. docs/50-quality/TESTING_STRATEGY.md
+9. docs/60-engineering/ENGINEERING_STANDARDS.md
+10. docs/60-engineering/CONVENTIONS.md
+11. docs/60-engineering/LESSONS.md
+12. docs/40-features/F-001-phase-1-reuse/
+13. docs/40-features/F-003-phase-1-reuse-benchmark/
+14. docs/30-modules/benchmark/
+15. ADR-0008, ADR-0009, and ADR-0017 under docs/adrs/
+16. this guide, the controlled fixture, and existing CLI tests
+
+Outcome:
+Produce a local, reproducible `reuse-v1` evaluator and enough audited matched trials to determine
+whether LatticeOS context improves appropriate canonical reuse on the controlled fixture.
+
+Scope:
+- Pre-register source-only tasks, expected canonical opportunities, allowed submission paths, result
+  records, reviewer annotations, and a deterministic summary.
+- Build the developer-only harness and synthetic verifier fixtures. Then collect qualified fresh agent
+  trials under the frozen protocol.
+- Keep all behavior inside the benchmark module. Do not alter CLI ranking, application source, or the
+  active Phase 1 product boundary.
+
+Acceptance:
+- Meet ACB-01 through ACB-07 in F-003. The harness must reject incomplete or invalid records rather
+  than report a pass.
+- Mark F-001 AC-15 complete only after three qualified pairs per task show higher treatment
+  appropriate reuse and no higher treatment inappropriate reuse.
+
+Current contract:
+- `reuse-v1` is a local, source-only benchmark against pre-registered tasks in the controlled Next.js
+  fixture. It does not evaluate Figma, browser output, visual similarity, product semantics, Doctor,
+  or repair loops.
+- Control gets the task and fixture instructions. Treatment gets exactly the same inputs plus a saved
+  `lattice context <task> --json` result. The harness records prompts and context rather than
+  regenerating them after a result exists.
+- Each pair uses a fresh fixture copy, the same declared agent build/configuration, a recorded random
+  condition order, an allowed submission path, an unmodified delivered prompt, and an independent
+  reviewer annotation.
+- A qualified result counts only annotations that identify an expected canonical component and a
+  submission location. Missing, failed, unreviewed, or ambiguous runs do not count as success.
+- The gate needs at least three qualified pairs per task, higher treatment appropriate canonical reuse,
+  and no higher treatment inappropriate canonical reuse.
+
+Rules:
+- Pre-register task text, expected source-backed reuse opportunities, scoring rules, and allowed paths
+  before collecting outcomes. Never edit them after seeing control or treatment output.
+- Treat seeded pass/fail fixtures as validator tests only. Never call them agent trials or evidence for
+  AC-15.
+- Read submissions as static text. Do not import, build, run, or execute fixture source or config.
+- Keep all files local. Do not add runtime network, telemetry, cloud, MCP, AI API, secrets, personal
+  data, runtime dependencies, package publishing, or source rewrite behavior.
+- Reuse the existing CLI JSON, controlled fixture, package gate, and repository memory. Do not create
+  a second ranking system or let the benchmark modify ranking to improve its score.
+
+Ordered work:
+1. Maintain the implemented task/result/annotation contracts and path boundaries.
+2. Keep the three pre-registered tasks and synthetic verifier cases synchronized with their source
+   fixture and evidence contracts.
+3. Use `pnpm benchmark:prepare` to make one fresh randomized pair and save the exact treatment context
+   from the current CLI.
+4. Keep the deterministic local validator and summary strict. It must report insufficient evidence
+   rather than pass an empty or incomplete record set.
+5. Send each saved prompt verbatim to a fresh agent. Retain the raw delivery transcript as the
+   `deliveredPrompt` artifact, then have an independent reviewer annotate outcomes.
+6. Reconcile F-001 acceptance, review, completion report, README, llms.txt, module memory, and this
+   guide with the actual result.
+
+Tests:
+- Cover malformed records, duplicate run IDs, mismatched pairs, missing or changed treatment context,
+  a treatment prompt that does not end with that context, unsupported canonical components, invalid
+  paths, symlinks, failed tests, missing reviews, and a treatment result that increases inappropriate
+  reuse.
+- Run benchmark unit and integration tests, then `pnpm test:run`, `pnpm typecheck`, `pnpm build`,
+  `pnpm test:package`, `pnpm docs:check`, and `persist doctor` before completing a slice.
+
+Documentation:
+- Update F-003 delivery docs, benchmark module memory, F-001 task/review/completion evidence,
+  README, llms.txt, and this guide whenever the protocol, harness, or result changes.
+- Keep prose factual and direct. State whether the change is a protocol, verifier fixture, harness,
+  or qualified result.
+
+Stop conditions:
+- Stop for a human decision if a task needs a new runtime data source, Figma, browser execution,
+  network or AI API access, private source, personal data, a general file write, changed scoring after
+  results, or an accepted ADR change.
+
+Completion evidence:
+Report pre-registered tasks, exact prompt/context artifacts, delivery evidence, agent/config labels,
+qualified-pair counts, reviewer annotations, metric totals, validation output, skipped checks,
+remaining validity limits, and whether F-001 AC-15 is actually satisfied.
+```

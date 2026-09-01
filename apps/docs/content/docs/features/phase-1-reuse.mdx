@@ -1,0 +1,173 @@
+---
+title: Phase 1 Reuse
+description: Give agents source-backed UI reuse evidence before they generate components.
+---
+
+<Callout title="Status" type="warning">
+  Requirements and architecture are accepted. The framework-neutral core contract is implemented
+  and tested. Safe project discovery, React and Tailwind analysis, deterministic in-memory index
+  assembly, generated cache, public CLI, shadcn configured-source evidence, and bounded local
+  Storybook manifest evidence are implemented. The packed-consumer proof and AC-16 quality gates
+  pass. The benchmark needs fresh exact-delivery trials before Phase 1 can complete.
+</Callout>
+
+## Outcome
+
+In a React, Next.js, TypeScript, and Tailwind repository, an agent can answer:
+
+- Which exported component already fits this task?
+- What props and visible variants does source actually define?
+- Where is that component used, and what is composed around it?
+- Do Storybook or shadcn add concrete examples?
+- Which exact Tailwind bundles repeat often enough to deserve attention?
+
+LatticeOS returns a small ranked result instead of dumping the full component inventory into the
+agent context.
+
+## Evidence structure
+
+Each recommendation has reason codes that resolve to evidence records.
+
+| Field | Meaning |
+| --- | --- |
+| `kind` | Export, prop, import, usage, story, registry, token, or repeated class evidence |
+| `location` | Repository-relative source path and position |
+| `method` | AST, type checker, static config, CSS, or manifest extraction |
+| `classification` | Exact fact, corroborating example, or heuristic |
+| `fingerprint` | Stable source fingerprint used to detect stale evidence |
+| `limitations` | Dynamic or unsupported syntax that analysis could not prove |
+
+A score explains ranking. It does not claim that two components have the same product meaning.
+
+See the [implemented Reuse index reference](/docs/reference/reuse-index) for component identity,
+validation, serialization, search, ambiguity, and context budget behavior.
+
+See [safe project discovery](/docs/features/project-discovery) for the implemented repository read
+boundary, exclusions, scan limits, workspace forms, tool markers, and incomplete-scan behavior.
+
+See [React component analysis](/docs/features/react-component-analysis) for the implemented static
+component, prop, import, JSX, and usage extractor and its supported syntax forms.
+
+See [Tailwind static analysis](/docs/features/tailwind-static-analysis) for the implemented token and
+repeated-bundle extractor, its exact static forms, and its dynamic-expression limits.
+
+See [Reuse index assembly](/docs/features/reuse-index-assembly) for the implemented read-only
+analysis entry point, deterministic index validation, truncation behavior, and its named golden.
+
+See [Reuse index cache](/docs/features/reuse-index-cache) for the implemented generated-state read,
+atomic replacement boundary, and rebuild behavior for missing or invalid state.
+
+See [shadcn static evidence](/docs/features/shadcn-static-evidence) for the implemented optional
+configured UI-source mapping and its limits.
+
+See [Storybook manifest evidence](/docs/features/storybook-manifest-evidence) for the implemented
+local built-manifest bridge, import-backed mapping rule, and preview-schema limits.
+
+See [packed consumer proof](/docs/cli/packed-consumer) for the implemented tarball-installation
+check and its package-manager limits.
+
+## Planned workflow
+
+```bash title="Find reusable UI"
+lattice search "team settings"
+lattice inspect SettingsSection
+lattice context "build a team settings page" --json
+```
+
+The human output is for quick reading. JSON carries an explicit schema version and the full evidence
+links needed by an agent or test.
+
+## Limits
+
+- Phase 1 uses static evidence. It does not execute consumer source or configuration.
+- Dynamic Tailwind classes may be reported as unsupported.
+- Repeated classes are informational. LatticeOS does not create a component from them.
+- shadcn configured-source and Storybook manifest evidence are optional. Neither adapter executes
+  consumer configuration or source.
+- Figma, semantic rules, Doctor, browser comparison, and repair loops are later phases.
+
+## Proof required before Phase 2
+
+The packed CLI runs in a realistic Next.js fixture. Golden tests must match component, prop, usage,
+alias, workspace, Tailwind, Storybook, and shadcn evidence. A controlled benchmark must still show
+more appropriate reuse without increasing inappropriate reuse. Context size and every test input are
+recorded with the result.
+
+## Agent implementation prompt
+
+Copy the block below into a coding agent opened at the LatticeOS repository root.
+
+```text title="Agent implementation prompt"
+Implement the LatticeOS Phase 1 Reuse MVP. Work until every Phase 1 acceptance criterion passes. Do not begin Figma, Converge, Doctor, semantic metadata, or autonomous repair work.
+
+Read first:
+1. AGENTS.md
+2. docs/00-product/PRD.md
+3. docs/10-architecture/ARCHITECTURE.md
+4. docs/10-architecture/FILE_WRITE_POLICY.md
+5. docs/20-security/SECURITY_MODEL.md
+6. docs/50-quality/QUALITY_GATES.md
+7. docs/60-engineering/ENGINEERING_STANDARDS.md
+8. docs/60-engineering/CONVENTIONS.md
+9. docs/60-engineering/LESSONS.md
+10. every file in docs/40-features/F-001-phase-1-reuse/
+11. relevant module memory in docs/30-modules/
+12. accepted ADR-0001 through ADR-0016 in docs/adrs/, noting that ADR-0011 supersedes ADR-0006
+
+Outcome:
+Ship the public `lattice` CLI for a normal React/Next.js/TypeScript/Tailwind repository. It must find existing components and exact repeated UI structures, explain each recommendation with repository evidence, and return compact human and versioned JSON output.
+
+Scope:
+- Detect repositories, workspaces, packages, React, Next.js, TypeScript, Tailwind, shadcn, and Storybook.
+- Index exported React components, default and named exports, TypeScript props, imports, aliases, JSX composition, usages, call sites, and statically visible variants.
+- Create stable component IDs and a deterministic schema-versioned Reuse index.
+- Extract Tailwind v4 theme variables, supported static v3 theme values, static className values, known class-merging calls, and exact repeated bundles.
+- Connect optional shadcn configured-source evidence and the bounded local Storybook components
+  manifest without requiring either tool at runtime.
+- Prove the implemented `lattice init`, `lattice search`, `lattice inspect`, and `lattice context`
+  commands in a packed consumer fixture, including `--json`.
+- Keep application source read-only and all runtime analysis local.
+
+Ordered work:
+1. Keep repository memory and task status current before each implementation slice.
+2. Scaffold strict pnpm/TypeScript packages for core, analyzer, adapters, and CLI.
+3. Implement framework-neutral entities, EvidenceRecord, RecommendationReason, stable IDs, deterministic sorting, schemas, ranking, ambiguity, and context budgets.
+4. Implement RepositoryRoot validation, exclusions, project/workspace discovery, TypeScript project resolution, safe diagnostics, and atomic cache lifecycle.
+5. Implement and prove React/TypeScript analysis on golden Next.js and workspace fixtures.
+6. Implement and prove Tailwind, shadcn, and Storybook adapters. Never execute consumer configuration.
+7. Implement the CLI human and JSON contracts, safe init behavior, and packed-consumer workflow.
+8. Add or update this Fumadocs guide in the same change as each behavior. Keep examples tied to tests.
+9. Run the control vs treatment Reuse benchmark and record appropriate reuse, inappropriate reuse, duplicates, raw Tailwind, context size, correction turns, inputs, and outputs.
+10. Complete review, all quality gates, Persist validation, and the completion report.
+
+Acceptance:
+- Satisfy AC-01 through AC-17 in docs/40-features/F-001-phase-1-reuse/ACCEPTANCE.md.
+- Every recommendation reason must reference source-backed evidence. Inspect must resolve the evidence location, extraction method, exact/corroborating/heuristic class, fingerprint, and limitation.
+- The benchmark must improve appropriate canonical reuse without increasing inappropriate reuse.
+
+Tests:
+- Unit tests for core contracts, IDs, ranking, budgets, schemas, paths, parsing, and diagnostics.
+- Golden fixtures for supported React, Next.js, TypeScript, Tailwind, shadcn, and Storybook forms.
+- Security tests for traversal, escaping symlinks, secrets, generated paths, malformed and oversized files, non-execution, skip-existing, force, and atomic writes.
+- CLI human/JSON integration tests, repeated-run determinism, packed artifact installation, and a clean consumer run.
+- Run `pnpm test:run`, `pnpm typecheck`, `pnpm build`, `pnpm test:package`, `pnpm docs:check`, and `persist doctor`.
+
+Documentation:
+- Update module memory, feature tasks, conventions, lessons, README, CLI help, JSON reference, examples, limits, and this Fumadocs page with each slice.
+- Apply the repository Humanizer rules to explanatory prose only. Preserve facts, requirements, code, commands, frontmatter, links, and test evidence.
+
+Stop conditions:
+- Stop for a human decision if requirements conflict, an accepted ADR must change, a new runtime dependency or network behavior is needed without an accepted decision, evidence cannot support a recommendation safely, or tests cannot be derived from acceptance.
+- Do not cross the Phase 1 boundary because implementation is difficult or because later work looks more interesting.
+
+Completion evidence:
+Report files changed, behavior delivered, tests and exact results, skipped checks, docs updated, benchmark result, remaining risks, and release readiness. Do not claim the MVP is complete unless every required gate and persist doctor pass.
+```
+
+## Sources
+
+- [F-001 product and acceptance memory](https://github.com/Karthick-Ramachandran/LatticeOS/tree/main/docs/40-features/F-001-phase-1-reuse)
+- [Storybook MCP guidance](https://storybook.js.org/docs/ai/mcp/overview)
+- [Figma Code Connect guidance](https://developers.figma.com/docs/code-connect/code-connect-ui-setup/)
+- [shadcn MCP guidance](https://ui.shadcn.com/docs/mcp)
+- [Next.js guidance for coding agents](https://nextjs.org/docs/app/guides/ai-agents)

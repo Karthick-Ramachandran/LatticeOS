@@ -1,0 +1,87 @@
+{
+  "components": [
+    {
+      "composedComponentIds": [],
+      "displayName": "Page",
+      "evidenceIds": [
+        "ev:react:export:page"
+      ],
+      "exportKey": "Page",
+      "id": "react:@fixture/ui:apps/web/app/page.tsx#Page",
+      "packageKey": "@fixture/ui",
+      "props": [],
+      "sourcePath": "apps/web/app/page.tsx",
+      "usageIds": [],
+      "visibility": "public"
+    },
+    {
+      "composedComponentIds": [],
+      "displayName": "Button",
+      "evidenceIds": [
+        "ev:react:export:button",
+        "ev:shadcn:registry:70a705c0afb3ff74e332"
+      ],
+      "exportKey": "Button",
+      "id": "react:@fixture/ui:packages/ui/src/button.tsx#Button",
+      "packageKey": "@fixture/ui",
+      "props": [],
+      "sourcePath": "packages/ui/src/button.tsx",
+      "usageIds": [],
+      "visibility": "public"
+    },
+    {
+      "composedComponentIds": [],
+      "displayName": "SettingsSection",
+      "evidenceIds": [
+        "ev:react:export:settingssection",
+        "ev:shadcn:registry:bf4125c991332cf46071"
+      ],
+      "exportKey": "SettingsSection",
+      "id": "react:@fixture/ui:packages/ui/src/settings-section.tsx#SettingsSection",
+      "packageKey": "@fixture/ui",
+      "props": [],
+      "sourcePath": "packages/ui/src/settings-section.tsx",
+      "usageIds": [],
+      "visibility": "public"
+    }
+  ],
+  "diagnostics": [],
+  "evidence": [
+    {
+      "classification": "corroborating",
+      "fingerprint": "sha256:16123bf9e7a7fd2fe84f38316559af764c5a9fb80e4948b929bbe236c5f887cb",
+      "id": "ev:shadcn:registry:70a705c0afb3ff74e332",
+      "kind": "registry",
+      "limitations": [
+        "The configured UI source tree does not prove this component came from a particular registry.",
+        "This evidence does not establish product intent or universal reuse suitability."
+      ],
+      "location": {
+        "column": 5,
+        "endColumn": 10,
+        "endLine": 8,
+        "line": 8,
+        "path": "components.json"
+      },
+      "method": "static-config"
+    },
+    {
+      "classification": "corroborating",
+      "fingerprint": "sha256:16123bf9e7a7fd2fe84f38316559af764c5a9fb80e4948b929bbe236c5f887cb",
+      "id": "ev:shadcn:registry:bf4125c991332cf46071",
+      "kind": "registry",
+      "limitations": [
+        "The configured UI source tree does not prove this component came from a particular registry.",
+        "This evidence does not establish product intent or universal reuse suitability."
+      ],
+      "location": {
+        "column": 5,
+        "endColumn": 10,
+        "endLine": 8,
+        "line": 8,
+        "path": "components.json"
+      },
+      "method": "static-config"
+    }
+  ]
+}

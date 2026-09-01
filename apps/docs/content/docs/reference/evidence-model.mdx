@@ -1,0 +1,28 @@
+---
+title: Evidence model
+description: How LatticeOS keeps reuse recommendations traceable.
+---
+
+LatticeOS separates facts from ranking and product meaning.
+
+## Evidence classes
+
+`exact` records come directly from a source export, AST node, type, manifest field, CSS variable, or
+static configuration value. `corroborating` records show how the repository uses a component, such as
+a usage site or story. `heuristic` records help rank results but cannot prove semantic equivalence.
+
+## Recommendation reasons
+
+A recommendation contains reason codes and evidence IDs. A reason can say that a query matched a
+component name, prop, story, or usage path. `lattice inspect` resolves the cited evidence so an agent
+can check the claim before using the component.
+
+## What the model refuses to claim
+
+- A common Tailwind bundle does not prove that every occurrence means the same thing.
+- A familiar prop name is not supported unless source or a trusted manifest defines it.
+- A high score does not turn a private component into a public reuse candidate.
+- A stale or unsupported source form does not become a silent guess.
+
+This keeps the recommendation useful even when analysis is incomplete: the agent can see what is
+known, what helped the ranking, and what still needs inspection.

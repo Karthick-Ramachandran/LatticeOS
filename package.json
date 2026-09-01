@@ -1,0 +1,29 @@
+{
+  "name": "latticeos",
+  "version": "0.0.0",
+  "private": true,
+  "description": "A local-first control plane that helps coding agents reuse existing UI.",
+  "license": "MIT",
+  "packageManager": "pnpm@10.12.3",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "test:run": "pnpm -r test && pnpm test:benchmark",
+    "test:package": "pnpm -r --if-present test:package",
+    "release:pack": "pnpm -r --filter @latticeos/cli... build && pnpm --filter @latticeos/cli release:pack",
+    "pretest:benchmark": "pnpm --filter @latticeos/cli build",
+    "test:benchmark": "node --test benchmarks/reuse-v1/tests/*.test.mjs",
+    "prebenchmark:prepare": "pnpm --filter @latticeos/cli build",
+    "benchmark:prepare": "node benchmarks/reuse-v1/scripts/prepare-trial.mjs",
+    "benchmark:check": "node benchmarks/reuse-v1/scripts/check-results.mjs",
+    "docs:dev": "pnpm --filter @latticeos/docs dev",
+    "docs:check": "pnpm --filter @latticeos/docs check"
+  },
+  "devDependencies": {
+    "@types/node": "26.4.0",
+    "typescript": "7.0.2"
+  }
+}

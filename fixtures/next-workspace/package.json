@@ -1,0 +1,10 @@
+{
+  "name": "lattice-next-workspace-fixture",
+  "private": true,
+  "packageManager": "pnpm@10.12.3",
+  "workspaces": ["apps/*", "packages/*"],
+  "devDependencies": {
+    "tailwindcss": "4.3.3",
+    "typescript": "7.0.2"
+  }
+}

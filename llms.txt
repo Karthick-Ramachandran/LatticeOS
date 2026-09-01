@@ -1,0 +1,100 @@
+# LatticeOS
+
+> LatticeOS is a repository-native UI control plane for coding agents. Phase 1 Reuse is active. It
+> finds and explains existing UI before an agent creates more. Later Understand, Doctor, Converge,
+> and repair work is blocked until Reuse passes its acceptance and benchmark gates.
+
+Repository: https://github.com/Karthick-Ramachandran/LatticeOS
+Product name: LatticeOS
+Public CLI name: lattice
+Status: pre-release; the package gate proves both a seven-tarball workspace fixture and one bundled
+offline-installed CLI artifact. Nine `reuse-v1` candidate pairs record a historical 15 vs 14 score,
+but lack raw delivery evidence and fail the current checker. Nothing is published.
+
+## Read before changing code
+
+1. AGENTS.md
+2. docs/00-product/PRD.md
+3. docs/10-architecture/ARCHITECTURE.md
+4. docs/10-architecture/FILE_WRITE_POLICY.md
+5. docs/20-security/SECURITY_MODEL.md
+6. docs/50-quality/QUALITY_GATES.md
+7. docs/60-engineering/ENGINEERING_STANDARDS.md
+8. docs/60-engineering/CONVENTIONS.md
+9. docs/60-engineering/LESSONS.md
+10. the active feature under docs/40-features/
+11. the affected module under docs/30-modules/
+12. relevant accepted ADRs under docs/adrs/
+
+Durable repository memory under docs/ is authoritative over chat history. Never edit an accepted ADR.
+Use the Persist CLI for new feature memory and decisions as AGENTS.md requires.
+
+## Current implementation
+
+- apps/docs: Fumadocs site, search, copyable code, /llms.txt, /llms-full.txt, and per-page Markdown.
+- packages/core: schema version 1, stable component IDs, validation, deterministic JSON, lexical
+  evidence-backed ranking, ambiguity, and bounded context.
+- packages/analyzer: confined repository reads, exclusions, bounds, workspace packages, static tool
+  detection, React/Tailwind/shadcn/Storybook bridge orchestration, deterministic Reuse index assembly,
+  generated cache lifecycle, and the fixed initialization-config writer are implemented.
+- packages/adapters: React component analysis, static Tailwind token/class evidence, static shadcn
+  configured-source evidence, and bounded local Storybook manifest evidence are implemented.
+- packages/cli: source-tested `init`, `search`, `inspect`, and `context` commands are implemented.
+  The package gate proves the legacy controlled Next.js fixture and one bundled tarball installed
+  offline in a minimal external TypeScript/JSX fixture. It is not published, and the Reuse benchmark
+  is still required.
+- benchmarks/reuse-v1: pre-registered source-only tasks, local result validation, synthetic
+  verifier tests, and nine recorded candidate agent-trial pairs. They have a historical 15 versus 14
+  score, but `pnpm benchmark:check` now rejects them because raw delivery artifacts are missing. The
+  result is local to the controlled fixture and declared agent.
+- ADR-0021 keeps any harder fixture separate from frozen `reuse-v1`. Do not create it until a new
+  benchmark feature has its own PRD, acceptance, fixture, task protocol, and security review.
+
+Do not describe workspace CLI examples as published behavior. The one-artifact package proof passes,
+the package is pre-release, AC-16 passed on 2026-09-01, and Phase 1 still needs qualified AC-15
+delivery evidence. The archived 15 versus 14 score is one `SecondaryButton` annotation on a tidy
+fixture where control already reused canonical UI in 8 of 9 pairs. Do not start Figma or Phase 2
+from it.
+
+## Active feature
+
+- Product and acceptance: docs/40-features/F-001-phase-1-reuse/
+- Bundled npm CLI distribution: docs/40-features/F-004-npm-cli-distribution/
+- Benchmark protocol and delivery evidence: docs/40-features/F-003-phase-1-reuse-benchmark/
+- Public guide and complete Agent prompt: apps/docs/content/docs/features/phase-1-reuse.mdx
+- Safe CLI initialization: apps/docs/content/docs/cli/init.mdx
+- Packed consumer proof: apps/docs/content/docs/cli/packed-consumer.mdx
+- Local bundled npm pre-release: apps/docs/content/docs/cli/npm-pre-release.mdx
+- Reuse benchmark protocol: apps/docs/content/docs/features/reuse-benchmark.mdx
+- shadcn static evidence: apps/docs/content/docs/features/shadcn-static-evidence.mdx
+- Storybook manifest evidence: apps/docs/content/docs/features/storybook-manifest-evidence.mdx
+- Core index reference: apps/docs/content/docs/reference/reuse-index.mdx
+- Evidence policy: apps/docs/content/docs/reference/evidence-model.mdx
+- Agent documentation contract: apps/docs/content/docs/contributing/agent-ready-documentation.mdx
+
+## Hard boundaries
+
+- No Figma, browser comparison, Converge, semantic rules, or autonomous repair in Phase 1.
+- Never execute an analyzed repository's source or configuration.
+- Never read secret paths or write application source.
+- Phase 1 runtime has no telemetry, network, cloud, MCP, or AI API behavior.
+- Every recommendation reason references evidence that inspect can resolve.
+- A score ranks repository evidence. It does not prove product meaning or semantic equivalence.
+- Support claims require fixtures and tests.
+
+## Required checks
+
+pnpm test:run
+pnpm typecheck
+pnpm build
+pnpm test:package
+pnpm docs:check
+persist doctor
+
+Run pnpm build and pnpm docs:check sequentially because both build the same Next.js docs app.
+
+## Contribution and security
+
+- CONTRIBUTING.md
+- SECURITY.md
+- LICENSE

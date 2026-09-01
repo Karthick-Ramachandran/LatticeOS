@@ -1,0 +1,185 @@
+---
+title: React component analysis
+description: Static React component, prop, import, and usage evidence.
+---
+
+<Callout title="Implemented" type="info">
+  `@latticeos/adapter-react` analyzes React and TypeScript source through a bounded virtual
+  TypeScript 6.0.3 program. `analyzeReactProject` now admits that source through `RepositoryRoot`
+  and reads direct root `tsconfig` aliases as data. Cache writes, other adapters, index assembly, and
+  CLI output are still separate work.
+</Callout>
+
+## What it reads
+
+`analyzeReact` accepts source text that the analyzer has already read through `RepositoryRoot`. The
+adapter never opens consumer paths, imports consumer modules, loads a tsconfig file, or writes a
+file. It creates a virtual filesystem containing only those supplied sources.
+
+```ts title="Analyze already-admitted sources"
+import { analyzeReact } from "@latticeos/adapter-react";
+
+const result = analyzeReact({
+  sources: [
+    {
+      path: "packages/ui/src/button.tsx",
+      packageKey: "@acme/ui",
+      content: sourceText,
+    },
+  ],
+  compiler: {
+    baseUrl: ".",
+    paths: { "@acme/ui": ["packages/ui/src/index.ts"] },
+  },
+});
+```
+
+Every source path must already be a normalized, repository-relative path. The adapter rejects
+traversal and duplicate paths before it builds its program.
+
+For normal repository analysis, call the analyzer bridge instead:
+
+```ts title="Analyze an admitted repository"
+import { analyzeReactProject, RepositoryRoot } from "@latticeos/analyzer";
+
+const root = await RepositoryRoot.open("/absolute/path/to/repository");
+const result = await analyzeReactProject(root);
+```
+
+The bridge selects JavaScript and TypeScript source from the bounded discovery inventory, excludes
+known tool configuration and `.storybook` files, assigns the nearest workspace package key, and
+passes the admitted source to the adapter. It records `truncated: true` when its source limits make
+the result incomplete.
+
+## Evidence it returns
+
+| Evidence | Supported forms | Notes |
+| --- | --- | --- |
+| Components | Named and default functions, named arrow functions, `memo`, and `forwardRef` wrappers | A candidate must return JSX and have a PascalCase name, apart from an anonymous default function. |
+| Props | Interfaces, type aliases, intersections, inherited properties, optional properties, destructured defaults, and literal unions | A default is stored as `defaulted: true`; LatticeOS does not store the source expression or value. |
+| Imports | Default, named, namespace, type-only, aliases, and TypeScript-resolved local component targets | An import remains present when it cannot resolve to an indexed component. |
+| Usages | JSX tags, direct calls, statically named JSX props, and composition links | A usage inside one indexed component that targets another is composition. |
+| Diagnostics | Syntax errors, unresolved prop types, JSX spreads, and import-specifier limits | Diagnostics use relative locations and do not include source excerpts. |
+
+Each component, prop, import, and usage references an `EvidenceRecord`. The record gives a stable
+ID, source location, extraction method, classification, source fingerprint, and any limitation.
+
+## Compiler boundary
+
+The adapter uses the public TypeScript 6.0.3 Compiler API described by ADR-0011 under `docs/adrs/`.
+Its compiler host has a fixed virtual root, reads from a map of supplied source text, emits nothing,
+and has no default library. Module resolution can only find an admitted virtual source.
+
+The TypeScript version declared by a consumer is not executed or loaded. LatticeOS uses its pinned
+compiler to inspect source that the analyzer already admitted.
+
+`analyzeReactProject` reads only a root `tsconfig.json` and only its direct `compilerOptions.baseUrl`
+and `compilerOptions.paths` values. It accepts standard JSON comments, rejects traversal and
+absolute alias targets, and ignores `extends` instead of loading another file. Package-specific
+projects, inherited settings, and other compiler options remain unsupported in this bridge.
+
+| Bridge bound | Default | Result when reached |
+| --- | ---: | --- |
+| React source files | 5,000 | Stop source selection and record `REACT_SOURCE_FILE_LIMIT` |
+| Total admitted source | 20 MiB | Stop source selection and record `REACT_SOURCE_BYTES_LIMIT` |
+| One React source file | 1 MiB | Skip the source and record `REACT_SOURCE_UNREADABLE` |
+| Project diagnostics | 100 | Keep a bounded `REACT_PROJECT_DIAGNOSTIC_LIMIT` record |
+
+## Limits
+
+- Only direct component declarations are indexed. A barrel file can help resolve an import, but it
+  does not create another component identity for the same declaration.
+- `memo` and `forwardRef` are the supported wrappers. Other wrapper calls are not treated as
+  components.
+- JSX spreads are not expanded. The usage keeps any statically named props and records
+  `REACT_JSX_SPREAD_PROPS`.
+- If a prop type cannot resolve, LatticeOS records `unknown` with
+  `REACT_PROP_TYPE_UNRESOLVED`. It does not guess.
+- The adapter receives only bounded source text. `RepositoryRoot` owns filesystem limits and
+  exclusions.
+
+## Test evidence
+
+`fixtures/next-workspace` now contains a small UI package and Next.js page. The React golden covers
+all supported component forms, inherited and defaulted props, literal variants, path aliases, a
+direct call, JSX usage, composition, malformed syntax, and a rejected path outside the virtual
+repository.
+
+The direct-adapter snapshot is tracked at
+`fixtures/goldens/react-analysis.next-workspace.golden.json`. The analyzer bridge has its own
+snapshot at `fixtures/goldens/react-project.next-workspace.golden.json`. Update them only with
+`pnpm --filter @latticeos/adapter-react golden:update` and
+`pnpm --filter @latticeos/analyzer golden:update`, then inspect the diffs and run their tests.
+
+## Agent implementation prompt
+
+Copy this prompt into an agent working on the next change to React analysis.
+
+```text title="Agent implementation prompt"
+Extend the implemented LatticeOS React component-analysis path. Do not start Tailwind, shadcn,
+Storybook, cache writes, CLI commands, Figma, browser, Converge, or source rewriting work.
+
+Read first:
+1. AGENTS.md
+2. docs/00-product/PRD.md
+3. docs/10-architecture/ARCHITECTURE.md
+4. docs/10-architecture/FILE_WRITE_POLICY.md
+5. docs/20-security/SECURITY_MODEL.md
+6. docs/20-security/THREAT_MODEL.md
+7. docs/50-quality/QUALITY_GATES.md
+8. docs/60-engineering/ENGINEERING_STANDARDS.md
+9. docs/60-engineering/CONVENTIONS.md
+10. docs/60-engineering/LESSONS.md
+11. docs/40-features/F-001-phase-1-reuse/
+12. docs/30-modules/adapters/
+13. docs/30-modules/analyzer/
+14. ADR-0003, ADR-0005, ADR-0008, ADR-0009, and ADR-0011 under docs/adrs/
+15. this guide and the existing React adapter, analyzer bridge, and fixture-golden tests
+
+Current contract:
+- `analyzeReact` receives only normalized repository-relative source text and package keys.
+- `analyzeReactProject` is the only bridge from `RepositoryRoot` discovery into that adapter. It
+  supports direct root `baseUrl` and `paths` settings and must keep its source and diagnostic limits.
+- It uses a LatticeOS-owned TypeScript 6.0.3 virtual host. Do not execute, import, require, or
+  transpile consumer source or configuration.
+- It returns framework-neutral `UiComponent`, `UiProp`, `UiImport`, `UiUsage`, `EvidenceRecord`,
+  and `AnalysisDiagnostic` values from `@latticeos/core`.
+- Do not create parallel contracts or component IDs. Reuse core constructors, validation, sorting,
+  and evidence rules.
+
+Outcome:
+Add one well-defined supported React or TypeScript form only when a named fixture, exact golden
+expectation, source-backed evidence, diagnostic behavior, and documentation prove it.
+
+Rules:
+- Preserve the virtual-host boundary. The adapter must not use Node filesystem APIs for consumer
+  analysis. The bridge must use `RepositoryRoot` for every consumer read.
+- Do not execute, merge, or follow tsconfig `extends`. Reject unsafe aliases and state limits in a
+  diagnostic instead of resolving outside the selected repository.
+- Reject traversal, duplicate source paths, and invalid package identity before evidence creation.
+- Keep all result paths relative and POSIX-style. Sort every emitted collection deterministically.
+- An unresolved or dynamic construct needs an explicit bounded diagnostic or a clear omission. Do
+  not infer a component, prop, variant, import target, or usage from a name alone.
+- Store `defaulted: true` for a destructured default. Do not store a default expression or value.
+- Each result claim must reference evidence that appears in the same result.
+- Do not change an accepted ADR. If TypeScript API behavior or a dependency requires a different
+  decision, stop and request human confirmation before `persist adr supersede`.
+
+Required tests:
+- Run `pnpm --filter @latticeos/adapter-react test` and `pnpm --filter @latticeos/analyzer test`.
+- Add a direct test for the new supported form and a negative or malformed-input test when the risk
+  warrants one.
+- Update the named workspace golden through the documented command. Never hand-edit a snapshot.
+- Run the complete repository gates before claiming the slice complete.
+
+Documentation:
+- Update this guide, adapter module memory, F-001 task evidence, review notes, and relevant core
+  schema documentation in the same change.
+- Keep the prose factual and direct. Preserve code, commands, links, frontmatter, facts, and test
+  evidence when applying the Humanizer rules.
+
+Completion evidence:
+Report files changed, supported and unsupported forms, diagnostics, exact test results, documentation
+updated, remaining risks, and whether Reuse index assembly still has work left. Do not claim the
+Phase 1 MVP is complete.
+```
