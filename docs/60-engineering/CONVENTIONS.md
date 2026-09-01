@@ -58,4 +58,5 @@ than inventing parallel models or helpers.
 - Do not hide Tailwind behind a LatticeOS styling language.
 - Do not silently accept inferred knowledge or resolve source conflicts.
 - Do not claim Figma, Storybook, shadcn, monorepo, or framework support without fixtures.
-- Do not begin Converge/Figma implementation before the Phase 1 benchmark gate passes.
+- Do not begin Converge/Figma or Phase 2 implementation before qualified exact-delivery Reuse
+  trials pass. A tidy-fixture candidate archive is not that gate.

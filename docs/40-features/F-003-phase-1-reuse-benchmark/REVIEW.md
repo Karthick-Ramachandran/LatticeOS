@@ -25,9 +25,13 @@ nine candidates because those artifacts are absent.
 
 ## Remaining risks
 
-- A stronger or weaker agent, or a larger repository, could reverse the one-annotation margin.
+- A stronger or weaker agent, or a larger repository, could reverse the one-annotation margin. On
+  this tidy fixture a capable agent already reused canonical UI without LatticeOS in 8 of 9 pairs.
 - The runner needs a fresh set of exact-delivery trials before AC-15 can pass. Send each saved
-  treatment prompt verbatim in a direct agent message and retain an auditable raw-message transcript
-  or equivalent delivery record.
+  `AGENT_PROMPT.txt` as one verbatim message and store that raw outbound text as `deliveredPrompt`.
+  A wrapper summary is not a qualified input.
 - Parent-session review is not a second human. Locations and classifications are in `results.json`.
 - AC-16 passed on 2026-09-01, but it cannot cure the AC-15 delivery-evidence gap.
+- Do not move to Figma or Phase 2 on this archive. A later messier-repository protocol is governed by
+  [ADR-0021](../../adrs/ADR-0021-keep-a-messier-reuse-benchmark-separate-from-reuse-v1.md); do not
+  rewrite the frozen three tasks to manufacture a larger delta.

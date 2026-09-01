@@ -18,3 +18,5 @@
 - Done: Reject a saved treatment prompt that does not end with its exact saved context.
 - Todo: Collect fresh exact-delivery trials and then update remaining parent Phase 1 completion
   evidence.
+- Planned, not started: create a separate benchmark feature for a harder source organization only
+  after its PRD, acceptance, fixture, and task protocol are approved under ADR-0021.

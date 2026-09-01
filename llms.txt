@@ -47,10 +47,14 @@ Use the Persist CLI for new feature memory and decisions as AGENTS.md requires.
   verifier tests, and nine recorded candidate agent-trial pairs. They have a historical 15 versus 14
   score, but `pnpm benchmark:check` now rejects them because raw delivery artifacts are missing. The
   result is local to the controlled fixture and declared agent.
+- ADR-0021 keeps any harder fixture separate from frozen `reuse-v1`. Do not create it until a new
+  benchmark feature has its own PRD, acceptance, fixture, task protocol, and security review.
 
 Do not describe workspace CLI examples as published behavior. The one-artifact package proof passes,
 the package is pre-release, AC-16 passed on 2026-09-01, and Phase 1 still needs qualified AC-15
-delivery evidence.
+delivery evidence. The archived 15 versus 14 score is one `SecondaryButton` annotation on a tidy
+fixture where control already reused canonical UI in 8 of 9 pairs. Do not start Figma or Phase 2
+from it.
 
 ## Active feature
 

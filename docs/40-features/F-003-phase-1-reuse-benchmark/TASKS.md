@@ -60,9 +60,10 @@ Scope:
 
 Acceptance:
 
-- Three qualified pairs per task satisfy ADR-0017, or the published report clearly says the gate did
-  not pass. A saved prompt is not qualified when the execution record says a wrapper shortened its
-  treatment context.
+- Three qualified pairs per task satisfy ADR-0017 and ADR-0020, or the published report clearly says
+  the gate did not pass. A saved prompt is not qualified without a raw `deliveredPrompt` whose bytes
+  equal it. The 2026-08-31 archive does not pass: it lacks delivery evidence, and 8 of 9 pairs tied
+  because control already reused the tidy fixture UI.
 
 Tests:
 

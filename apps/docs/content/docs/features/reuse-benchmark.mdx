@@ -3,11 +3,11 @@ title: Reuse benchmark protocol
 description: Measure whether LatticeOS context changes canonical UI reuse on controlled agent tasks.
 ---
 
-<Callout title="Status" type="info">
-  Nine candidate agent-trial pairs are archived for the controlled Next.js fixture. Their historical
-  score is 15 versus 14 with no increase in inappropriate reuse. The current checker rejects them
-  because raw delivery artifacts are missing. AC-15 remains open. AC-16 quality gates passed on
-  2026-09-01.
+<Callout title="Status" type="warning">
+  Nine candidate pairs are archived. Their historical score is 15 versus 14, from one
+  `SecondaryButton` choice. Control already reused the tidy fixture UI in 8 of 9 pairs. The checker
+  rejects the archive because raw `deliveredPrompt` artifacts are missing. AC-15 remains open. Do
+  not start Figma or Phase 2 from this result. AC-16 quality gates passed on 2026-09-01.
 </Callout>
 
 The benchmark asks one narrow question: when an agent has LatticeOS Reuse context, does it use more
@@ -28,9 +28,9 @@ recorded. Each condition stays inside its permitted source path.
 
 ## What a qualified result records
 
-A result includes the task ID, fixture revision/hash, agent/config label, prompts, treatment context,
-source diff or file hashes, test outcome, correction turns, duplicate components, raw Tailwind added,
-and reviewer annotations.
+A result includes the task ID, fixture revision/hash, agent/config label, prompts, a raw
+`deliveredPrompt` whose bytes equal the saved prompt, treatment context, source diff or file hashes,
+test outcome, correction turns, duplicate components, raw Tailwind added, and reviewer annotations.
 
 An annotation is required before reuse counts toward the result. It names an expected canonical
 component, its location in the submission, whether that use is appropriate or inappropriate, and the
@@ -91,6 +91,13 @@ artifact makes `pnpm benchmark:check` fail.
 The current candidate set cannot be repaired after the fact. Re-run all nine matched pairs, then
 record the reviewed submissions and delivery evidence. The benchmark measures one controlled fixture
 and one declared agent configuration. It does not establish behavior on other repositories.
+
+## A later harder fixture
+
+The current `reuse-v1` tasks are frozen. A later benchmark can use a harder source organization, but
+it must be a separate versioned fixture with a new feature PRD, acceptance criteria, and review. It
+cannot change these tasks or bypass the current Phase 1 exit gate. See
+[ADR-0021](https://github.com/Karthick-Ramachandran/LatticeOS/blob/main/docs/adrs/ADR-0021-keep-a-messier-reuse-benchmark-separate-from-reuse-v1.md).
 
 ## Prepare a real pair
 

@@ -18,4 +18,5 @@ Status: Accepted on 2026-08-29.
 - Describe LatticeOS as a repository-native UI control plane for coding agents.
 - Treat Reuse as the first gated capability and proof point, not the entire product category.
 - Keep Phase 1 scope unchanged. Understand, Doctor, Converge, and closed-loop work remain blocked
-  until Reuse passes its acceptance and benchmark gates.
+  until Reuse passes its acceptance and benchmark gates. A tidy-fixture candidate archive with a
+  one-annotation historical score is not that gate.

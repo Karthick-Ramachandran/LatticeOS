@@ -129,9 +129,11 @@ were updated with the same change.
 ## Remaining Risks
 
 - AC-15 remains blocked. The recorded `reuse-v1` set has a historical one-annotation margin on
-  `fixtures/next-workspace` and `grok-4-6-general-purpose`, but lacks the raw delivery artifacts
-  ADR-0020 requires. Rerun all nine pairs with exact verbatim delivery and retain a hash-verified
-  `deliveredPrompt` artifact before treating a result as qualified evidence.
+  `fixtures/next-workspace` and `grok-4-6-general-purpose`. Control already reused the tidy fixture
+  UI in 8 of 9 pairs, and the archive lacks the raw `deliveredPrompt` artifacts ADR-0020 requires.
+  Rerun with verbatim delivery before treating a result as qualified. Do not start Figma or Phase 2
+  from this archive. A messier-repository protocol is governed by
+  [ADR-0021](../../adrs/ADR-0021-keep-a-messier-reuse-benchmark-separate-from-reuse-v1.md).
 - Package-local tsconfig, tsconfig `extends`, multi-step aliases, and more than one shadcn wildcard
   remain unsupported until fixtures and security review define a wider boundary.
 - Storybook's rich components manifest is a preview API. Custom output directories, development

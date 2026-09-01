@@ -32,8 +32,11 @@ model preferences.
 - Keep `apply_patch` paths inside the repository root; an unrelated absolute path can silently create
   a user file.
 - A capable agent inspecting `fixtures/next-workspace` can reuse canonical `@fixture/ui` components
-  in control. The `reuse-v1` gate can then pass on a one-annotation billing delta. Record that
-  margin; do not generalize the pass to arbitrary repositories.
+  in control. The first candidate archive scored 15 versus 14 on one `SecondaryButton` choice. Record
+  that margin. Do not treat it as proof that Reuse helps, and do not start Figma or Phase 2 from it.
+  LatticeOS has to show value in messier repository structure. Do not rewrite the frozen `reuse-v1`
+  tasks to chase a larger delta; a messier-fixture protocol is governed by
+  [ADR-0021](../adrs/ADR-0021-keep-a-messier-reuse-benchmark-separate-from-reuse-v1.md).
 - A hashed saved treatment context is not enough if its prompt is validated separately. The benchmark
   validator must prove that the treatment prompt ends with the same bytes, and an actual agent run
   still needs evidence that its runner delivered that prompt without summarizing it.

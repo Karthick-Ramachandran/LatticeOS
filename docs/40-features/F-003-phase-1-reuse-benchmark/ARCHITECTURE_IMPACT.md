@@ -14,6 +14,7 @@
 
 ADR-0017 defines the fairness, audit, safety, and release-gate rules. ADR-0020 requires a
 hash-verified raw delivery artifact for every run and exact byte equality with the recorded prompt.
+ADR-0021 keeps any harder fixture in a separate future benchmark; it does not alter `reuse-v1`.
 
 ## Security Impact
 

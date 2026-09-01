@@ -65,15 +65,17 @@ was not changed to improve the score.
 
 ## Remaining Risks
 
-- The pass margin is one annotation on one task. A capable agent already reused canonical UI in
-  control on this fixture.
-- Treatment wrappers shortened the on-screen JSON for some runs. Hash-verified stored artifacts
-  cannot prove what the agent actually received, so this record must not be used for AC-15.
+- Reuse may help, but this run does not prove it strongly. A capable agent already reused the fixture
+  UI without LatticeOS in 8 of 9 pairs. The only observed lift was one `SecondaryButton` choice.
+- Saved prompt and JSON hashes prove what we prepared, not what a wrapper sent. ADR-0020 now fails
+  closed on that gap.
 - The reviewer is the parent session, not a separate human. Annotations cite source locations in
   the permitted files.
-- External validity is limited to `fixtures/next-workspace` and this agent configuration.
-- The next release-evidence run needs nine fresh matched pairs with the exact treatment prompt sent
-  verbatim to the agent and a hash-verified `deliveredPrompt` artifact.
+- External validity is limited to `fixtures/next-workspace` and this agent configuration. LatticeOS
+  needs to show value in messier repository structure. Do not rewrite the frozen tasks to chase a
+  larger delta, and do not start Figma or Phase 2 until qualified exact-delivery trials exist.
+- The next release-evidence run needs nine fresh matched pairs: send each saved prompt verbatim,
+  store the raw outbound message as `deliveredPrompt`, and keep an independent review.
 
 ## Definition of done
 
