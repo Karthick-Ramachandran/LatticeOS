@@ -182,19 +182,21 @@ Evidence to date:
 - The packed binary produces a schema-version-1 cache and leaves the fixture Button source unchanged.
   npm lifecycle scripts are disabled. The temporary install removes the fixture root workspace field
   only while npm installs, then restores it before the CLI analyzes the fixture.
-- AC-01 is supported. The control-versus-treatment Reuse benchmark and final all-gate evidence still
-  block AC-15, AC-16, and Phase 1 completion.
-- F-003 and ADR-0017 now define the local source-only benchmark protocol. No qualified agent pairs or
-  benchmark outcome have been recorded yet.
+- AC-01 is supported. Nine `reuse-v1` candidate pairs preserve a historical 15 versus 14 score, but
+  `pnpm benchmark:check` rejects them because raw delivery artifacts are missing. AC-15 remains open
+  until fresh pairs prove exact prompt delivery. AC-16 passed on 2026-09-01.
+- F-003 and ADR-0017 define the local source-only protocol. Recorded totals are treatment 15 vs
+  control 14 appropriate reuse, 0 inappropriate reuse. The only scored difference is one
+  `SecondaryButton` use on `billing-settings-card`.
 - The F-003 validator, three pre-registered tasks, synthetic verifier cases, and fixed result checker
-  are complete. They prove the protocol only; AC-15 still needs qualified trials.
-- `pnpm benchmark:prepare` now makes fresh randomized control/treatment pairs and captures the exact
-  treatment JSON without starting an agent. It removes only the generated Reuse cache before the
-  agent runs and preserves any committed Lattice configuration.
+  remain in place. Synthetic records are still not AC-15 evidence.
+- `pnpm benchmark:prepare` made the nine fresh randomized control/treatment pairs and captured the
+  exact treatment JSON without writing the result. Generated Reuse cache was removed before each
+  agent run.
 
 ## T7: Review And Release Phase 1
 
-Status: Todo
+Status: In Progress
 
 Scope:
 
@@ -208,3 +210,10 @@ Acceptance:
 Tests:
 
 - Full required-gate run from a clean install.
+
+Evidence to date:
+
+- `pnpm test:run`, `pnpm typecheck`, `pnpm build`, `pnpm test:package`, `pnpm docs:check`, and
+  `persist doctor` passed on 2026-09-01.
+- The remaining blocker is AC-15 delivery evidence, not a repository quality gate. Fresh agent runs
+  must receive the saved treatment prompt verbatim and retain an auditable delivery record.

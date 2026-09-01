@@ -96,6 +96,45 @@ test("the validator rejects changed treatment context, control leakage, and syml
   }
 });
 
+test("the validator rejects a treatment prompt that does not end with its saved context", async () => {
+  const root = await temporaryRoot();
+  try {
+    const { tasks, errors } = await loadTaskManifests(tasksDirectory);
+    assert.deepEqual(errors, []);
+    const resultSet = await createSyntheticResultSet(root, tasks);
+    const treatment = resultSet.runs.find((run) => run.condition === "treatment");
+    const shortenedPrompt = "Task: delivery proof\nCondition: treatment\n";
+    await writeFile(join(root, treatment.prompt.path), shortenedPrompt, "utf8");
+    treatment.prompt.sha256 = sha256(shortenedPrompt);
+
+    const result = await validateResultSet({ tasks, resultSet, artifactRoot: root });
+    assert.ok(result.errors.some((error) => error.includes("treatment-prompt-context-mismatch")));
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("the validator requires a raw delivered prompt that exactly matches the recorded prompt", async () => {
+  const root = await temporaryRoot();
+  try {
+    const { tasks, errors } = await loadTaskManifests(tasksDirectory);
+    assert.deepEqual(errors, []);
+    const resultSet = await createSyntheticResultSet(root, tasks);
+    const control = resultSet.runs.find((run) => run.condition === "control");
+    delete control.deliveredPrompt;
+    const treatment = resultSet.runs.find((run) => run.condition === "treatment");
+    const modifiedDelivery = "Task: altered by a wrapper\n";
+    await writeFile(join(root, treatment.deliveredPrompt.path), modifiedDelivery, "utf8");
+    treatment.deliveredPrompt.sha256 = sha256(modifiedDelivery);
+
+    const result = await validateResultSet({ tasks, resultSet, artifactRoot: root });
+    assert.ok(result.errors.some((error) => error.includes("missing-delivered-prompt")));
+    assert.ok(result.errors.some((error) => error.includes("delivered-prompt-mismatch")));
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
 test("review annotations must cite a line in their declared submission file", async () => {
   const root = await temporaryRoot();
   try {

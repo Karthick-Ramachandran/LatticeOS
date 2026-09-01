@@ -22,9 +22,14 @@ export async function createSyntheticResultSet(root, tasks, { kind = "synthetic-
       const pairId = `${task.id}-pair-${iteration}`;
       const treatmentFirst = iteration % 2 === 0;
       const source = submissionSource(task);
-      const controlPrompt = await writeArtifact(root, `artifacts/prompts/${pairId}-control.txt`, `Task: ${task.task}\nCondition: control\n`);
-      const treatmentPrompt = await writeArtifact(root, `artifacts/prompts/${pairId}-treatment.txt`, `Task: ${task.task}\nCondition: treatment\n`);
-      const context = await writeArtifact(root, `artifacts/contexts/${pairId}.json`, `${JSON.stringify({ schemaVersion: 1, command: "context", result: { schemaVersion: 1, task: task.task } })}\n`);
+      const contextText = `${JSON.stringify({ schemaVersion: 1, command: "context", result: { schemaVersion: 1, task: task.task } })}\n`;
+      const context = await writeArtifact(root, `artifacts/contexts/${pairId}.json`, contextText);
+      const controlPromptText = `Task: ${task.task}\nCondition: control\n`;
+      const treatmentPromptText = `Task: ${task.task}\nCondition: treatment\n${contextText}`;
+      const controlPrompt = await writeArtifact(root, `artifacts/prompts/${pairId}-control.txt`, controlPromptText);
+      const treatmentPrompt = await writeArtifact(root, `artifacts/prompts/${pairId}-treatment.txt`, treatmentPromptText);
+      const controlDeliveredPrompt = await writeArtifact(root, `artifacts/delivery/${pairId}-control.txt`, controlPromptText);
+      const treatmentDeliveredPrompt = await writeArtifact(root, `artifacts/delivery/${pairId}-treatment.txt`, treatmentPromptText);
       const controlSubmission = await writeArtifact(root, `artifacts/submissions/${pairId}-control.tsx`, source);
       const treatmentSubmission = await writeArtifact(root, `artifacts/submissions/${pairId}-treatment.tsx`, source);
       const fixturePath = task.allowedSubmissionPaths[0];
@@ -54,6 +59,7 @@ export async function createSyntheticResultSet(root, tasks, { kind = "synthetic-
         condition: "control",
         order: treatmentFirst ? 2 : 1,
         prompt: controlPrompt,
+        deliveredPrompt: controlDeliveredPrompt,
         submission: {
           files: [{ ...controlSubmission, fixturePath }],
           test: { status: "passed", command: "synthetic static check" },
@@ -68,6 +74,7 @@ export async function createSyntheticResultSet(root, tasks, { kind = "synthetic-
         condition: "treatment",
         order: treatmentFirst ? 1 : 2,
         prompt: treatmentPrompt,
+        deliveredPrompt: treatmentDeliveredPrompt,
         treatmentContext: context,
         submission: {
           files: [{ ...treatmentSubmission, fixturePath }],

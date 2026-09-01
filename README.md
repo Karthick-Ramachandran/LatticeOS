@@ -10,11 +10,12 @@ configured shadcn source trees, and Tailwind patterns, then returns a small sour
 agent can use. It also connects a bounded local Storybook components manifest when its story import
 resolves to an indexed React component.
 
-> Status: Phase 1 Reuse is under active development. The analyzer, `lattice` commands, and packed
-> consumer proof work in this workspace. A single bundled pre-release tarball also installs offline
-> into a minimal external fixture. The Reuse benchmark can prepare fresh randomized agent pairs from
-> pre-registered tasks, but no qualified trials are recorded. The package is not published, and the
-> benchmark still blocks Phase 1 completion.
+> Status: Phase 1 Reuse remains active. The analyzer, `lattice` commands, and packed consumer proof
+> work in this workspace. A single bundled pre-release tarball also installs offline into a minimal
+> external fixture. AC-16 quality gates passed on 2026-09-01. The Reuse benchmark archives nine
+> candidate pairs with a historical 15 vs 14 result, but they lack required raw delivery evidence and
+> the current checker rejects them. The package is not published, and that AC-15 evidence gap blocks
+> Phase 1 completion.
 
 [Why](#why-latticeos-exists) · [Phase 1](#phase-1-reuse) · [Evidence](#evidence-before-confidence) ·
 [CLI](#current-cli) · [Docs](#documentation) · [Roadmap](#roadmap) · [Feedback](#feedback-wanted)

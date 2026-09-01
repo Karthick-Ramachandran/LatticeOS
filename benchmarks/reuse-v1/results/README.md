@@ -1,7 +1,13 @@
-# Recorded results
+# Recorded candidate results
 
-No qualified agent result is recorded yet.
+`results.json` holds nine matched `agent-trials` records for `reuse-v1`. Before ADR-0020 hardened
+the contract, the records scored treatment appropriate reuse 15 versus control 14, with 0
+inappropriate reuse in both conditions. The current checker rejects every run because no
+`deliveredPrompt` artifact exists.
 
-Real trials belong in this directory only after the task manifests and scoring protocol are frozen.
-Use `pnpm benchmark:check` to validate `results.json`. A synthetic verifier case belongs in the test
-suite, never in this directory and never in the Phase 1 release evidence.
+These records are static candidate evidence, not qualified AC-15 evidence. The saved treatment
+prompts end with the exact saved JSON, but the original run notes say some wrappers shortened the
+on-screen JSON. They do not prove the unmodified prompt reached the agent. Re-run all nine pairs with
+verbatim direct delivery and a hash-verified `deliveredPrompt` artifact before using a result for
+Phase 1 release. The one observed difference is a `SecondaryButton` annotation on
+`billing-settings-card`; do not treat it as evidence about arbitrary repositories.

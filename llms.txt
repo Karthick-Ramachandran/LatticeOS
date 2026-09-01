@@ -8,7 +8,8 @@ Repository: https://github.com/Karthick-Ramachandran/LatticeOS
 Product name: LatticeOS
 Public CLI name: lattice
 Status: pre-release; the package gate proves both a seven-tarball workspace fixture and one bundled
-offline-installed CLI artifact. No qualified benchmark trial is recorded, and nothing is published.
+offline-installed CLI artifact. Nine `reuse-v1` candidate pairs record a historical 15 vs 14 score,
+but lack raw delivery evidence and fail the current checker. Nothing is published.
 
 ## Read before changing code
 
@@ -42,13 +43,14 @@ Use the Persist CLI for new feature memory and decisions as AGENTS.md requires.
   The package gate proves the legacy controlled Next.js fixture and one bundled tarball installed
   offline in a minimal external TypeScript/JSX fixture. It is not published, and the Reuse benchmark
   is still required.
-- benchmarks/reuse-v1: pre-registered source-only tasks, local result validation, and synthetic
-  verifier tests are implemented. `pnpm benchmark:prepare` makes fresh randomized control/treatment
-  workspaces and captures the exact treatment context. Neither tool counts as an agent result;
-  qualified matched trials are still required.
+- benchmarks/reuse-v1: pre-registered source-only tasks, local result validation, synthetic
+  verifier tests, and nine recorded candidate agent-trial pairs. They have a historical 15 versus 14
+  score, but `pnpm benchmark:check` now rejects them because raw delivery artifacts are missing. The
+  result is local to the controlled fixture and declared agent.
 
 Do not describe workspace CLI examples as published behavior. The one-artifact package proof passes,
-but the package is pre-release and the Reuse benchmark still blocks Phase 1 completion.
+the package is pre-release, AC-16 passed on 2026-09-01, and Phase 1 still needs qualified AC-15
+delivery evidence.
 
 ## Active feature
 

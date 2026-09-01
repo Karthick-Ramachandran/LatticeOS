@@ -1,0 +1,1020 @@
+{
+  "schemaVersion": 1,
+  "protocol": "reuse-v1",
+  "kind": "agent-trials",
+  "runs": [
+    {
+      "id": "billing-pair-1-control",
+      "pairId": "billing-pair-1",
+      "taskId": "billing-settings-card",
+      "condition": "control",
+      "order": 2,
+      "promptRevision": "reuse-v1.0",
+      "agent": {
+        "label": "grok-4-6-general-purpose",
+        "version": "grok-4.6",
+        "configurationHash": "49ea145c69f4df99a3eb410e1455e64c6fd907666915238f0f6be4d28311f3b4"
+      },
+      "fixture": {
+        "path": "fixtures/next-workspace",
+        "gitTree": "474f8c8841997b2105d1cfcaf9226f23b08a2e7a"
+      },
+      "prompt": {
+        "path": "artifacts/prompts/billing-pair-1-control.txt",
+        "sha256": "4a94bbc4ae58d56371bd507e6610baa6b00dfde75a24457a6e2bf157031633f2"
+      },
+      "submission": {
+        "files": [
+          {
+            "path": "artifacts/submissions/billing-pair-1-control.tsx",
+            "sha256": "b58b73da77e8fc5c85cfbe25e5625d7455bbb530ef7e59f6b4bb25f35d1cba45",
+            "fixturePath": "apps/web/app/settings/billing/page.tsx"
+          }
+        ],
+        "test": {
+          "status": "passed",
+          "command": "python3 -c \"from pathlib import Path; assert Path('artifacts/submissions/billing-pair-1-control.tsx').read_text().strip() and 'artifacts/submissions/billing-pair-1-control.tsx'.endswith('.tsx')\""
+        }
+      },
+      "review": {
+        "status": "reviewed",
+        "reviewerLabel": "parent-static-reviewer",
+        "duplicateComponentCount": 0,
+        "rawTailwindClassCount": 0,
+        "correctionTurns": 0,
+        "annotations": [
+          {
+            "componentId": "react:@fixture/ui:packages/ui/src/button.tsx#default",
+            "submissionPath": "apps/web/app/settings/billing/page.tsx",
+            "classification": "appropriate",
+            "location": "apps/web/app/settings/billing/page.tsx:6",
+            "reason": "Imported SettingsCard from @fixture/ui and rendered it as the billing settings card."
+          },
+          {
+            "componentId": "react:@fixture/ui:packages/ui/src/button.tsx#SecondaryButton",
+            "submissionPath": "apps/web/app/settings/billing/page.tsx",
+            "classification": "appropriate",
+            "location": "apps/web/app/settings/billing/page.tsx:7",
+            "reason": "Imported SecondaryButton from @fixture/ui and rendered it as the secondary action on the billing page."
+          }
+        ]
+      }
+    },
+    {
+      "id": "billing-pair-1-treatment",
+      "pairId": "billing-pair-1",
+      "taskId": "billing-settings-card",
+      "condition": "treatment",
+      "order": 1,
+      "promptRevision": "reuse-v1.0",
+      "agent": {
+        "label": "grok-4-6-general-purpose",
+        "version": "grok-4.6",
+        "configurationHash": "49ea145c69f4df99a3eb410e1455e64c6fd907666915238f0f6be4d28311f3b4"
+      },
+      "fixture": {
+        "path": "fixtures/next-workspace",
+        "gitTree": "474f8c8841997b2105d1cfcaf9226f23b08a2e7a"
+      },
+      "prompt": {
+        "path": "artifacts/prompts/billing-pair-1-treatment.txt",
+        "sha256": "2fcc6da6c40af9c598222808630eeeedb911dc36a584f4e8993cc7500f52af7c"
+      },
+      "submission": {
+        "files": [
+          {
+            "path": "artifacts/submissions/billing-pair-1-treatment.tsx",
+            "sha256": "75b08513bcd5eb1a0c067ac3137407f900372e4bd81e1d88bb221e00f09fb256",
+            "fixturePath": "apps/web/app/settings/billing/page.tsx"
+          }
+        ],
+        "test": {
+          "status": "passed",
+          "command": "python3 -c \"from pathlib import Path; assert Path('artifacts/submissions/billing-pair-1-treatment.tsx').read_text().strip() and 'artifacts/submissions/billing-pair-1-treatment.tsx'.endswith('.tsx')\""
+        }
+      },
+      "review": {
+        "status": "reviewed",
+        "reviewerLabel": "parent-static-reviewer",
+        "duplicateComponentCount": 0,
+        "rawTailwindClassCount": 0,
+        "correctionTurns": 0,
+        "annotations": [
+          {
+            "componentId": "react:@fixture/ui:packages/ui/src/button.tsx#default",
+            "submissionPath": "apps/web/app/settings/billing/page.tsx",
+            "classification": "appropriate",
+            "location": "apps/web/app/settings/billing/page.tsx:6",
+            "reason": "Imported SettingsCard from @fixture/ui and rendered it as the billing settings card."
+          },
+          {
+            "componentId": "react:@fixture/ui:packages/ui/src/button.tsx#SecondaryButton",
+            "submissionPath": "apps/web/app/settings/billing/page.tsx",
+            "classification": "appropriate",
+            "location": "apps/web/app/settings/billing/page.tsx:7",
+            "reason": "Imported SecondaryButton from @fixture/ui and rendered it as the secondary action on the billing page."
+          }
+        ]
+      },
+      "treatmentContext": {
+        "path": "artifacts/contexts/billing-pair-1.json",
+        "sha256": "0cbdceb8f6d2b924d25f1d9da9a8f33816374f5bb036ede4c8e1343e2c87dc36"
+      }
+    },
+    {
+      "id": "billing-pair-2-control",
+      "pairId": "billing-pair-2",
+      "taskId": "billing-settings-card",
+      "condition": "control",
+      "order": 1,
+      "promptRevision": "reuse-v1.0",
+      "agent": {
+        "label": "grok-4-6-general-purpose",
+        "version": "grok-4.6",
+        "configurationHash": "49ea145c69f4df99a3eb410e1455e64c6fd907666915238f0f6be4d28311f3b4"
+      },
+      "fixture": {
+        "path": "fixtures/next-workspace",
+        "gitTree": "474f8c8841997b2105d1cfcaf9226f23b08a2e7a"
+      },
+      "prompt": {
+        "path": "artifacts/prompts/billing-pair-2-control.txt",
+        "sha256": "4a94bbc4ae58d56371bd507e6610baa6b00dfde75a24457a6e2bf157031633f2"
+      },
+      "submission": {
+        "files": [
+          {
+            "path": "artifacts/submissions/billing-pair-2-control.tsx",
+            "sha256": "9218e0ada4d338aaa51056a88fef1a36358e1b7357c530ba17cba1fadb00d579",
+            "fixturePath": "apps/web/app/settings/billing/page.tsx"
+          }
+        ],
+        "test": {
+          "status": "passed",
+          "command": "python3 -c \"from pathlib import Path; assert Path('artifacts/submissions/billing-pair-2-control.tsx').read_text().strip() and 'artifacts/submissions/billing-pair-2-control.tsx'.endswith('.tsx')\""
+        }
+      },
+      "review": {
+        "status": "reviewed",
+        "reviewerLabel": "parent-static-reviewer",
+        "duplicateComponentCount": 0,
+        "rawTailwindClassCount": 0,
+        "correctionTurns": 0,
+        "annotations": [
+          {
+            "componentId": "react:@fixture/ui:packages/ui/src/button.tsx#default",
+            "submissionPath": "apps/web/app/settings/billing/page.tsx",
+            "classification": "appropriate",
+            "location": "apps/web/app/settings/billing/page.tsx:6",
+            "reason": "Imported SettingsCard from @fixture/ui and rendered it as the billing settings card."
+          }
+        ]
+      }
+    },
+    {
+      "id": "billing-pair-2-treatment",
+      "pairId": "billing-pair-2",
+      "taskId": "billing-settings-card",
+      "condition": "treatment",
+      "order": 2,
+      "promptRevision": "reuse-v1.0",
+      "agent": {
+        "label": "grok-4-6-general-purpose",
+        "version": "grok-4.6",
+        "configurationHash": "49ea145c69f4df99a3eb410e1455e64c6fd907666915238f0f6be4d28311f3b4"
+      },
+      "fixture": {
+        "path": "fixtures/next-workspace",
+        "gitTree": "474f8c8841997b2105d1cfcaf9226f23b08a2e7a"
+      },
+      "prompt": {
+        "path": "artifacts/prompts/billing-pair-2-treatment.txt",
+        "sha256": "2fcc6da6c40af9c598222808630eeeedb911dc36a584f4e8993cc7500f52af7c"
+      },
+      "submission": {
+        "files": [
+          {
+            "path": "artifacts/submissions/billing-pair-2-treatment.tsx",
+            "sha256": "e1850f66c3354cb4bac41a4e1189a863c80eff5ab208132343026fcc97fac0e2",
+            "fixturePath": "apps/web/app/settings/billing/page.tsx"
+          }
+        ],
+        "test": {
+          "status": "passed",
+          "command": "python3 -c \"from pathlib import Path; assert Path('artifacts/submissions/billing-pair-2-treatment.tsx').read_text().strip() and 'artifacts/submissions/billing-pair-2-treatment.tsx'.endswith('.tsx')\""
+        }
+      },
+      "review": {
+        "status": "reviewed",
+        "reviewerLabel": "parent-static-reviewer",
+        "duplicateComponentCount": 0,
+        "rawTailwindClassCount": 0,
+        "correctionTurns": 0,
+        "annotations": [
+          {
+            "componentId": "react:@fixture/ui:packages/ui/src/button.tsx#default",
+            "submissionPath": "apps/web/app/settings/billing/page.tsx",
+            "classification": "appropriate",
+            "location": "apps/web/app/settings/billing/page.tsx:6",
+            "reason": "Imported SettingsCard from @fixture/ui and rendered it as the billing settings card."
+          },
+          {
+            "componentId": "react:@fixture/ui:packages/ui/src/button.tsx#SecondaryButton",
+            "submissionPath": "apps/web/app/settings/billing/page.tsx",
+            "classification": "appropriate",
+            "location": "apps/web/app/settings/billing/page.tsx:7",
+            "reason": "Imported SecondaryButton from @fixture/ui and rendered it as the secondary action on the billing page."
+          }
+        ]
+      },
+      "treatmentContext": {
+        "path": "artifacts/contexts/billing-pair-2.json",
+        "sha256": "0cbdceb8f6d2b924d25f1d9da9a8f33816374f5bb036ede4c8e1343e2c87dc36"
+      }
+    },
+    {
+      "id": "billing-pair-3-control",
+      "pairId": "billing-pair-3",
+      "taskId": "billing-settings-card",
+      "condition": "control",
+      "order": 1,
+      "promptRevision": "reuse-v1.0",
+      "agent": {
+        "label": "grok-4-6-general-purpose",
+        "version": "grok-4.6",
+        "configurationHash": "49ea145c69f4df99a3eb410e1455e64c6fd907666915238f0f6be4d28311f3b4"
+      },
+      "fixture": {
+        "path": "fixtures/next-workspace",
+        "gitTree": "474f8c8841997b2105d1cfcaf9226f23b08a2e7a"
+      },
+      "prompt": {
+        "path": "artifacts/prompts/billing-pair-3-control.txt",
+        "sha256": "4a94bbc4ae58d56371bd507e6610baa6b00dfde75a24457a6e2bf157031633f2"
+      },
+      "submission": {
+        "files": [
+          {
+            "path": "artifacts/submissions/billing-pair-3-control.tsx",
+            "sha256": "b525d0d75bc9814b03f1d7ce05db960c88f98eeda3394d07e3df58e77bd4c1de",
+            "fixturePath": "apps/web/app/settings/billing/page.tsx"
+          }
+        ],
+        "test": {
+          "status": "passed",
+          "command": "python3 -c \"from pathlib import Path; assert Path('artifacts/submissions/billing-pair-3-control.tsx').read_text().strip() and 'artifacts/submissions/billing-pair-3-control.tsx'.endswith('.tsx')\""
+        }
+      },
+      "review": {
+        "status": "reviewed",
+        "reviewerLabel": "parent-static-reviewer",
+        "duplicateComponentCount": 0,
+        "rawTailwindClassCount": 0,
+        "correctionTurns": 0,
+        "annotations": [
+          {
+            "componentId": "react:@fixture/ui:packages/ui/src/button.tsx#default",
+            "submissionPath": "apps/web/app/settings/billing/page.tsx",
+            "classification": "appropriate",
+            "location": "apps/web/app/settings/billing/page.tsx:6",
+            "reason": "Imported SettingsCard from @fixture/ui and rendered it as the billing settings card."
+          },
+          {
+            "componentId": "react:@fixture/ui:packages/ui/src/button.tsx#SecondaryButton",
+            "submissionPath": "apps/web/app/settings/billing/page.tsx",
+            "classification": "appropriate",
+            "location": "apps/web/app/settings/billing/page.tsx:7",
+            "reason": "Imported SecondaryButton from @fixture/ui and rendered it as the secondary action on the billing page."
+          }
+        ]
+      }
+    },
+    {
+      "id": "billing-pair-3-treatment",
+      "pairId": "billing-pair-3",
+      "taskId": "billing-settings-card",
+      "condition": "treatment",
+      "order": 2,
+      "promptRevision": "reuse-v1.0",
+      "agent": {
+        "label": "grok-4-6-general-purpose",
+        "version": "grok-4.6",
+        "configurationHash": "49ea145c69f4df99a3eb410e1455e64c6fd907666915238f0f6be4d28311f3b4"
+      },
+      "fixture": {
+        "path": "fixtures/next-workspace",
+        "gitTree": "474f8c8841997b2105d1cfcaf9226f23b08a2e7a"
+      },
+      "prompt": {
+        "path": "artifacts/prompts/billing-pair-3-treatment.txt",
+        "sha256": "2fcc6da6c40af9c598222808630eeeedb911dc36a584f4e8993cc7500f52af7c"
+      },
+      "submission": {
+        "files": [
+          {
+            "path": "artifacts/submissions/billing-pair-3-treatment.tsx",
+            "sha256": "f2c6e6c4a02887910739e30f622b580f540c1c3d5195597319adb1ed891ce59f",
+            "fixturePath": "apps/web/app/settings/billing/page.tsx"
+          }
+        ],
+        "test": {
+          "status": "passed",
+          "command": "python3 -c \"from pathlib import Path; assert Path('artifacts/submissions/billing-pair-3-treatment.tsx').read_text().strip() and 'artifacts/submissions/billing-pair-3-treatment.tsx'.endswith('.tsx')\""
+        }
+      },
+      "review": {
+        "status": "reviewed",
+        "reviewerLabel": "parent-static-reviewer",
+        "duplicateComponentCount": 0,
+        "rawTailwindClassCount": 0,
+        "correctionTurns": 0,
+        "annotations": [
+          {
+            "componentId": "react:@fixture/ui:packages/ui/src/button.tsx#default",
+            "submissionPath": "apps/web/app/settings/billing/page.tsx",
+            "classification": "appropriate",
+            "location": "apps/web/app/settings/billing/page.tsx:6",
+            "reason": "Imported SettingsCard from @fixture/ui and rendered it as the billing settings card."
+          },
+          {
+            "componentId": "react:@fixture/ui:packages/ui/src/button.tsx#SecondaryButton",
+            "submissionPath": "apps/web/app/settings/billing/page.tsx",
+            "classification": "appropriate",
+            "location": "apps/web/app/settings/billing/page.tsx:7",
+            "reason": "Imported SecondaryButton from @fixture/ui and rendered it as the secondary action on the billing page."
+          }
+        ]
+      },
+      "treatmentContext": {
+        "path": "artifacts/contexts/billing-pair-3.json",
+        "sha256": "0cbdceb8f6d2b924d25f1d9da9a8f33816374f5bb036ede4c8e1343e2c87dc36"
+      }
+    },
+    {
+      "id": "notification-pair-1-control",
+      "pairId": "notification-pair-1",
+      "taskId": "notification-settings",
+      "condition": "control",
+      "order": 1,
+      "promptRevision": "reuse-v1.0",
+      "agent": {
+        "label": "grok-4-6-general-purpose",
+        "version": "grok-4.6",
+        "configurationHash": "49ea145c69f4df99a3eb410e1455e64c6fd907666915238f0f6be4d28311f3b4"
+      },
+      "fixture": {
+        "path": "fixtures/next-workspace",
+        "gitTree": "474f8c8841997b2105d1cfcaf9226f23b08a2e7a"
+      },
+      "prompt": {
+        "path": "artifacts/prompts/notification-pair-1-control.txt",
+        "sha256": "9a7cd53eaaff119cb91c2aac1aae6fddd87f6f85c04d0984b831c97c31d9f291"
+      },
+      "submission": {
+        "files": [
+          {
+            "path": "artifacts/submissions/notification-pair-1-control.tsx",
+            "sha256": "9c41255a1581246ac0c39055a055b7567825b5488cbbf885a51e8403cb6757f8",
+            "fixturePath": "apps/web/app/settings/notifications/page.tsx"
+          }
+        ],
+        "test": {
+          "status": "passed",
+          "command": "python3 -c \"from pathlib import Path; assert Path('artifacts/submissions/notification-pair-1-control.tsx').read_text().strip() and 'artifacts/submissions/notification-pair-1-control.tsx'.endswith('.tsx')\""
+        }
+      },
+      "review": {
+        "status": "reviewed",
+        "reviewerLabel": "parent-static-reviewer",
+        "duplicateComponentCount": 0,
+        "rawTailwindClassCount": 0,
+        "correctionTurns": 0,
+        "annotations": [
+          {
+            "componentId": "react:@fixture/ui:packages/ui/src/button.tsx#Button",
+            "submissionPath": "apps/web/app/settings/notifications/page.tsx",
+            "classification": "appropriate",
+            "location": "apps/web/app/settings/notifications/page.tsx:7",
+            "reason": "Imported Button from @fixture/ui and rendered it as the save action, which supports the notification settings page."
+          },
+          {
+            "componentId": "react:@fixture/ui:packages/ui/src/settings-section.tsx#SettingsSection",
+            "submissionPath": "apps/web/app/settings/notifications/page.tsx",
+            "classification": "appropriate",
+            "location": "apps/web/app/settings/notifications/page.tsx:6",
+            "reason": "Imported SettingsSection from @fixture/ui and rendered it as the notification settings section."
+          }
+        ]
+      }
+    },
+    {
+      "id": "notification-pair-1-treatment",
+      "pairId": "notification-pair-1",
+      "taskId": "notification-settings",
+      "condition": "treatment",
+      "order": 2,
+      "promptRevision": "reuse-v1.0",
+      "agent": {
+        "label": "grok-4-6-general-purpose",
+        "version": "grok-4.6",
+        "configurationHash": "49ea145c69f4df99a3eb410e1455e64c6fd907666915238f0f6be4d28311f3b4"
+      },
+      "fixture": {
+        "path": "fixtures/next-workspace",
+        "gitTree": "474f8c8841997b2105d1cfcaf9226f23b08a2e7a"
+      },
+      "prompt": {
+        "path": "artifacts/prompts/notification-pair-1-treatment.txt",
+        "sha256": "00b316a5087bfc3a862c618ae4d1d7b3bca40e62889fe5ec3d3261cb3477640c"
+      },
+      "submission": {
+        "files": [
+          {
+            "path": "artifacts/submissions/notification-pair-1-treatment.tsx",
+            "sha256": "80f98aadf957da07b146f2b5d5c8c39e00f511b9ea47b925a42f0de94ff91cba",
+            "fixturePath": "apps/web/app/settings/notifications/page.tsx"
+          }
+        ],
+        "test": {
+          "status": "passed",
+          "command": "python3 -c \"from pathlib import Path; assert Path('artifacts/submissions/notification-pair-1-treatment.tsx').read_text().strip() and 'artifacts/submissions/notification-pair-1-treatment.tsx'.endswith('.tsx')\""
+        }
+      },
+      "review": {
+        "status": "reviewed",
+        "reviewerLabel": "parent-static-reviewer",
+        "duplicateComponentCount": 0,
+        "rawTailwindClassCount": 0,
+        "correctionTurns": 0,
+        "annotations": [
+          {
+            "componentId": "react:@fixture/ui:packages/ui/src/button.tsx#Button",
+            "submissionPath": "apps/web/app/settings/notifications/page.tsx",
+            "classification": "appropriate",
+            "location": "apps/web/app/settings/notifications/page.tsx:7",
+            "reason": "Imported Button from @fixture/ui and rendered it as the save action, which supports the notification settings page."
+          },
+          {
+            "componentId": "react:@fixture/ui:packages/ui/src/settings-section.tsx#SettingsSection",
+            "submissionPath": "apps/web/app/settings/notifications/page.tsx",
+            "classification": "appropriate",
+            "location": "apps/web/app/settings/notifications/page.tsx:6",
+            "reason": "Imported SettingsSection from @fixture/ui and rendered it as the notification settings section."
+          }
+        ]
+      },
+      "treatmentContext": {
+        "path": "artifacts/contexts/notification-pair-1.json",
+        "sha256": "142b7e4ac15413dd3c94b771f975c30f3c4c4846976cb72729c0e2ccecc76a66"
+      }
+    },
+    {
+      "id": "notification-pair-2-control",
+      "pairId": "notification-pair-2",
+      "taskId": "notification-settings",
+      "condition": "control",
+      "order": 2,
+      "promptRevision": "reuse-v1.0",
+      "agent": {
+        "label": "grok-4-6-general-purpose",
+        "version": "grok-4.6",
+        "configurationHash": "49ea145c69f4df99a3eb410e1455e64c6fd907666915238f0f6be4d28311f3b4"
+      },
+      "fixture": {
+        "path": "fixtures/next-workspace",
+        "gitTree": "474f8c8841997b2105d1cfcaf9226f23b08a2e7a"
+      },
+      "prompt": {
+        "path": "artifacts/prompts/notification-pair-2-control.txt",
+        "sha256": "9a7cd53eaaff119cb91c2aac1aae6fddd87f6f85c04d0984b831c97c31d9f291"
+      },
+      "submission": {
+        "files": [
+          {
+            "path": "artifacts/submissions/notification-pair-2-control.tsx",
+            "sha256": "a89cedda77a72fd56351b61b9ca26ad7da08adcfa7701a0bcae721a04297a020",
+            "fixturePath": "apps/web/app/settings/notifications/page.tsx"
+          }
+        ],
+        "test": {
+          "status": "passed",
+          "command": "python3 -c \"from pathlib import Path; assert Path('artifacts/submissions/notification-pair-2-control.tsx').read_text().strip() and 'artifacts/submissions/notification-pair-2-control.tsx'.endswith('.tsx')\""
+        }
+      },
+      "review": {
+        "status": "reviewed",
+        "reviewerLabel": "parent-static-reviewer",
+        "duplicateComponentCount": 0,
+        "rawTailwindClassCount": 0,
+        "correctionTurns": 0,
+        "annotations": [
+          {
+            "componentId": "react:@fixture/ui:packages/ui/src/button.tsx#Button",
+            "submissionPath": "apps/web/app/settings/notifications/page.tsx",
+            "classification": "appropriate",
+            "location": "apps/web/app/settings/notifications/page.tsx:7",
+            "reason": "Imported Button from @fixture/ui and rendered it as the save action, which supports the notification settings page."
+          },
+          {
+            "componentId": "react:@fixture/ui:packages/ui/src/settings-section.tsx#SettingsSection",
+            "submissionPath": "apps/web/app/settings/notifications/page.tsx",
+            "classification": "appropriate",
+            "location": "apps/web/app/settings/notifications/page.tsx:6",
+            "reason": "Imported SettingsSection from @fixture/ui and rendered it as the notification settings section."
+          }
+        ]
+      }
+    },
+    {
+      "id": "notification-pair-2-treatment",
+      "pairId": "notification-pair-2",
+      "taskId": "notification-settings",
+      "condition": "treatment",
+      "order": 1,
+      "promptRevision": "reuse-v1.0",
+      "agent": {
+        "label": "grok-4-6-general-purpose",
+        "version": "grok-4.6",
+        "configurationHash": "49ea145c69f4df99a3eb410e1455e64c6fd907666915238f0f6be4d28311f3b4"
+      },
+      "fixture": {
+        "path": "fixtures/next-workspace",
+        "gitTree": "474f8c8841997b2105d1cfcaf9226f23b08a2e7a"
+      },
+      "prompt": {
+        "path": "artifacts/prompts/notification-pair-2-treatment.txt",
+        "sha256": "00b316a5087bfc3a862c618ae4d1d7b3bca40e62889fe5ec3d3261cb3477640c"
+      },
+      "submission": {
+        "files": [
+          {
+            "path": "artifacts/submissions/notification-pair-2-treatment.tsx",
+            "sha256": "a89cedda77a72fd56351b61b9ca26ad7da08adcfa7701a0bcae721a04297a020",
+            "fixturePath": "apps/web/app/settings/notifications/page.tsx"
+          }
+        ],
+        "test": {
+          "status": "passed",
+          "command": "python3 -c \"from pathlib import Path; assert Path('artifacts/submissions/notification-pair-2-treatment.tsx').read_text().strip() and 'artifacts/submissions/notification-pair-2-treatment.tsx'.endswith('.tsx')\""
+        }
+      },
+      "review": {
+        "status": "reviewed",
+        "reviewerLabel": "parent-static-reviewer",
+        "duplicateComponentCount": 0,
+        "rawTailwindClassCount": 0,
+        "correctionTurns": 0,
+        "annotations": [
+          {
+            "componentId": "react:@fixture/ui:packages/ui/src/button.tsx#Button",
+            "submissionPath": "apps/web/app/settings/notifications/page.tsx",
+            "classification": "appropriate",
+            "location": "apps/web/app/settings/notifications/page.tsx:7",
+            "reason": "Imported Button from @fixture/ui and rendered it as the save action, which supports the notification settings page."
+          },
+          {
+            "componentId": "react:@fixture/ui:packages/ui/src/settings-section.tsx#SettingsSection",
+            "submissionPath": "apps/web/app/settings/notifications/page.tsx",
+            "classification": "appropriate",
+            "location": "apps/web/app/settings/notifications/page.tsx:6",
+            "reason": "Imported SettingsSection from @fixture/ui and rendered it as the notification settings section."
+          }
+        ]
+      },
+      "treatmentContext": {
+        "path": "artifacts/contexts/notification-pair-2.json",
+        "sha256": "142b7e4ac15413dd3c94b771f975c30f3c4c4846976cb72729c0e2ccecc76a66"
+      }
+    },
+    {
+      "id": "notification-pair-3-control",
+      "pairId": "notification-pair-3",
+      "taskId": "notification-settings",
+      "condition": "control",
+      "order": 2,
+      "promptRevision": "reuse-v1.0",
+      "agent": {
+        "label": "grok-4-6-general-purpose",
+        "version": "grok-4.6",
+        "configurationHash": "49ea145c69f4df99a3eb410e1455e64c6fd907666915238f0f6be4d28311f3b4"
+      },
+      "fixture": {
+        "path": "fixtures/next-workspace",
+        "gitTree": "474f8c8841997b2105d1cfcaf9226f23b08a2e7a"
+      },
+      "prompt": {
+        "path": "artifacts/prompts/notification-pair-3-control.txt",
+        "sha256": "9a7cd53eaaff119cb91c2aac1aae6fddd87f6f85c04d0984b831c97c31d9f291"
+      },
+      "submission": {
+        "files": [
+          {
+            "path": "artifacts/submissions/notification-pair-3-control.tsx",
+            "sha256": "b74681a33893fd7f774c8a1b833884c9672c9f6bdd6b5a2a46f55cdcaf7fa93f",
+            "fixturePath": "apps/web/app/settings/notifications/page.tsx"
+          }
+        ],
+        "test": {
+          "status": "passed",
+          "command": "python3 -c \"from pathlib import Path; assert Path('artifacts/submissions/notification-pair-3-control.tsx').read_text().strip() and 'artifacts/submissions/notification-pair-3-control.tsx'.endswith('.tsx')\""
+        }
+      },
+      "review": {
+        "status": "reviewed",
+        "reviewerLabel": "parent-static-reviewer",
+        "duplicateComponentCount": 0,
+        "rawTailwindClassCount": 0,
+        "correctionTurns": 0,
+        "annotations": [
+          {
+            "componentId": "react:@fixture/ui:packages/ui/src/button.tsx#Button",
+            "submissionPath": "apps/web/app/settings/notifications/page.tsx",
+            "classification": "appropriate",
+            "location": "apps/web/app/settings/notifications/page.tsx:7",
+            "reason": "Imported Button from @fixture/ui and rendered it as the save action, which supports the notification settings page."
+          },
+          {
+            "componentId": "react:@fixture/ui:packages/ui/src/settings-section.tsx#SettingsSection",
+            "submissionPath": "apps/web/app/settings/notifications/page.tsx",
+            "classification": "appropriate",
+            "location": "apps/web/app/settings/notifications/page.tsx:6",
+            "reason": "Imported SettingsSection from @fixture/ui and rendered it as the notification settings section."
+          }
+        ]
+      }
+    },
+    {
+      "id": "notification-pair-3-treatment",
+      "pairId": "notification-pair-3",
+      "taskId": "notification-settings",
+      "condition": "treatment",
+      "order": 1,
+      "promptRevision": "reuse-v1.0",
+      "agent": {
+        "label": "grok-4-6-general-purpose",
+        "version": "grok-4.6",
+        "configurationHash": "49ea145c69f4df99a3eb410e1455e64c6fd907666915238f0f6be4d28311f3b4"
+      },
+      "fixture": {
+        "path": "fixtures/next-workspace",
+        "gitTree": "474f8c8841997b2105d1cfcaf9226f23b08a2e7a"
+      },
+      "prompt": {
+        "path": "artifacts/prompts/notification-pair-3-treatment.txt",
+        "sha256": "00b316a5087bfc3a862c618ae4d1d7b3bca40e62889fe5ec3d3261cb3477640c"
+      },
+      "submission": {
+        "files": [
+          {
+            "path": "artifacts/submissions/notification-pair-3-treatment.tsx",
+            "sha256": "9244a42ab53cf83390422a392e08ed55d949edc3040d06aedb7099c1b78fa5bb",
+            "fixturePath": "apps/web/app/settings/notifications/page.tsx"
+          }
+        ],
+        "test": {
+          "status": "passed",
+          "command": "python3 -c \"from pathlib import Path; assert Path('artifacts/submissions/notification-pair-3-treatment.tsx').read_text().strip() and 'artifacts/submissions/notification-pair-3-treatment.tsx'.endswith('.tsx')\""
+        }
+      },
+      "review": {
+        "status": "reviewed",
+        "reviewerLabel": "parent-static-reviewer",
+        "duplicateComponentCount": 0,
+        "rawTailwindClassCount": 0,
+        "correctionTurns": 0,
+        "annotations": [
+          {
+            "componentId": "react:@fixture/ui:packages/ui/src/button.tsx#Button",
+            "submissionPath": "apps/web/app/settings/notifications/page.tsx",
+            "classification": "appropriate",
+            "location": "apps/web/app/settings/notifications/page.tsx:7",
+            "reason": "Imported Button from @fixture/ui and rendered it as the save action, which supports the notification settings page."
+          },
+          {
+            "componentId": "react:@fixture/ui:packages/ui/src/settings-section.tsx#SettingsSection",
+            "submissionPath": "apps/web/app/settings/notifications/page.tsx",
+            "classification": "appropriate",
+            "location": "apps/web/app/settings/notifications/page.tsx:6",
+            "reason": "Imported SettingsSection from @fixture/ui and rendered it as the notification settings section."
+          }
+        ]
+      },
+      "treatmentContext": {
+        "path": "artifacts/contexts/notification-pair-3.json",
+        "sha256": "142b7e4ac15413dd3c94b771f975c30f3c4c4846976cb72729c0e2ccecc76a66"
+      }
+    },
+    {
+      "id": "team-pair-1-control",
+      "pairId": "team-pair-1",
+      "taskId": "team-settings-section",
+      "condition": "control",
+      "order": 1,
+      "promptRevision": "reuse-v1.0",
+      "agent": {
+        "label": "grok-4-6-general-purpose",
+        "version": "grok-4.6",
+        "configurationHash": "49ea145c69f4df99a3eb410e1455e64c6fd907666915238f0f6be4d28311f3b4"
+      },
+      "fixture": {
+        "path": "fixtures/next-workspace",
+        "gitTree": "474f8c8841997b2105d1cfcaf9226f23b08a2e7a"
+      },
+      "prompt": {
+        "path": "artifacts/prompts/team-pair-1-control.txt",
+        "sha256": "202dd3378aa08943c4d80c726bdd8ad266d718a36339a26bd7740e2fcdf45ffe"
+      },
+      "submission": {
+        "files": [
+          {
+            "path": "artifacts/submissions/team-pair-1-control.tsx",
+            "sha256": "5ad7a7d21fb8d15ab8b630790ebcba86dd0c416ef080740ae32877f1bf2d7a57",
+            "fixturePath": "apps/web/app/settings/team/page.tsx"
+          }
+        ],
+        "test": {
+          "status": "passed",
+          "command": "python3 -c \"from pathlib import Path; assert Path('artifacts/submissions/team-pair-1-control.tsx').read_text().strip() and 'artifacts/submissions/team-pair-1-control.tsx'.endswith('.tsx')\""
+        }
+      },
+      "review": {
+        "status": "reviewed",
+        "reviewerLabel": "parent-static-reviewer",
+        "duplicateComponentCount": 0,
+        "rawTailwindClassCount": 0,
+        "correctionTurns": 0,
+        "annotations": [
+          {
+            "componentId": "react:@fixture/ui:packages/ui/src/settings-section.tsx#SettingsSection",
+            "submissionPath": "apps/web/app/settings/team/page.tsx",
+            "classification": "appropriate",
+            "location": "apps/web/app/settings/team/page.tsx:4",
+            "reason": "Imported SettingsSection from @fixture/ui and rendered it as the team settings section."
+          }
+        ]
+      }
+    },
+    {
+      "id": "team-pair-1-treatment",
+      "pairId": "team-pair-1",
+      "taskId": "team-settings-section",
+      "condition": "treatment",
+      "order": 2,
+      "promptRevision": "reuse-v1.0",
+      "agent": {
+        "label": "grok-4-6-general-purpose",
+        "version": "grok-4.6",
+        "configurationHash": "49ea145c69f4df99a3eb410e1455e64c6fd907666915238f0f6be4d28311f3b4"
+      },
+      "fixture": {
+        "path": "fixtures/next-workspace",
+        "gitTree": "474f8c8841997b2105d1cfcaf9226f23b08a2e7a"
+      },
+      "prompt": {
+        "path": "artifacts/prompts/team-pair-1-treatment.txt",
+        "sha256": "34aec5fb5ce2339cc36b87876a90d277cef324967e1eabcfedf645474a6a5ae2"
+      },
+      "submission": {
+        "files": [
+          {
+            "path": "artifacts/submissions/team-pair-1-treatment.tsx",
+            "sha256": "5ad7a7d21fb8d15ab8b630790ebcba86dd0c416ef080740ae32877f1bf2d7a57",
+            "fixturePath": "apps/web/app/settings/team/page.tsx"
+          }
+        ],
+        "test": {
+          "status": "passed",
+          "command": "python3 -c \"from pathlib import Path; assert Path('artifacts/submissions/team-pair-1-treatment.tsx').read_text().strip() and 'artifacts/submissions/team-pair-1-treatment.tsx'.endswith('.tsx')\""
+        }
+      },
+      "review": {
+        "status": "reviewed",
+        "reviewerLabel": "parent-static-reviewer",
+        "duplicateComponentCount": 0,
+        "rawTailwindClassCount": 0,
+        "correctionTurns": 0,
+        "annotations": [
+          {
+            "componentId": "react:@fixture/ui:packages/ui/src/settings-section.tsx#SettingsSection",
+            "submissionPath": "apps/web/app/settings/team/page.tsx",
+            "classification": "appropriate",
+            "location": "apps/web/app/settings/team/page.tsx:4",
+            "reason": "Imported SettingsSection from @fixture/ui and rendered it as the team settings section."
+          }
+        ]
+      },
+      "treatmentContext": {
+        "path": "artifacts/contexts/team-pair-1.json",
+        "sha256": "6db1984c975afe010542659832f31969206e37cfadaeff4a60d9b7c62ec110fc"
+      }
+    },
+    {
+      "id": "team-pair-2-control",
+      "pairId": "team-pair-2",
+      "taskId": "team-settings-section",
+      "condition": "control",
+      "order": 2,
+      "promptRevision": "reuse-v1.0",
+      "agent": {
+        "label": "grok-4-6-general-purpose",
+        "version": "grok-4.6",
+        "configurationHash": "49ea145c69f4df99a3eb410e1455e64c6fd907666915238f0f6be4d28311f3b4"
+      },
+      "fixture": {
+        "path": "fixtures/next-workspace",
+        "gitTree": "474f8c8841997b2105d1cfcaf9226f23b08a2e7a"
+      },
+      "prompt": {
+        "path": "artifacts/prompts/team-pair-2-control.txt",
+        "sha256": "202dd3378aa08943c4d80c726bdd8ad266d718a36339a26bd7740e2fcdf45ffe"
+      },
+      "submission": {
+        "files": [
+          {
+            "path": "artifacts/submissions/team-pair-2-control.tsx",
+            "sha256": "5ad7a7d21fb8d15ab8b630790ebcba86dd0c416ef080740ae32877f1bf2d7a57",
+            "fixturePath": "apps/web/app/settings/team/page.tsx"
+          }
+        ],
+        "test": {
+          "status": "passed",
+          "command": "python3 -c \"from pathlib import Path; assert Path('artifacts/submissions/team-pair-2-control.tsx').read_text().strip() and 'artifacts/submissions/team-pair-2-control.tsx'.endswith('.tsx')\""
+        }
+      },
+      "review": {
+        "status": "reviewed",
+        "reviewerLabel": "parent-static-reviewer",
+        "duplicateComponentCount": 0,
+        "rawTailwindClassCount": 0,
+        "correctionTurns": 0,
+        "annotations": [
+          {
+            "componentId": "react:@fixture/ui:packages/ui/src/settings-section.tsx#SettingsSection",
+            "submissionPath": "apps/web/app/settings/team/page.tsx",
+            "classification": "appropriate",
+            "location": "apps/web/app/settings/team/page.tsx:4",
+            "reason": "Imported SettingsSection from @fixture/ui and rendered it as the team settings section."
+          }
+        ]
+      }
+    },
+    {
+      "id": "team-pair-2-treatment",
+      "pairId": "team-pair-2",
+      "taskId": "team-settings-section",
+      "condition": "treatment",
+      "order": 1,
+      "promptRevision": "reuse-v1.0",
+      "agent": {
+        "label": "grok-4-6-general-purpose",
+        "version": "grok-4.6",
+        "configurationHash": "49ea145c69f4df99a3eb410e1455e64c6fd907666915238f0f6be4d28311f3b4"
+      },
+      "fixture": {
+        "path": "fixtures/next-workspace",
+        "gitTree": "474f8c8841997b2105d1cfcaf9226f23b08a2e7a"
+      },
+      "prompt": {
+        "path": "artifacts/prompts/team-pair-2-treatment.txt",
+        "sha256": "34aec5fb5ce2339cc36b87876a90d277cef324967e1eabcfedf645474a6a5ae2"
+      },
+      "submission": {
+        "files": [
+          {
+            "path": "artifacts/submissions/team-pair-2-treatment.tsx",
+            "sha256": "5ad7a7d21fb8d15ab8b630790ebcba86dd0c416ef080740ae32877f1bf2d7a57",
+            "fixturePath": "apps/web/app/settings/team/page.tsx"
+          }
+        ],
+        "test": {
+          "status": "passed",
+          "command": "python3 -c \"from pathlib import Path; assert Path('artifacts/submissions/team-pair-2-treatment.tsx').read_text().strip() and 'artifacts/submissions/team-pair-2-treatment.tsx'.endswith('.tsx')\""
+        }
+      },
+      "review": {
+        "status": "reviewed",
+        "reviewerLabel": "parent-static-reviewer",
+        "duplicateComponentCount": 0,
+        "rawTailwindClassCount": 0,
+        "correctionTurns": 0,
+        "annotations": [
+          {
+            "componentId": "react:@fixture/ui:packages/ui/src/settings-section.tsx#SettingsSection",
+            "submissionPath": "apps/web/app/settings/team/page.tsx",
+            "classification": "appropriate",
+            "location": "apps/web/app/settings/team/page.tsx:4",
+            "reason": "Imported SettingsSection from @fixture/ui and rendered it as the team settings section."
+          }
+        ]
+      },
+      "treatmentContext": {
+        "path": "artifacts/contexts/team-pair-2.json",
+        "sha256": "6db1984c975afe010542659832f31969206e37cfadaeff4a60d9b7c62ec110fc"
+      }
+    },
+    {
+      "id": "team-pair-3-control",
+      "pairId": "team-pair-3",
+      "taskId": "team-settings-section",
+      "condition": "control",
+      "order": 2,
+      "promptRevision": "reuse-v1.0",
+      "agent": {
+        "label": "grok-4-6-general-purpose",
+        "version": "grok-4.6",
+        "configurationHash": "49ea145c69f4df99a3eb410e1455e64c6fd907666915238f0f6be4d28311f3b4"
+      },
+      "fixture": {
+        "path": "fixtures/next-workspace",
+        "gitTree": "474f8c8841997b2105d1cfcaf9226f23b08a2e7a"
+      },
+      "prompt": {
+        "path": "artifacts/prompts/team-pair-3-control.txt",
+        "sha256": "202dd3378aa08943c4d80c726bdd8ad266d718a36339a26bd7740e2fcdf45ffe"
+      },
+      "submission": {
+        "files": [
+          {
+            "path": "artifacts/submissions/team-pair-3-control.tsx",
+            "sha256": "5ad7a7d21fb8d15ab8b630790ebcba86dd0c416ef080740ae32877f1bf2d7a57",
+            "fixturePath": "apps/web/app/settings/team/page.tsx"
+          }
+        ],
+        "test": {
+          "status": "passed",
+          "command": "python3 -c \"from pathlib import Path; assert Path('artifacts/submissions/team-pair-3-control.tsx').read_text().strip() and 'artifacts/submissions/team-pair-3-control.tsx'.endswith('.tsx')\""
+        }
+      },
+      "review": {
+        "status": "reviewed",
+        "reviewerLabel": "parent-static-reviewer",
+        "duplicateComponentCount": 0,
+        "rawTailwindClassCount": 0,
+        "correctionTurns": 0,
+        "annotations": [
+          {
+            "componentId": "react:@fixture/ui:packages/ui/src/settings-section.tsx#SettingsSection",
+            "submissionPath": "apps/web/app/settings/team/page.tsx",
+            "classification": "appropriate",
+            "location": "apps/web/app/settings/team/page.tsx:4",
+            "reason": "Imported SettingsSection from @fixture/ui and rendered it as the team settings section."
+          }
+        ]
+      }
+    },
+    {
+      "id": "team-pair-3-treatment",
+      "pairId": "team-pair-3",
+      "taskId": "team-settings-section",
+      "condition": "treatment",
+      "order": 1,
+      "promptRevision": "reuse-v1.0",
+      "agent": {
+        "label": "grok-4-6-general-purpose",
+        "version": "grok-4.6",
+        "configurationHash": "49ea145c69f4df99a3eb410e1455e64c6fd907666915238f0f6be4d28311f3b4"
+      },
+      "fixture": {
+        "path": "fixtures/next-workspace",
+        "gitTree": "474f8c8841997b2105d1cfcaf9226f23b08a2e7a"
+      },
+      "prompt": {
+        "path": "artifacts/prompts/team-pair-3-treatment.txt",
+        "sha256": "34aec5fb5ce2339cc36b87876a90d277cef324967e1eabcfedf645474a6a5ae2"
+      },
+      "submission": {
+        "files": [
+          {
+            "path": "artifacts/submissions/team-pair-3-treatment.tsx",
+            "sha256": "5ad7a7d21fb8d15ab8b630790ebcba86dd0c416ef080740ae32877f1bf2d7a57",
+            "fixturePath": "apps/web/app/settings/team/page.tsx"
+          }
+        ],
+        "test": {
+          "status": "passed",
+          "command": "python3 -c \"from pathlib import Path; assert Path('artifacts/submissions/team-pair-3-treatment.tsx').read_text().strip() and 'artifacts/submissions/team-pair-3-treatment.tsx'.endswith('.tsx')\""
+        }
+      },
+      "review": {
+        "status": "reviewed",
+        "reviewerLabel": "parent-static-reviewer",
+        "duplicateComponentCount": 0,
+        "rawTailwindClassCount": 0,
+        "correctionTurns": 0,
+        "annotations": [
+          {
+            "componentId": "react:@fixture/ui:packages/ui/src/settings-section.tsx#SettingsSection",
+            "submissionPath": "apps/web/app/settings/team/page.tsx",
+            "classification": "appropriate",
+            "location": "apps/web/app/settings/team/page.tsx:4",
+            "reason": "Imported SettingsSection from @fixture/ui and rendered it as the team settings section."
+          }
+        ]
+      },
+      "treatmentContext": {
+        "path": "artifacts/contexts/team-pair-3.json",
+        "sha256": "6db1984c975afe010542659832f31969206e37cfadaeff4a60d9b7c62ec110fc"
+      }
+    }
+  ]
+}

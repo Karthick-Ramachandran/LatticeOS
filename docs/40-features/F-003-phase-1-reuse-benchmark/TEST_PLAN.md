@@ -4,9 +4,10 @@
 
 - Task and result schema validation, path containment, required pairing fields, stable ordering, and
   deterministic summary serialization.
-- Reject a missing or changed treatment context, a duplicate run ID, invalid annotation location,
-  unsupported expected component, failed test run, missing review, and a synthetic result presented
-  as a qualified trial.
+- Reject a missing or changed treatment context, a treatment prompt that does not end with the exact
+  saved context, missing or mismatched raw delivery evidence, a duplicate run ID, invalid annotation
+  location, unsupported expected component, failed test run, missing review, and a synthetic result
+  presented as a qualified trial.
 - Confirm correct total comparisons: treatment must improve appropriate canonical reuse and must not
   increase inappropriate canonical reuse.
 
@@ -14,6 +15,8 @@
 
 - Create treatment context from the existing CLI against a copied controlled fixture; save its exact
   JSON alongside the task record without executing the fixture.
+- Validate a raw delivered-prompt artifact against the recorded prompt without executing an agent or
+  fixture source.
 - Validate seeded pass/fail record suites and produce a deterministic human and JSON summary.
 - Run the full gate against recorded real results only when they exist. The harness must report
   insufficient evidence rather than passing an empty result set.

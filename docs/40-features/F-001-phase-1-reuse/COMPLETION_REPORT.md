@@ -5,8 +5,10 @@
 Phase 1 is not complete. T2 core, T3 safe project and React analysis, the Tailwind project bridge,
 direct Tailwind analysis, deterministic in-memory Reuse index assembly, generated cache, and CLI
 initialization/query surface are implemented. Static shadcn configured-source evidence and bounded
-local Storybook manifest evidence are implemented. The packed-consumer proof and the benchmark's
-temporary-pair preparation now pass; qualified trials and final release review remain.
+local Storybook manifest evidence are implemented. The packed-consumer proof passes. AC-16 passed
+on 2026-09-01. F-003 archives nine candidate pairs with a historical 15 versus 14 result, but they
+lack the required raw delivery artifacts and the current checker rejects them. AC-15 remains open
+until fresh trials prove the agent received the exact saved treatment context.
 
 ## Files Changed
 
@@ -48,8 +50,8 @@ temporary-pair preparation now pass; qualified trials and final release review r
 ## Tests Run
 
 - `pnpm test:run`: 3 docs tests, 17 core tests, 2 React adapter tests, 2 Tailwind adapter tests,
-  3 shadcn adapter tests, 2 Storybook adapter tests, 35 analyzer tests, 4 CLI tests, and 14 benchmark
-  tests passed.
+  3 shadcn adapter tests, 2 Storybook adapter tests, 35 analyzer tests, 4 CLI tests, and 15 benchmark
+  tests passed on 2026-09-01.
 - `pnpm typecheck`: all eight implementation workspaces passed.
 - `pnpm build`: all implementation packages built and the docs app generated 40 routes.
 - `pnpm test:package`: passed. The CLI package gate built seven local packages, installed their
@@ -57,12 +59,12 @@ temporary-pair preparation now pass; qualified trials and final release review r
   --json`, confirmed the generated schema-version-1 cache, and verified Button source preservation.
 - `pnpm docs:check`: content validation, docs tests, typecheck, and the 40-route production build
   passed.
-- `persist doctor`: passed; Persist OS found three feature folders, six module folders, and 17 ADRs.
+- `persist doctor`: passed; Persist OS found four feature folders, six module folders, and 19 ADRs.
 
 ## Skipped checks
 
-No required check was skipped for the packed-consumer slice. The control-versus-treatment benchmark is
-not a skipped check: it is the remaining unimplemented Phase 1 release gate.
+No required check was skipped. AC-16 is complete. The F-003 agent-trial artifacts remain diagnostic
+only because the wrapper-delivery record does not prove that treatment received the exact saved JSON.
 
 ## Engineering standards
 
@@ -119,15 +121,17 @@ were updated with the same change.
   cache, and leaves Button source unchanged. The test does not publish packages or execute fixture
   application code.
 - The local benchmark harness commits three source-only tasks, prepares randomized temporary matched
-  pairs, validates bounded hash-verified trial records, rejects synthetic data as release evidence,
-  and returns a nonzero insufficient result while no real trials exist. Fourteen focused tests cover
-  the frozen contract, temporary-pair boundary, and failure modes.
+  pairs, and validates bounded hash-verified trial records. Nine `agent-trials` pairs are archived
+  with a historical 15 versus 14 score, but `pnpm benchmark:check` rejects them because raw delivery
+  artifacts are absent. Sixteen focused tests cover the frozen contract, including exact saved
+  prompt/context matching and raw delivery equality. Synthetic verifier data remains ineligible.
 
 ## Remaining Risks
 
-- The control-versus-treatment Reuse benchmark is not complete. F-003 and ADR-0017 define its
-  local source-only protocol; preparation and validation are implemented, and qualified agent trials
-  remain.
+- AC-15 remains blocked. The recorded `reuse-v1` set has a historical one-annotation margin on
+  `fixtures/next-workspace` and `grok-4-6-general-purpose`, but lacks the raw delivery artifacts
+  ADR-0020 requires. Rerun all nine pairs with exact verbatim delivery and retain a hash-verified
+  `deliveredPrompt` artifact before treating a result as qualified evidence.
 - Package-local tsconfig, tsconfig `extends`, multi-step aliases, and more than one shadcn wildcard
   remain unsupported until fixtures and security review define a wider boundary.
 - Storybook's rich components manifest is a preview API. Custom output directories, development

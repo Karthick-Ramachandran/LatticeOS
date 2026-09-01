@@ -2,50 +2,81 @@
 
 ## Status
 
-In progress. The protocol, three pre-registered task manifests, local validator, fixed result checker,
-synthetic verifier fixtures, and temporary trial-pair preparer are implemented. Qualified agent trials
-are still pending.
+Nine recorded candidate pairs have a historical 15 versus 14 score on the controlled Next.js fixture,
+with 0 inappropriate reuses in both conditions. They do not qualify for F-001 AC-15. ADR-0020 now
+requires raw `deliveredPrompt` artifacts, so `pnpm benchmark:check` rejects all nine candidates. The
+full AC-16 quality suite passed on 2026-09-01; AC-15 and Phase 1 remain open pending fresh
+exact-delivery trials.
 
 ## Files Changed
 
-- `benchmarks/reuse-v1`: task manifests, bounded artifact contract, result validator, fixed checker,
-  synthetic verifier fixtures, randomized temporary-pair preparer, and focused tests.
-- Root package scripts, Fumadocs guidance, F-003 and benchmark module memory, F-001 status, README,
-  and `llms.txt`.
+- `benchmarks/reuse-v1/results/results.json` and hashed prompt, context, and submission artifacts.
+- F-003, F-001, benchmark module memory, README, `llms.txt`, Fumadocs benchmark guide, and lessons.
 
 ## Tests Run
 
-- `pnpm test:benchmark` passes with fourteen focused tests.
-- `pnpm benchmark:check` intentionally reports `insufficient` and exits with status 1 while no real
-  result record exists.
-- `pnpm test:run` passes: 3 docs, 17 core, 2 React adapter, 2 Tailwind adapter, 3 shadcn adapter,
-  2 Storybook adapter, 35 analyzer, 4 CLI, and 14 benchmark tests.
-- `pnpm typecheck` passes across all eight implementation workspaces.
-- `pnpm build` passes and generates 40 documentation routes.
-- `pnpm test:package` passes the packed CLI consumer proof.
-- `pnpm docs:check` passes content validation, docs tests, typecheck, and the 40-route production
-  build.
-- `persist doctor` passes with 3 feature folders, 6 module folders, and 17 ADRs.
-
-## Skipped checks
-
-No required quality gate was skipped. Real-agent trials are not a skipped check. They are the next
-delivery task and the evidence F-001 AC-15 still requires.
+- 18 isolated `general-purpose` subagent runs (nine randomized control/treatment pairs) against
+  workspaces created by `pnpm benchmark:prepare`.
+- Static text review of each permitted submission file. No fixture source or configuration was
+  executed.
+- Static file checks recorded in each run passed (18/18).
+- `pnpm test:benchmark` passed 16 focused harness tests, including rejection of a treatment prompt
+  that does not end with the saved context bytes and a raw delivery artifact that differs from its
+  prompt.
+- `pnpm benchmark:check` rejects the archived candidate set with 18 `missing-delivered-prompt`
+  errors. That is the expected outcome under ADR-0020.
+- `pnpm test:run`, `pnpm typecheck`, `pnpm build`, `pnpm test:package`, `pnpm docs:check`, and
+  `persist doctor` all passed on 2026-09-01.
 
 ## Results
 
-- The validator accepts only records that follow the frozen contract, and synthetic records always
-  receive `not-eligible` status.
-- No qualified benchmark result exists. F-001 AC-15 remains unmet.
-- The current checker has no `results.json`, so it correctly returns `insufficient` rather than a
-  passing summary.
-- `pnpm benchmark:prepare` creates the two exact agent inputs and fresh workspaces but does not call
-  an agent or create an agent result.
+Agent: `grok-4-6-general-purpose` / `grok-4.6` /
+`configurationHash 49ea145c69f4df99a3eb410e1455e64c6fd907666915238f0f6be4d28311f3b4`.
+Prompt revision: `reuse-v1.0`. Fixture tree: `474f8c8841997b2105d1cfcaf9226f23b08a2e7a`.
+Reviewer: `parent-static-reviewer` (did not author the submissions). Correction turns: 0.
+Duplicate components: 0. Raw Tailwind class counts: 0.
+
+| Task | Recorded pairs | Control appropriate | Treatment appropriate | Inappropriate (both) |
+| --- | ---: | ---: | ---: | ---: |
+| billing-settings-card | 3 | 5 | 6 | 0 |
+| notification-settings | 3 | 6 | 6 | 0 |
+| team-settings-section | 3 | 3 | 3 | 0 |
+| **totals** | **9** | **14** | **15** | **0** |
+
+The only scored difference is `billing-pair-2`: control rendered `SettingsCard` plus
+`Button variant="secondary"`; treatment rendered `SettingsCard` plus `SecondaryButton`. The other
+eight pairs tied because both conditions imported the expected `@fixture/ui` components after
+inspecting the small fixture.
+
+Saved treatment context remains the exact `lattice context <task> --json` files under
+`benchmarks/reuse-v1/results/artifacts/contexts/`; every saved treatment prompt ends with its saved
+context bytes. No candidate has the required raw `deliveredPrompt` artifact.
+
+## Skipped checks
+
+No required check was skipped. The AC-16 gate suite passed on 2026-09-01. It does not replace the
+missing exact-delivery evidence required for AC-15.
+
+## Engineering standards
+
+Tasks, expected components, and scoring were not edited after outcomes were seen. Synthetic
+verifier records were not copied into `results/`. The harness did not execute submissions. Ranking
+was not changed to improve the score.
 
 ## Remaining Risks
 
-- The controlled fixture cannot establish behavior on arbitrary repositories.
-- Qualified agent trials require fresh matched runs and an independent reviewer. The harness must not
-  substitute seeded verifier data for those runs.
-- The Windows symlink assertion needs local symlink privileges. The validator still rejects symlinks
-  on every platform.
+- The pass margin is one annotation on one task. A capable agent already reused canonical UI in
+  control on this fixture.
+- Treatment wrappers shortened the on-screen JSON for some runs. Hash-verified stored artifacts
+  cannot prove what the agent actually received, so this record must not be used for AC-15.
+- The reviewer is the parent session, not a separate human. Annotations cite source locations in
+  the permitted files.
+- External validity is limited to `fixtures/next-workspace` and this agent configuration.
+- The next release-evidence run needs nine fresh matched pairs with the exact treatment prompt sent
+  verbatim to the agent and a hash-verified `deliveredPrompt` artifact.
+
+## Definition of done
+
+F-003 T3 remains open. The recorded artifact set is useful diagnostic evidence, but the current
+checker rejects it because delivery artifacts are missing. It is not a qualified trial set. F-003 T4
+and Phase 1 completion remain open.

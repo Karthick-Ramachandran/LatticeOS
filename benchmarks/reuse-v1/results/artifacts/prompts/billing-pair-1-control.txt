@@ -1,0 +1,12 @@
+You are completing a controlled source-only implementation trial.
+
+Work only in the provided workspace. Implement this task:
+
+Add a billing settings card with a secondary button.
+
+You may change only:
+- apps/web/app/settings/billing/page.tsx
+
+Inspect existing source before you implement. Do not change dependencies, configuration, generated files, or any path outside the permitted list. Do not read files outside this workspace.
+
+When you finish, leave the implementation in the permitted path. Do not write a benchmark result or reviewer annotation.

@@ -131,12 +131,24 @@ async function validateRun(run, taskMap, artifactRoot) {
   }
   if (!task || !isRecord(run.fixture) || !sameJson(run.fixture, task.fixture)) addError(errors, "fixture-mismatch", label);
 
-  await readVerifiedArtifact(artifactRoot, run.prompt, [".txt"], `${label} prompt`, errors);
+  const prompt = await readVerifiedArtifact(artifactRoot, run.prompt, [".txt"], `${label} prompt`, errors);
+  let deliveredPrompt;
+  if (!isRecord(run.deliveredPrompt)) {
+    addError(errors, "missing-delivered-prompt", label);
+  } else {
+    deliveredPrompt = await readVerifiedArtifact(artifactRoot, run.deliveredPrompt, [".txt"], `${label} delivered prompt`, errors);
+    if (prompt && deliveredPrompt && !deliveredPrompt.equals(prompt)) {
+      addError(errors, "delivered-prompt-mismatch", label);
+    }
+  }
   if (run.condition === "control") {
     if (run.treatmentContext !== undefined && run.treatmentContext !== null) addError(errors, "control-has-treatment-context", label);
   } else if (run.condition === "treatment") {
     const context = await readVerifiedArtifact(artifactRoot, run.treatmentContext, [".json"], `${label} context`, errors);
     if (context) {
+      if (prompt && (prompt.length < context.length || !prompt.subarray(prompt.length - context.length).equals(context))) {
+        addError(errors, "treatment-prompt-context-mismatch", label);
+      }
       try {
         const parsed = JSON.parse(context.toString("utf8"));
         if (!isRecord(parsed) || parsed.schemaVersion !== 1 || parsed.command !== "context" || !isRecord(parsed.result) || parsed.result.task !== task?.task) {

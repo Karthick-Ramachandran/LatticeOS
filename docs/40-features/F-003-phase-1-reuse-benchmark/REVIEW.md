@@ -2,38 +2,32 @@
 
 ## Status
 
-In progress. The protocol, T2 validator, and T3 temporary-pair preparer are reviewed. Qualified
-trials remain.
+The recorded archive has a historical one-annotation treatment margin on the controlled fixture, but
+T3 is not complete. ADR-0020 requires raw delivery artifacts, and the current checker rejects all
+nine candidates because those artifacts are absent.
 
 ## Findings
 
-- ADR-0017 keeps the benchmark local and source-only so it does not cross the accepted Phase 1
-  Figma, browser, semantic, or runtime-network boundary.
-- A passing synthetic verifier fixture is not AC-15 evidence. Qualified agent trials and independent
-  review remain required before the parent feature can claim improved reuse.
-- The validator admits only bounded regular files below its artifact root. It rejects traversal,
-  backslash paths, symlinks, changed hashes, control-context leakage, malformed treatment context,
-  invalid annotation locations, and pair mismatches. Focused tests confirm errors do not include
-  supplied source markers or malformed identifiers.
-- The validator uses Node filesystem and crypto APIs only. It has no dependency, network, telemetry,
-  cloud, MCP, AI API, child-process, fixture execution, or committed application-source write
-  behavior.
-- The preparer accepts no destination path. It creates a single OS temporary root, admits only the
-  controlled fixture after a regular-file and symlink preflight, rechecks each file before copying,
-  excludes generated cache and report directories, and caps the copy at 500 files and 8 MiB. It
-  removes only its generated `.lattice` cache, preserves committed configuration, and removes its
-  exact temporary root on failure. It neither calls an agent nor creates a result record.
-- Treatment context comes from the existing in-process CLI JSON interface after the treatment copy
-  exists. The saved context is the treatment-only prompt difference; the cache used to generate it is
-  removed before an agent can receive the workspace.
-- `pnpm benchmark:check` reports an absent trial record as insufficient and exits nonzero. It does
-  not turn a missing result into a pass.
-- The module uses the existing CLI JSON context, controlled fixture, root package-script naming, and
-  repository-memory locations. It does not add a ranking model, CLI command, cache, or runtime API.
+- Nine matched pairs used the same declared agent, frozen tasks, and randomized condition order from
+  `pnpm benchmark:prepare`.
+- Control workspaces had no recorded LatticeOS output. Every saved treatment prompt ends with the
+  exact saved `lattice context --json` bytes, and generated `.lattice/cache` was removed before the
+  agent ran.
+- Independent static review counted appropriate reuse only for expected canonical components that
+  were imported and rendered in the permitted submission file.
+- `notification-settings` and `team-settings-section` tied. `billing-settings-card` supplied the
+  only treatment gain: `SecondaryButton` instead of `Button variant="secondary"` on one control run.
+- Before ADR-0020, the archived annotations scored treatment 15 vs control 14 appropriate reuse and
+  0 inappropriate reuse. The current checker rejects the incomplete archive as intended.
+- Synthetic verifier data was not used as an agent result.
+- The validator rejects a treatment prompt that does not end with its saved context bytes. It also
+  requires a raw delivery artifact that matches the saved prompt byte for byte.
 
 ## Remaining risks
 
-- Windows may require local privileges to create the symlink used by one focused test. The validator
-  rejects symlinks on every platform, while that assertion runs where symlink creation is available.
-- T3 needs fresh randomized agent runs and an independent reviewer. The new preparer makes those
-  inputs reproducible, but synthetic verifier data cannot replace either requirement.
+- A stronger or weaker agent, or a larger repository, could reverse the one-annotation margin.
+- The runner needs a fresh set of exact-delivery trials before AC-15 can pass. Send each saved
+  treatment prompt verbatim in a direct agent message and retain an auditable raw-message transcript
+  or equivalent delivery record.
+- Parent-session review is not a second human. Locations and classifications are in `results.json`.
+- AC-16 passed on 2026-09-01, but it cannot cure the AC-15 delivery-evidence gap.

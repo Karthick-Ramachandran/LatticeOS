@@ -34,13 +34,15 @@ Scope:
 
 Acceptance:
 
-- A valid synthetic pass case and malformed, incomplete, unpaired, context-mismatched, and regressive
-  treatment cases have focused tests. Synthetic output is visibly labeled as verifier evidence only.
+- A valid synthetic pass case and malformed, incomplete, unpaired, context-mismatched,
+  delivery-mismatched, and regressive treatment cases have focused tests. Synthetic output is visibly
+  labeled as verifier evidence only.
 
 Tests:
 
 - `pnpm test:benchmark` covers synthetic verifier data, task manifests, insufficient pairs, metric
-  regression, changed context, control leakage, symlinks, annotation locations, and stable summaries.
+  regression, changed context, missing or mismatched delivery artifacts, control leakage, symlinks,
+  annotation locations, and stable summaries.
 - Root quality gates are recorded in the completion report after this implementation slice.
 
 Do Not:
@@ -49,7 +51,7 @@ Do Not:
 
 ## T3: Capture qualified agent trials
 
-Status: In progress
+Status: In Progress
 
 Scope:
 
@@ -59,12 +61,15 @@ Scope:
 Acceptance:
 
 - Three qualified pairs per task satisfy ADR-0017, or the published report clearly says the gate did
-  not pass.
+  not pass. A saved prompt is not qualified when the execution record says a wrapper shortened its
+  treatment context.
 
 Tests:
 
 - The pair preparer tests real CLI context capture, isolated fresh fixtures, randomized order,
-  treatment-cache removal, fixture preservation, and metadata validation.
+  treatment-cache removal, fixture preservation, and metadata validation. The validator tests that a
+  saved treatment prompt ends with the exact saved context bytes and that raw delivery evidence
+  equals the prompt.
 - Deterministic evaluator, record validation, and all repository gates.
 
 Do Not:
@@ -73,7 +78,7 @@ Do Not:
 
 ## T4: Complete Phase 1 evidence
 
-Status: Todo
+Status: In progress
 
 Scope:
 

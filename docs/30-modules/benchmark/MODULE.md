@@ -23,7 +23,12 @@ on pre-registered coding-agent tasks.
 - `pnpm benchmark:prepare` creates one fresh randomized control/treatment pair in an OS temporary
   directory. It captures the exact treatment context through the existing CLI and writes no result.
 - `pnpm benchmark:check` reads only `benchmarks/reuse-v1/results/results.json`, validates it, and
-  prints a deterministic local summary. It exits nonzero until qualified agent trials pass.
+  prints a deterministic local summary. The current archive contains a historical 15 versus 14 score,
+  but the checker rejects it because raw delivery artifacts are missing. The command exits nonzero on
+  invalid or insufficient records.
+- Each future run records `deliveredPrompt`: a bounded, hash-verified raw outbound-message artifact
+  whose bytes equal its saved prompt. The preparer cannot create this artifact because it never sends
+  an agent message.
 - Task and result JSON contracts are documented under F-003. They are not LatticeOS runtime APIs.
 
 ## Boundaries

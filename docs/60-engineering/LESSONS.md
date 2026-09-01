@@ -31,6 +31,12 @@ model preferences.
   exact build before retrying. Do not start another docs build while the lock exists.
 - Keep `apply_patch` paths inside the repository root; an unrelated absolute path can silently create
   a user file.
+- A capable agent inspecting `fixtures/next-workspace` can reuse canonical `@fixture/ui` components
+  in control. The `reuse-v1` gate can then pass on a one-annotation billing delta. Record that
+  margin; do not generalize the pass to arbitrary repositories.
+- A hashed saved treatment context is not enough if its prompt is validated separately. The benchmark
+  validator must prove that the treatment prompt ends with the same bytes, and an actual agent run
+  still needs evidence that its runner delivered that prompt without summarizing it.
 # 2026-08-29 — Node-backed adapter packages need the established local test boundary
 
 When a placeholder adapter starts using Node APIs, copy the React/Tailwind adapter's `types: ["node"]`,

@@ -12,12 +12,14 @@
 
 ## ADR Impact
 
-ADR-0017 defines the fairness, audit, safety, and release-gate rules. No accepted ADR changes.
+ADR-0017 defines the fairness, audit, safety, and release-gate rules. ADR-0020 requires a
+hash-verified raw delivery artifact for every run and exact byte equality with the recorded prompt.
 
 ## Security Impact
 
 The harness is local and developer-only. It accepts only bounded, hash-verified repository-relative
-artifact paths, reads submissions as text, and does not execute them. The preparer creates fresh
+artifact paths, reads submissions as text, and does not execute them. It reads the raw delivery
+artifact only to compare it with the recorded prompt. The preparer creates fresh
 fixture copies only below an OS-created temporary root, with no caller-selected output path. It omits
 generated cache and report directories but retains committed Lattice configuration. Recorded data
 contains task and context output from the controlled fixture only; it excludes credentials, private

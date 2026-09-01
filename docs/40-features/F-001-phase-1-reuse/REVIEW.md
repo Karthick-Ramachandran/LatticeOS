@@ -4,14 +4,16 @@
 
 In progress. The T2 core, T3 discovery and React bridge, direct and bridged Tailwind analysis,
 static shadcn and Storybook evidence, generated writes, CLI behavior, packed-consumer proof, and the
-benchmark validator and temporary-pair preparer were reviewed. ADR-0017 still requires qualified
-agent trials.
+benchmark validator were reviewed. AC-16 passed on 2026-09-01. F-003 recorded nine candidate pairs,
+but treatment delivery was not proven exact; AC-15 and Phase 1 completion remain.
 
 ## Findings
 
 ### Blockers
 
-- None remain in the reviewed core and discovery checkpoints.
+- AC-15 remains blocked: some actual treatment wrappers shortened on-screen JSON. Hash-verified
+  saved prompts do not prove the agent received the required exact saved context. Fresh exact-delivery
+  trials are required.
 
 ### Resolved during review
 
@@ -232,7 +234,8 @@ No blocker was found in the implemented query commands.
 - JSON results are serialized deterministically with an explicit schema version. Human results go to
   stdout; parse and analysis failures go to stderr with stable nonzero exit behavior.
 - Copied-fixture tests prove the command does not modify component source. The packed binary proof
-  is recorded separately below; the benchmark remains a release gate.
+  is recorded separately below. AC-16 passed on 2026-09-01; AC-15 remains blocked on exact treatment
+  delivery evidence.
 
 ### CLI initialization security review
 
@@ -293,8 +296,9 @@ No blocker was found in the T2 benchmark harness or its T3 input preparation.
   `benchmarks/reuse-v1` boundary. It reuses the existing `lattice context --json` contract and does
   not add a second ranking system, public CLI command, cache, or runtime API.
 - The validator reads bounded regular files below its artifact root and rejects path traversal,
-  symlinks, changed hashes, control-context leakage, invalid annotations, mismatched pairs, and
-  malformed identifiers without echoing submitted text in errors.
+  symlinks, changed hashes, control-context leakage, a treatment prompt that does not end with its
+  saved context, invalid annotations, mismatched pairs, and malformed identifiers without echoing
+  submitted text in errors.
 - The preparer accepts no user-selected destination. It copies the controlled fixture only after
   rejecting symlinks and non-regular paths, rechecks source files while copying, caps the fixture at
   500 files and 8 MiB, excludes generated cache and report directories, and writes only beneath an
@@ -303,10 +307,12 @@ No blocker was found in the T2 benchmark harness or its T3 input preparation.
   Lattice configuration.
 - The preparer captures treatment context through the existing CLI JSON interface. It does not start
   an agent, execute the fixture, create a result, or add network, telemetry, cloud, MCP, AI API,
-  child-process, or committed application-source write behavior. Fourteen focused benchmark tests and
+  child-process, or committed application-source write behavior. Fifteen focused benchmark tests and
   the full repository gate set pass.
-- Synthetic verifier records are rejected for release evidence. F-001 AC-15 remains blocked until
-  T3 records qualified randomized agent trials with independent review.
+- Synthetic verifier records are rejected for release evidence. F-003 archives nine candidate trials
+  with a historical 15 vs 14 result, but the current checker rejects them because raw delivery
+  artifacts are missing. AC-15 is not supported until exact treatment delivery is evidenced. The
+  observed margin is one annotation and does not generalize.
 
 ### Dependency and network review
 

@@ -7,10 +7,12 @@
   component opportunities, task text, and review rubric.
 - **ACB-02 Matched inputs:** every result pair records the same task and fixture, agent/config label,
   prompt revision, and randomized condition order. Control contains no LatticeOS output; treatment
-  contains the exact saved JSON from `lattice context <task> --json`.
+  contains the exact saved JSON from `lattice context <task> --json`. Every run includes a bounded,
+  hash-verified raw delivery artifact whose bytes equal the recorded prompt.
 - **ACB-03 Audit trail:** each run records an allowed source diff or file hash, command/test outcome,
-  reviewer annotations, duplicate-component count, raw-Tailwind count, correction-turn count, and
-  explicit appropriate/inappropriate canonical reuse annotations with source locations.
+  raw prompt-delivery artifact, reviewer annotations, duplicate-component count, raw-Tailwind count,
+  correction-turn count, and explicit appropriate/inappropriate canonical reuse annotations with
+  source locations.
 - **ACB-04 Conservative scoring:** the evaluator counts reuse only when an annotation points to an
   expected canonical component and an inspected submission location. Missing, failed, unreviewed,
   out-of-scope, or ambiguous runs do not count as successful treatment evidence.

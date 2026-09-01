@@ -1,0 +1,247 @@
+You are completing a controlled source-only implementation trial.
+
+Work only in the provided workspace. Implement this task:
+
+Add a billing settings card with a secondary button.
+
+You may change only:
+- apps/web/app/settings/billing/page.tsx
+
+Inspect existing source before you implement. Do not change dependencies, configuration, generated files, or any path outside the permitted list. Do not read files outside this workspace.
+
+When you finish, leave the implementation in the permitted path. Do not write a benchmark result or reviewer annotation.
+
+{
+  "command": "context",
+  "result": {
+    "characterCount": 1546,
+    "items": [
+      {
+        "recommendation": {
+          "componentId": "react:@fixture/ui:packages/ui/src/button.tsx#SecondaryButton",
+          "displayName": "SecondaryButton",
+          "reasons": [
+            {
+              "code": "name-token",
+              "evidenceIds": [
+                "ev:react:export:c34170c25da01341662a",
+                "ev:shadcn:registry:106a5c68a704350b4a25"
+              ],
+              "message": "Component name matches: button, secondary",
+              "score": 60
+            },
+            {
+              "code": "path-token",
+              "evidenceIds": [
+                "ev:react:export:c34170c25da01341662a",
+                "ev:shadcn:registry:106a5c68a704350b4a25"
+              ],
+              "message": "Source path matches: button",
+              "score": 12
+            }
+          ],
+          "score": 72,
+          "sourcePath": "packages/ui/src/button.tsx"
+        },
+        "text": "SecondaryButton (packages/ui/src/button.tsx)\nWhy: Component name matches: button, secondary; Source path matches: button\nEvidence: ev:react:export:c34170c25da01341662a, ev:shadcn:registry:106a5c68a704350b4a25"
+      },
+      {
+        "recommendation": {
+          "componentId": "react:@fixture/ui:packages/ui/src/button.tsx#default",
+          "displayName": "SettingsCard",
+          "reasons": [
+            {
+              "code": "name-token",
+              "evidenceIds": [
+                "ev:react:export:af0427de23f033fb46fa",
+                "ev:shadcn:registry:3f64bfd220c97daad38f"
+              ],
+              "message": "Component name matches: card, settings",
+              "score": 60
+            },
+            {
+              "code": "path-token",
+              "evidenceIds": [
+                "ev:react:export:af0427de23f033fb46fa",
+                "ev:shadcn:registry:3f64bfd220c97daad38f"
+              ],
+              "message": "Source path matches: button",
+              "score": 12
+            }
+          ],
+          "score": 72,
+          "sourcePath": "packages/ui/src/button.tsx"
+        },
+        "text": "SettingsCard (packages/ui/src/button.tsx)\nWhy: Component name matches: card, settings; Source path matches: button\nEvidence: ev:react:export:af0427de23f033fb46fa, ev:shadcn:registry:3f64bfd220c97daad38f"
+      },
+      {
+        "recommendation": {
+          "componentId": "react:@fixture/ui:packages/ui/src/button.tsx#Button",
+          "displayName": "Button",
+          "reasons": [
+            {
+              "code": "name-token",
+              "evidenceIds": [
+                "ev:react:export:5d164be9fb1eae89b199",
+                "ev:shadcn:registry:70a705c0afb3ff74e332",
+                "ev:storybook:story:2ced11150ed0ead9ead1"
+              ],
+              "message": "Component name matches: button",
+              "score": 30
+            },
+            {
+              "code": "path-token",
+              "evidenceIds": [
+                "ev:react:export:5d164be9fb1eae89b199",
+                "ev:shadcn:registry:70a705c0afb3ff74e332",
+                "ev:storybook:story:2ced11150ed0ead9ead1"
+              ],
+              "message": "Source path matches: button",
+              "score": 12
+            },
+            {
+              "code": "usage-path-token",
+              "evidenceIds": [
+                "ev:react:usage:f4f68d46a0f0ad20ec0b"
+              ],
+              "message": "1 usage path match the query",
+              "score": 6
+            }
+          ],
+          "score": 48,
+          "sourcePath": "packages/ui/src/button.tsx"
+        },
+        "text": "Button (packages/ui/src/button.tsx)\nWhy: Component name matches: button; Source path matches: button; 1 usage path match the query\nEvidence: ev:react:export:5d164be9fb1eae89b199, ev:react:usage:f4f68d46a0f0ad20ec0b, ev:shadcn:registry:70a705c0afb3ff74e332, ev:storybook:story:2ced11150ed0ead9ead1"
+      },
+      {
+        "recommendation": {
+          "componentId": "react:@fixture/ui:packages/ui/src/settings-section.tsx#SettingsSection",
+          "displayName": "SettingsSection",
+          "reasons": [
+            {
+              "code": "name-token",
+              "evidenceIds": [
+                "ev:react:export:018f8a20fe03ab4c5384",
+                "ev:shadcn:registry:bf4125c991332cf46071"
+              ],
+              "message": "Component name matches: settings",
+              "score": 30
+            },
+            {
+              "code": "path-token",
+              "evidenceIds": [
+                "ev:react:export:018f8a20fe03ab4c5384",
+                "ev:shadcn:registry:bf4125c991332cf46071"
+              ],
+              "message": "Source path matches: settings",
+              "score": 12
+            },
+            {
+              "code": "usage-path-token",
+              "evidenceIds": [
+                "ev:react:usage:7a8479490adea58f4994"
+              ],
+              "message": "1 usage path match the query",
+              "score": 6
+            }
+          ],
+          "score": 48,
+          "sourcePath": "packages/ui/src/settings-section.tsx"
+        },
+        "text": "SettingsSection (packages/ui/src/settings-section.tsx)\nWhy: Component name matches: settings; Source path matches: settings; 1 usage path match the query\nEvidence: ev:react:export:018f8a20fe03ab4c5384, ev:react:usage:7a8479490adea58f4994, ev:shadcn:registry:bf4125c991332cf46071"
+      },
+      {
+        "recommendation": {
+          "componentId": "react:@fixture/ui:packages/ui/src/button.tsx#ForwardedButton",
+          "displayName": "ForwardedButton",
+          "reasons": [
+            {
+              "code": "name-token",
+              "evidenceIds": [
+                "ev:react:export:05522e9d3e2076165395",
+                "ev:shadcn:registry:2993bd41f9fa296ec027"
+              ],
+              "message": "Component name matches: button",
+              "score": 30
+            },
+            {
+              "code": "path-token",
+              "evidenceIds": [
+                "ev:react:export:05522e9d3e2076165395",
+                "ev:shadcn:registry:2993bd41f9fa296ec027"
+              ],
+              "message": "Source path matches: button",
+              "score": 12
+            }
+          ],
+          "score": 42,
+          "sourcePath": "packages/ui/src/button.tsx"
+        },
+        "text": "ForwardedButton (packages/ui/src/button.tsx)\nWhy: Component name matches: button; Source path matches: button\nEvidence: ev:react:export:05522e9d3e2076165395, ev:shadcn:registry:2993bd41f9fa296ec027"
+      },
+      {
+        "recommendation": {
+          "componentId": "react:@fixture/ui:packages/ui/src/button.tsx#MemoButton",
+          "displayName": "MemoButton",
+          "reasons": [
+            {
+              "code": "name-token",
+              "evidenceIds": [
+                "ev:react:export:5d7521abe250f7929795",
+                "ev:shadcn:registry:8cc1d4e1fdc3563b882f"
+              ],
+              "message": "Component name matches: button",
+              "score": 30
+            },
+            {
+              "code": "path-token",
+              "evidenceIds": [
+                "ev:react:export:5d7521abe250f7929795",
+                "ev:shadcn:registry:8cc1d4e1fdc3563b882f"
+              ],
+              "message": "Source path matches: button",
+              "score": 12
+            }
+          ],
+          "score": 42,
+          "sourcePath": "packages/ui/src/button.tsx"
+        },
+        "text": "MemoButton (packages/ui/src/button.tsx)\nWhy: Component name matches: button; Source path matches: button\nEvidence: ev:react:export:5d7521abe250f7929795, ev:shadcn:registry:8cc1d4e1fdc3563b882f"
+      },
+      {
+        "recommendation": {
+          "componentId": "react:web:apps/web/app/settings/page.tsx#default",
+          "displayName": "SettingsPage",
+          "reasons": [
+            {
+              "code": "name-token",
+              "evidenceIds": [
+                "ev:react:export:5348a02e2360dc40648b"
+              ],
+              "message": "Component name matches: settings",
+              "score": 30
+            },
+            {
+              "code": "path-token",
+              "evidenceIds": [
+                "ev:react:export:5348a02e2360dc40648b"
+              ],
+              "message": "Source path matches: settings",
+              "score": 12
+            }
+          ],
+          "score": 42,
+          "sourcePath": "apps/web/app/settings/page.tsx"
+        },
+        "text": "SettingsPage (apps/web/app/settings/page.tsx)\nWhy: Component name matches: settings; Source path matches: settings\nEvidence: ev:react:export:5348a02e2360dc40648b"
+      }
+    ],
+    "omittedItems": 0,
+    "schemaVersion": 1,
+    "task": "Add a billing settings card with a secondary button.",
+    "text": "SecondaryButton (packages/ui/src/button.tsx)\nWhy: Component name matches: button, secondary; Source path matches: button\nEvidence: ev:react:export:c34170c25da01341662a, ev:shadcn:registry:106a5c68a704350b4a25\n\nSettingsCard (packages/ui/src/button.tsx)\nWhy: Component name matches: card, settings; Source path matches: button\nEvidence: ev:react:export:af0427de23f033fb46fa, ev:shadcn:registry:3f64bfd220c97daad38f\n\nButton (packages/ui/src/button.tsx)\nWhy: Component name matches: button; Source path matches: button; 1 usage path match the query\nEvidence: ev:react:export:5d164be9fb1eae89b199, ev:react:usage:f4f68d46a0f0ad20ec0b, ev:shadcn:registry:70a705c0afb3ff74e332, ev:storybook:story:2ced11150ed0ead9ead1\n\nSettingsSection (packages/ui/src/settings-section.tsx)\nWhy: Component name matches: settings; Source path matches: settings; 1 usage path match the query\nEvidence: ev:react:export:018f8a20fe03ab4c5384, ev:react:usage:7a8479490adea58f4994, ev:shadcn:registry:bf4125c991332cf46071\n\nForwardedButton (packages/ui/src/button.tsx)\nWhy: Component name matches: button; Source path matches: button\nEvidence: ev:react:export:05522e9d3e2076165395, ev:shadcn:registry:2993bd41f9fa296ec027\n\nMemoButton (packages/ui/src/button.tsx)\nWhy: Component name matches: button; Source path matches: button\nEvidence: ev:react:export:5d7521abe250f7929795, ev:shadcn:registry:8cc1d4e1fdc3563b882f\n\nSettingsPage (apps/web/app/settings/page.tsx)\nWhy: Component name matches: settings; Source path matches: settings\nEvidence: ev:react:export:5348a02e2360dc40648b",
+    "truncated": false
+  },
+  "schemaVersion": 1,
+  "truncated": false
+}

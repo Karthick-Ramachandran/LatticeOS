@@ -3,9 +3,11 @@ title: Reuse benchmark protocol
 description: Measure whether LatticeOS context changes canonical UI reuse on controlled agent tasks.
 ---
 
-<Callout title="Status" type="warning">
-  The protocol, three pre-registered tasks, and local validator are implemented. No qualified agent
-  result exists, so Phase 1 Reuse has not passed its benchmark gate.
+<Callout title="Status" type="info">
+  Nine candidate agent-trial pairs are archived for the controlled Next.js fixture. Their historical
+  score is 15 versus 14 with no increase in inappropriate reuse. The current checker rejects them
+  because raw delivery artifacts are missing. AC-15 remains open. AC-16 quality gates passed on
+  2026-09-01.
 </Callout>
 
 The benchmark asks one narrow question: when an agent has LatticeOS Reuse context, does it use more
@@ -59,9 +61,36 @@ the release gate.
 pnpm benchmark:check
 ```
 
-Before `benchmarks/reuse-v1/results/results.json` contains qualified trials, this command writes an
-`insufficient` JSON summary and exits with status 1. Do not change that result to green without
-recorded trials.
+`benchmarks/reuse-v1/results/results.json` contains nine candidate `agent-trials` pairs. The checker
+now rejects them because they lack raw `deliveredPrompt` artifacts. The historical score remains in
+the archive, but those records are not AC-15 evidence. Do not replace them with synthetic verifier
+data.
+
+## Deliver a qualifying trial
+
+Run each condition in a direct agent session. Send the saved `AGENT_PROMPT.txt` contents as one
+verbatim message. Do not let a wrapper summarize, abbreviate, or replace the treatment JSON. Keep a
+raw message transcript that becomes the `deliveredPrompt` artifact. The reviewer must compare it with
+the saved prompt. A prompt file that was never delivered unchanged is not a qualified trial.
+
+For each result run, store only that raw message under the result artifact root and reference it from
+the run record. The validator reads the file as text and checks that its bytes equal `prompt`.
+
+```json title="Delivery evidence in one result run"
+{
+  "deliveredPrompt": {
+    "path": "artifacts/delivery/notification-pair-1-treatment.txt",
+    "sha256": "<sha256-of-the-raw-message-file>"
+  }
+}
+```
+
+Do not add the agent's reply, personal data, or extra conversation to this file. A missing or changed
+artifact makes `pnpm benchmark:check` fail.
+
+The current candidate set cannot be repaired after the fact. Re-run all nine matched pairs, then
+record the reviewed submissions and delivery evidence. The benchmark measures one controlled fixture
+and one declared agent configuration. It does not establish behavior on other repositories.
 
 ## Prepare a real pair
 
@@ -137,7 +166,8 @@ Current contract:
   `lattice context <task> --json` result. The harness records prompts and context rather than
   regenerating them after a result exists.
 - Each pair uses a fresh fixture copy, the same declared agent build/configuration, a recorded random
-  condition order, an allowed submission path, and an independent reviewer annotation.
+  condition order, an allowed submission path, an unmodified delivered prompt, and an independent
+  reviewer annotation.
 - A qualified result counts only annotations that identify an expected canonical component and a
   submission location. Missing, failed, unreviewed, or ambiguous runs do not count as success.
 - The gate needs at least three qualified pairs per task, higher treatment appropriate canonical reuse,
@@ -162,14 +192,16 @@ Ordered work:
    from the current CLI.
 4. Keep the deterministic local validator and summary strict. It must report insufficient evidence
    rather than pass an empty or incomplete record set.
-5. Run the prepared prompts with fresh agents, then have an independent reviewer annotate outcomes.
+5. Send each saved prompt verbatim to a fresh agent. Retain the raw delivery transcript as the
+   `deliveredPrompt` artifact, then have an independent reviewer annotate outcomes.
 6. Reconcile F-001 acceptance, review, completion report, README, llms.txt, module memory, and this
    guide with the actual result.
 
 Tests:
 - Cover malformed records, duplicate run IDs, mismatched pairs, missing or changed treatment context,
-  unsupported canonical components, invalid paths, symlinks, failed tests, missing reviews, and a
-  treatment result that increases inappropriate reuse.
+  a treatment prompt that does not end with that context, unsupported canonical components, invalid
+  paths, symlinks, failed tests, missing reviews, and a treatment result that increases inappropriate
+  reuse.
 - Run benchmark unit and integration tests, then `pnpm test:run`, `pnpm typecheck`, `pnpm build`,
   `pnpm test:package`, `pnpm docs:check`, and `persist doctor` before completing a slice.
 
@@ -185,7 +217,7 @@ Stop conditions:
   results, or an accepted ADR change.
 
 Completion evidence:
-Report pre-registered tasks, exact prompt/context artifacts, agent/config labels, qualified-pair
-counts, reviewer annotations, metric totals, validation output, skipped checks, remaining validity
-limits, and whether F-001 AC-15 is actually satisfied.
+Report pre-registered tasks, exact prompt/context artifacts, delivery evidence, agent/config labels,
+qualified-pair counts, reviewer annotations, metric totals, validation output, skipped checks,
+remaining validity limits, and whether F-001 AC-15 is actually satisfied.
 ```

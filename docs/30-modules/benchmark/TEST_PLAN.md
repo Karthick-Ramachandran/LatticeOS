@@ -3,7 +3,8 @@
 ## Unit Tests
 
 - Validate task, result, annotation, pairing, path, and metric contracts. Reject invalid or missing
-  treatment evidence and produce stable summaries.
+  treatment evidence, including a prompt that does not end with its exact saved context or a raw
+  delivery artifact that differs from the recorded prompt, and produce stable summaries.
 - Test three frozen task manifests, synthetic-only results, insufficient qualified pairs, a treatment
   regression, changed context, control leakage, source-location annotations, and stable output.
 
@@ -14,7 +15,9 @@
 - The trial preparer makes two fresh fixture copies, randomizes their order, captures a real CLI
   treatment context, excludes generated cache/report directories, removes only the generated Reuse
   cache, preserves committed Lattice configuration, and leaves the committed fixture unchanged.
-- T3 will validate audited agent-trial records without executing a fixture or submission.
+- T3 will validate audited agent-trial records without executing a fixture or submission. A qualifying
+  run must retain a bounded raw delivery artifact that equals the saved prompt without wrapper
+  summarization.
 
 ## Security Tests
 
