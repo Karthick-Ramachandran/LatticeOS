@@ -50,7 +50,7 @@ until fresh trials prove the agent received the exact saved treatment context.
 ## Tests Run
 
 - `pnpm test:run`: 3 docs tests, 17 core tests, 2 React adapter tests, 2 Tailwind adapter tests,
-  3 shadcn adapter tests, 2 Storybook adapter tests, 35 analyzer tests, 4 CLI tests, and 15 benchmark
+  3 shadcn adapter tests, 2 Storybook adapter tests, 35 analyzer tests, 4 CLI tests, and 16 benchmark
   tests passed on 2026-09-01.
 - `pnpm typecheck`: all eight implementation workspaces passed.
 - `pnpm build`: all implementation packages built and the docs app generated 40 routes.
